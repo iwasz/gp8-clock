@@ -10,7 +10,6 @@
 #include <sys/unistd.h>
 #include <stm32f4xx.h>
 #include <stm32f4xx_hal.h>
-#include "usbd_cdc_interface.h"
 
 #undef errno
 extern int errno;
@@ -241,6 +240,6 @@ int _wait (int *status)
  */
 int _write (int file, char *ptr, int len)
 {
-        cdcItfTransmit ((uint8_t *) ptr, len);
+//        cdcItfTransmit ((uint8_t *) ptr, len);
         return len;
 }

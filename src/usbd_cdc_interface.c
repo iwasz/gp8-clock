@@ -29,10 +29,6 @@
 #include "usbd_cdc_interface.h"
 #include "config.h"
 #include <string.h>
-#include <stm32f4_discovery.h>
-
-#include "squeue.h"
-extern SQueue squeue;
 
 USBD_CDC_LineCodingTypeDef LineCoding = {
         115200, /* baud rate */
@@ -48,7 +44,7 @@ uint16_t offsetIn = 0; // Increment this pointer (or roll it back to start addre
 uint16_t offsetOut = 0; // Increment this pointer (or roll it back to start address) when data are sent over USB.
 
 /* TIM handler declaration */
-TIM_HandleTypeDef TimHandle;
+TIM_HandleTypeDef usbTimHandle;
 /* USB handler declaration */
 extern USBD_HandleTypeDef USBD_Device;
 
@@ -331,19 +327,19 @@ static void ComPort_Config (void)
 static void TIM_Config (void)
 {
         /* Set TIM_CDC instance */
-        TimHandle.Instance = TIM_CDC;
+        usbTimHandle.Instance = TIM_CDC;
 
         /* Initialize TIM3 peripheral as follows:
          + Period = (CDC_POLLING_INTERVAL * 10000) - 1
          + Prescaler = ((APB1 frequency / 1000000) - 1)
          + ClockDivision = 0
          + Counter direction = Up  */
-        TimHandle.Init.Period = (CDC_POLLING_INTERVAL * 1000) - 1;
-        TimHandle.Init.Prescaler = 84 - 1;
-        TimHandle.Init.ClockDivision = 0;
-        TimHandle.Init.CounterMode = TIM_COUNTERMODE_UP;
+        usbTimHandle.Init.Period = (CDC_POLLING_INTERVAL * 1000) - 1;
+        usbTimHandle.Init.Prescaler = 84 - 1;
+        usbTimHandle.Init.ClockDivision = 0;
+        usbTimHandle.Init.CounterMode = TIM_COUNTERMODE_UP;
 
-        if (HAL_TIM_Base_Init (&TimHandle) != HAL_OK) {
+        if (HAL_TIM_Base_Init (&usbTimHandle) != HAL_OK) {
                 /* Initialization Error */
                 Error_Handler ();
         }
@@ -358,7 +354,7 @@ static void TIM_Config (void)
         /* Enable the TIM_CDC global Interrupt */
         HAL_NVIC_EnableIRQ (TIM_CDC_IRQn);
 
-        if (HAL_TIM_Base_Start_IT (&TimHandle) != HAL_OK) {
+        if (HAL_TIM_Base_Start_IT (&usbTimHandle) != HAL_OK) {
                 Error_Handler ();
         }
 }

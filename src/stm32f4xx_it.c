@@ -1,22 +1,11 @@
-/* Includes ------------------------------------------------------------------*/
 #include "stm32f4xx_hal_conf.h"
 #include "stm32f4xx_hal.h"
 #include "config.h"
-#include "sim908_gsm.h"
-#include "config.h"
-#include "obd/usartCommunication.h"
-#include "obd/logic.h"
 #include <stdio.h>
 
-#include "obd/stn1110ResponseParser.h"
-extern ObdData obdData;
-extern PCD_HandleTypeDef hpcd;
-
-/* UART handler declared in "usbd_cdc_interface.c" file */
-extern UART_HandleTypeDef UartHandle;
-
 /* TIM handler declared in "usbd_cdc_interface.c" file */
-extern TIM_HandleTypeDef TimHandle;
+extern TIM_HandleTypeDef usbTimHandle;
+//extern PCD_HandleTypeDef hpcd;
 
 /* Private function prototypes -----------------------------------------------*/
 /* Private functions ---------------------------------------------------------*/
@@ -131,135 +120,10 @@ void SysTick_Handler (void)
  * @param  None
  * @retval None
  */
-#ifdef USE_USB_FS
-void OTG_FS_IRQHandler(void)
-#else
-void OTG_HS_IRQHandler (void)
-#endif
-{
-        HAL_PCD_IRQHandler (&hpcd);
-}
-
-/**
- * @brief  This function handles DMA interrupt request.
- * @param  None
- * @retval None
- */
-void GPS_USART_DMA_TX_IRQHandler (void)
-{
-        HAL_DMA_IRQHandler (gpsUartHandle.hdmatx);
-}
-
-/**
- * @brief  This function handles UART interrupt request.
- * @param  None
- * @retval None
- */
-void GPS_USART_IRQHandler (void)
-{
-        HAL_UART_IRQHandler (&gpsUartHandle);
-
-
-//        cdcItfTransmit (".", 1);
-//
-//        // Byte t
-//        if (gpsUartHandle.Instance->SR & USART_FLAG_TXE) {
-//                cdcItfTransmit ("t", 1);
-//        }
-//
-//        // Transmission completed?
-//        if (gpsUartHandle.Instance->SR & USART_FLAG_TC) {
-//                cdcItfTransmit ("c", 1);
-//        }
-//
-//        // Byte received
-//        if (gpsUartHandle.Instance->SR & USART_FLAG_RXNE) {
-//                cdcItfTransmit ("r", 1);
-////                        char c = gpsUartHandle.Instance->DR & 0xff;
-////                        cdcItfTransmit (&c, 1);
-//        }
-//
-//        // Idle detected
-//        if (gpsUartHandle.Instance->SR & USART_FLAG_IDLE) {
-//                cdcItfTransmit ("i", 1);
-//        }
-//
-//        // Overrun error
-//        if (gpsUartHandle.Instance->SR & USART_FLAG_ORE) {
-//                cdcItfTransmit ("o", 1);
-//        }
-//
-//        // Noise error
-//        if (gpsUartHandle.Instance->SR & USART_FLAG_NE) {
-//                cdcItfTransmit ("n", 1);
-//        }
-//
-//        // Framing error
-//        if (gpsUartHandle.Instance->SR & USART_FLAG_FE) {
-//                cdcItfTransmit ("f", 1);
-//        }
-//
-//        // Parity error
-//        if (gpsUartHandle.Instance->SR & USART_FLAG_PE) {
-//                cdcItfTransmit ("p", 1);
-//        }
-}
-
-#include "squeue.h"
-extern uint8_t rxBuffer[SQUEUE_BUFFER_SIZE];
-extern uint16_t rxBufferPosObd;
-
-void OBD_USART_IRQHandler ()
-{
-#if 0
-//        1.
-//        HAL_UART_IRQHandler (&obdUartHandle);
-#endif
-
-#if 0
-//        2.
-        if (obdUartHandle.Instance->SR & USART_FLAG_ORE) {
-                cdcItfTransmit ("!", 1);
-        }
-
-        uint8_t c = (uint8_t)(obdUartHandle.Instance->DR & (uint8_t)0x00FF);
-        cdcItfTransmit (&c, 1);
-        cdcItfTransmit ("\n", 1);
-#endif
-
-//        3.
-#if 1
-        if (obdUartHandle.Instance->SR & USART_FLAG_ORE) {
-//                cdcItfTransmit ("!", 1);
-        }
-
-        rxBuffer[rxBufferPosObd] = (uint8_t)(obdUartHandle.Instance->DR & (uint8_t)0x00FF);
-
-        if (rxBufferPosObd >= 1 &&
-            rxBuffer[rxBufferPosObd] == '\r') {
-
-                rxBuffer[rxBufferPosObd] = '\0';
-
-                // Nie wrzucamy na kolejkę odpowiedzi, które zawierają tylko \r\n
-                if (rxBufferPosObd > 1) {
-                        printf ("{%s}\n", rxBuffer);
-                        // Nie powino być żadnych znaków powyżej 127
-//                                stateMachineRun ((char *)rxBuffer);
-                        obdDataParse ((const char *)rxBuffer, &obdData);
-                }
-
-                rxBufferPosObd = 0;
-        }
-        else {
-                ++rxBufferPosObd;
-
-                if (rxBufferPosObd >= SQUEUE_BUFFER_SIZE) {
-                        printf ("[GSM] UART buffer full, rolling back.");
-                        rxBufferPosObd = 0;
-                }
-        }
-#endif
-}
+//void OTG_HS_IRQHandler (void)
+//{
+//        HAL_PCD_IRQHandler (&hpcd);
+//}
 
 /**
  * @brief  This function handles TIM interrupt request.
@@ -268,16 +132,13 @@ void OBD_USART_IRQHandler ()
  */
 void TIM3_IRQHandler (void)
 {
-        HAL_TIM_IRQHandler (&TimHandle);
+        HAL_TIM_IRQHandler (&usbTimHandle);
 }
 
-// Procedura obsługi. Miedzy innymi dla BLE sygnał RDYN - ale teraz chyba wyłącznie.
-void EXTI4_IRQHandler (void)
-{
-    HAL_GPIO_EXTI_IRQHandler (GPIO_PIN_ACI_RDYN);
-}
+//// Procedura obsługi. Miedzy innymi dla BLE sygnał RDYN - ale teraz chyba wyłącznie.
+//void EXTI4_IRQHandler (void)
+//{
+//    HAL_GPIO_EXTI_IRQHandler (GPIO_PIN_ACI_RDYN);
+//}
+//
 
-
-
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

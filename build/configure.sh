@@ -3,7 +3,7 @@
 . ./conf.sh.inc
 
 cmake -DCMAKE_BUILD_TYPE='Debug' \
--DDEVICE='STM32F405xx' \
+-DDEVICE='STM32F407xx' \
 -DCUBE_ROOT=$CUBE_ROOT \
 -DCRYSTAL_HZ=16000000 \
 -DSTARTUP_CODE="$CUBE_ROOT/Projects/STM32F4-Discovery/Templates/TrueSTUDIO/startup_stm32f407xx.s" \
