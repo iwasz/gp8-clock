@@ -10,6 +10,7 @@ static void SystemClock_Config (void);
 USBD_HandleTypeDef USBD_Device;
 
 
+static TIM_HandleTypeDef stopWatchTimHandle;
 
 
 
@@ -19,11 +20,31 @@ int main (void)
         SystemClock_Config ();
         segment7Init ();
 
+/**
+ * Stop-watch
+ */
 
-//        debugLedInit (D2);
-//        debugLedInit (D3);
-//        debugLedInit (D4);
-//        debugLedInit (D5);
+        // Timer for multiplexing displays
+        stopWatchTimHandle.Instance = TIM5; // APB1 (wolniejsza max 42MHz)
+
+        // 10kHz
+        stopWatchTimHandle.Init.Period = 100;
+        stopWatchTimHandle.Init.Prescaler = (uint32_t)((HAL_RCC_GetHCLKFreq () / 2) / 10000) - 1;
+        stopWatchTimHandle.Init.ClockDivision = 0;
+        stopWatchTimHandle.Init.CounterMode = TIM_COUNTERMODE_UP;
+
+        if (HAL_TIM_Base_Init (&stopWatchTimHandle) != HAL_OK) {
+            Error_Handler();
+        }
+
+        __HAL_RCC_TIM5_CLK_ENABLE ();
+        HAL_NVIC_SetPriority (TIM5_IRQn, 0, 0);
+        HAL_NVIC_EnableIRQ (TIM5_IRQn);
+
+        if (HAL_TIM_Base_Start_IT (&stopWatchTimHandle) != HAL_OK) {
+            Error_Handler();
+        }
+
 
 //        /* Init Device Library */
 //        USBD_Init (&USBD_Device, &VCP_Desc, 0);
@@ -41,6 +62,13 @@ int main (void)
         while (1) {
         }
 
+}
+
+void TIM5_IRQHandler (void)
+{
+        __HAL_TIM_CLEAR_IT (&stopWatchTimHandle, TIM_IT_UPDATE);
+        static uint16_t cnt = 0;
+        segment7SetDecimalNumber (++cnt);
 }
 
 static void SystemClock_Config (void)

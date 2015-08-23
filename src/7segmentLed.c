@@ -27,31 +27,31 @@ static void segment7SetDisplayOn (uint8_t displayNo, bool on);
 #define LEDA_PORT GPIOC
 
 #define LEDF_GPIO_CLK_ENABLE __HAL_RCC_GPIOC_CLK_ENABLE
-#define LEDF_PIN GPIO_PIN_1
+#define LEDF_PIN GPIO_PIN_3
 #define LEDF_PORT GPIOC
 
 #define LEDB_GPIO_CLK_ENABLE __HAL_RCC_GPIOC_CLK_ENABLE
-#define LEDB_PIN GPIO_PIN_2
+#define LEDB_PIN GPIO_PIN_1
 #define LEDB_PORT GPIOC
 
 #define LEDG_GPIO_CLK_ENABLE __HAL_RCC_GPIOC_CLK_ENABLE
-#define LEDG_PIN GPIO_PIN_3
+#define LEDG_PIN GPIO_PIN_2
 #define LEDG_PORT GPIOC
 
 #define LEDE_GPIO_CLK_ENABLE __HAL_RCC_GPIOC_CLK_ENABLE
-#define LEDE_PIN GPIO_PIN_4
+#define LEDE_PIN GPIO_PIN_5
 #define LEDE_PORT GPIOC
 
 #define LEDC_GPIO_CLK_ENABLE __HAL_RCC_GPIOC_CLK_ENABLE
-#define LEDC_PIN GPIO_PIN_5
+#define LEDC_PIN GPIO_PIN_7
 #define LEDC_PORT GPIOC
 
 #define LEDD_GPIO_CLK_ENABLE __HAL_RCC_GPIOC_CLK_ENABLE
-#define LEDD_PIN GPIO_PIN_6
+#define LEDD_PIN GPIO_PIN_4
 #define LEDD_PORT GPIOC
 
 #define LEDDP_GPIO_CLK_ENABLE __HAL_RCC_GPIOC_CLK_ENABLE
-#define LEDDP_PIN GPIO_PIN_7
+#define LEDDP_PIN GPIO_PIN_6
 #define LEDDP_PORT GPIOC
 
 /*
@@ -82,10 +82,30 @@ static void segment7SetDisplayOn (uint8_t displayNo, bool on);
 #define LED_DIGIT4_PIN GPIO_PIN_12
 #define LED_DIGIT4_PORT GPIOC
 
+/*
+ *  _      a
+ * |_|   f   b
+ * |_|.    g
+ *       e   c   dp
+ *         d
+ */
+static uint8_t font[] = {
+        SEGMENT7_A | SEGMENT7_F | SEGMENT7_B | SEGMENT7_E | SEGMENT7_C | SEGMENT7_D, // 0
+        SEGMENT7_B | SEGMENT7_C, // 1
+        SEGMENT7_A | SEGMENT7_B | SEGMENT7_G | SEGMENT7_E | SEGMENT7_D, // 2
+        SEGMENT7_A | SEGMENT7_B | SEGMENT7_G | SEGMENT7_C | SEGMENT7_D, // 3
+        SEGMENT7_F | SEGMENT7_G | SEGMENT7_B | SEGMENT7_C, // 4
+        SEGMENT7_A | SEGMENT7_F | SEGMENT7_G | SEGMENT7_C | SEGMENT7_D, // 5
+        SEGMENT7_A | SEGMENT7_F | SEGMENT7_G | SEGMENT7_C | SEGMENT7_E | SEGMENT7_D, // 6
+        SEGMENT7_A | SEGMENT7_B | SEGMENT7_C, // 7
+        SEGMENT7_A | SEGMENT7_B | SEGMENT7_C  | SEGMENT7_D | SEGMENT7_E | SEGMENT7_F | SEGMENT7_G, // 8
+        SEGMENT7_A | SEGMENT7_B | SEGMENT7_C  | SEGMENT7_D | SEGMENT7_F | SEGMENT7_G, // 9
+};
 
 static uint8_t segment[DISPLAYS_NO];
 static uint8_t brightness;
 static bool displayOn;
+static TIM_HandleTypeDef timHandle;
 
 /*
  *
@@ -151,23 +171,8 @@ void segment7Init ()
         gpioInitStruct.Pin = LED_DIGIT4_PIN;
         HAL_GPIO_Init (LED_DIGIT4_PORT, &gpioInitStruct);
 
-        // Timer for multiplexing displays
-        TIM_HandleTypeDef timHandle;
-        timHandle.Instance = TIM4; // APB1 (wolniejsza max 42MHz)
 
-        // 10kHz
-        timHandle.Init.Period = (uint32_t)((HAL_RCC_GetHCLKFreq () / 2) / 10000) - 1;
-        timHandle.Init.Prescaler = 0;
-        timHandle.Init.CounterMode = TIM_COUNTERMODE_UP;
-
-        if (HAL_TIM_Base_Init(&timHandle) != HAL_OK) {
-            Error_Handler();
-        }
-
-        if (HAL_TIM_Base_Start_IT(&timHandle) != HAL_OK) {
-            Error_Handler();
-        }
-
+        // Variables used by the timer
         segment7SetDisplayOn (0, 0);
         segment7SetDisplayOn (1, 0);
         segment7SetDisplayOn (2, 0);
@@ -179,7 +184,26 @@ void segment7Init ()
         segment7SetBrightness (10);
         segment7On ();
 
+        // Timer for multiplexing displays
+        timHandle.Instance = TIM4; // APB1 (wolniejsza max 42MHz)
 
+        // 10kHz
+        timHandle.Init.Period = (uint32_t)((HAL_RCC_GetHCLKFreq () / 2) / 10000) - 1;
+        timHandle.Init.Prescaler = 0;
+        timHandle.Init.ClockDivision = 0;
+        timHandle.Init.CounterMode = TIM_COUNTERMODE_UP;
+
+        if (HAL_TIM_Base_Init (&timHandle) != HAL_OK) {
+            Error_Handler();
+        }
+
+        __HAL_RCC_TIM4_CLK_ENABLE ();
+        HAL_NVIC_SetPriority (TIM4_IRQn, 0, 1);
+        HAL_NVIC_EnableIRQ (TIM4_IRQn);
+
+        if (HAL_TIM_Base_Start_IT (&timHandle) != HAL_OK) {
+            Error_Handler();
+        }
 }
 
 /*
@@ -226,6 +250,8 @@ static void segment7SetSegmentsOn (uint8_t segments)
  */
 void TIM4_IRQHandler (void)
 {
+        __HAL_TIM_CLEAR_IT (&timHandle, TIM_IT_UPDATE);
+
         // From 0 to 49 (example value when DISPLAYS_NO == 5 and CYCLES_NO == 10).
         static uint8_t cnt = 0;
         // Which segment to lit up. From 0 to 4.
@@ -241,6 +267,11 @@ void TIM4_IRQHandler (void)
 
         // If nothing happened, skip this tick.
         if (cycleOn != prevCycleOn || segmentNo != prevSegmentNo) {
+
+                if (segmentNo != prevSegmentNo) {
+                        segment7SetDisplayOn (prevSegmentNo, false);
+                }
+
                 // Set individual segments to segment[segmentNo]
                 segment7SetSegmentsOn (segment[segmentNo]);
                 // Turn apropriate display on or off.
@@ -307,4 +338,16 @@ void segment7SetBrightness (uint8_t i)
 uint8_t segment7GetBrightness ()
 {
         return brightness;
+}
+
+/*
+ *
+ */
+void segment7SetDecimalNumber (uint32_t decimal)
+{
+        for (int i = 0; i < DISPLAYS_NO; ++i) {
+                uint8_t digit = decimal % 10;
+                segment7Set (i, font[digit]);
+                decimal /= 10;
+        }
 }

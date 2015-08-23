@@ -1,6 +1,7 @@
 #include "stm32f4xx_hal_conf.h"
 #include "stm32f4xx_hal.h"
 #include "config.h"
+#include "7segmentLed.h"
 #include <stdio.h>
 
 /* TIM handler declared in "usbd_cdc_interface.c" file */

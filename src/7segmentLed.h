@@ -34,9 +34,6 @@ enum {
         SEGMENT7_DP = 1 << 7
 };
 
-
-
-
 /**
  * Initialization.
  */
@@ -82,5 +79,9 @@ extern void segment7SetBrightness (uint8_t i);
  */
 extern uint8_t segment7GetBrightness ();
 
+/**
+ * Display a decimal integer number.
+ */
+extern void segment7SetDecimalNumber (uint32_t decimal);
 
 #endif /* SRC_7SEGMENTLED_H_ */
