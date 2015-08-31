@@ -8,10 +8,22 @@
 
 static void SystemClock_Config (void);
 USBD_HandleTypeDef USBD_Device;
-
-
 static TIM_HandleTypeDef stopWatchTimHandle;
+extern uint32_t noOfUpdateEventsSinceLastRise ;
 
+typedef enum { WATCH_STOPPED, WATCH_RUNNING } WatchState;
+uint8_t state = WATCH_STOPPED;
+
+#define EVENT_TRESHOLD 300
+// Delay between events
+uint32_t timeFromLastEvent = EVENT_TRESHOLD + 1;
+
+
+/**
+ * How much update events since last rise (noOfUpdateEventsSinceLastRise) indicates
+ * that light path is cut.
+ */
+#define UPDATE_EVENT_TRESHOLD 50
 
 
 int main (void)
@@ -27,7 +39,7 @@ int main (void)
         // Timer for multiplexing displays
         stopWatchTimHandle.Instance = TIM5; // APB1 (wolniejsza max 42MHz)
 
-        // 10kHz
+        // 100Hz
         stopWatchTimHandle.Init.Period = 100;
         stopWatchTimHandle.Init.Prescaler = (uint32_t)((HAL_RCC_GetHCLKFreq () / 2) / 10000) - 1;
         stopWatchTimHandle.Init.ClockDivision = 0;
@@ -64,11 +76,50 @@ int main (void)
 
 }
 
+/**
+ * Stop-watch ISR.
+ * Here the value displayed is updated. 100Hz
+ */
 void TIM5_IRQHandler (void)
 {
         __HAL_TIM_CLEAR_IT (&stopWatchTimHandle, TIM_IT_UPDATE);
         static uint16_t cnt = 0;
-        segment7SetDecimalNumber (++cnt);
+        uint16_t cntTmp = cnt;
+
+        // Second digit of 1/100-s of second (0-99)
+        segment7SetDigit (0, cntTmp % 10);
+        cntTmp /= 10;
+        // First digit of 1/100-s of second (0-99)
+        segment7SetDigit (1, cntTmp % 10);
+        cntTmp /= 10;
+
+        // Second digit of second (0-99)
+        segment7SetDigit (2, cntTmp % 10);
+        cntTmp /= 10;
+        // First digit of second (0-99)
+        segment7SetDigit (3, cntTmp % 6);
+        cntTmp /= 6;
+
+        // One digit of miniutes
+        segment7SetDigit (4, cntTmp % 10);
+
+        if (state == WATCH_RUNNING) {
+                ++cnt;
+        }
+
+        ++timeFromLastEvent;
+
+        if (timeFromLastEvent > EVENT_TRESHOLD && noOfUpdateEventsSinceLastRise >= UPDATE_EVENT_TRESHOLD) {
+                timeFromLastEvent = 0;
+
+                if (state == WATCH_RUNNING) {
+                        state = WATCH_STOPPED;
+                }
+                else if (state == WATCH_STOPPED) {
+                        cnt = 0;
+                        state = WATCH_RUNNING;
+                }
+        }
 }
 
 static void SystemClock_Config (void)
@@ -84,7 +135,7 @@ static void SystemClock_Config (void)
         rccOscInitStruct.LSIState = RCC_LSI_OFF;
         rccOscInitStruct.PLL.PLLState = RCC_PLL_ON;               // On / Off
         rccOscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;       // HSE or HSI
-        rccOscInitStruct.PLL.PLLM = 16;                      // Between 0 and 63
+        rccOscInitStruct.PLL.PLLM = 8;                      // Between 0 and 63
         rccOscInitStruct.PLL.PLLN = 336;                   // Betwen 192 and 432
         rccOscInitStruct.PLL.PLLP = RCC_PLLP_DIV2; // RCC_PLLP_DIV2, RCC_PLLP_DIV4, RCC_PLLP_DIV6, RCC_PLLP_DIV8
         rccOscInitStruct.PLL.PLLQ = 7;                      // Between 4 and 15.

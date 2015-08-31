@@ -20,3 +20,5 @@ test/build/
 build/gp8-clock.bin
 build/gp8-clock.elf
 .idea
+.kdev4
+gp8-clock.kdev4
