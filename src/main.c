@@ -25,7 +25,6 @@ uint32_t timeFromLastEvent = EVENT_TRESHOLD + 1;
  */
 #define UPDATE_EVENT_TRESHOLD 50
 
-
 int main (void)
 {
         HAL_Init ();

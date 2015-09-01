@@ -194,6 +194,13 @@ void segment7Init ()
         // Timer for multiplexing displays
         timHandle.Instance = TIM4; // APB1 (wolniejsza max 42MHz)
 
+
+//         timHandle.Init.Prescaler = (uint32_t)((HAL_RCC_GetHCLKFreq () / 2) / 840000) - 1; // 1 tick = 84MHz/100 = 840kHz
+//         timHandle.Init.Period = 8400 - 1; // Update event every 10ms = 100Hz
+//
+//         oc1 = 84 - 1 // 10kHz
+//         os2 = UPDATE EVENT
+
         // 10kHz
         timHandle.Init.Period = (uint32_t)((HAL_RCC_GetHCLKFreq () / 2) / 10000) - 1; // 8399
         timHandle.Init.Prescaler = 0;
