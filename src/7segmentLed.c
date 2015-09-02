@@ -191,19 +191,17 @@ void segment7Init ()
         segment7SetBrightness (10);
         segment7On ();
 
+        /*---------------------------------------------------------------------------*/
+
         // Timer for multiplexing displays
         timHandle.Instance = TIM4; // APB1 (wolniejsza max 42MHz)
 
-
-//         timHandle.Init.Prescaler = (uint32_t)((HAL_RCC_GetHCLKFreq () / 2) / 840000) - 1; // 1 tick = 84MHz/100 = 840kHz
-//         timHandle.Init.Period = 8400 - 1; // Update event every 10ms = 100Hz
-//
-//         oc1 = 84 - 1 // 10kHz
-//         os2 = UPDATE EVENT
-
         // 10kHz
-        timHandle.Init.Period = (uint32_t)((HAL_RCC_GetHCLKFreq () / 2) / 10000) - 1; // 8399
-        timHandle.Init.Prescaler = 0;
+//        timHandle.Init.Period = (uint32_t)((HAL_RCC_GetHCLKFreq () / 2) / 10000) - 1; // 8399
+//        timHandle.Init.Prescaler = 0;
+
+        timHandle.Init.Prescaler = (uint32_t)((HAL_RCC_GetHCLKFreq () / 2) / 840000) - 1; // 1 tick = 84MHz/100 = 840kHz
+        timHandle.Init.Period = 8400 - 1; // Update event every 10ms = 100Hz
         timHandle.Init.ClockDivision = 0;
         timHandle.Init.CounterMode = TIM_COUNTERMODE_UP;
 
@@ -218,6 +216,8 @@ void segment7Init ()
         if (HAL_TIM_Base_Start_IT (&timHandle) != HAL_OK) {
             Error_Handler();
         }
+
+        /*---------------------------------------------------------------------------*/
 
         // Konfigureacja kanału.
         // Dotycząca wejścia
@@ -244,6 +244,57 @@ void segment7Init ()
             Error_Handler();
         }
 
+        /*---------------------------------------------------------------------------*/
+
+        //         os2 = UPDATE EVENT
+
+
+        /*
+         * Kiedy kanał działa w trybie OC, to zdarzenie jest wtedy gdy counter zrównuje się
+         * z rejestrem OC (do którego nalezy wpisać wartość - pole Pulse struktury TIM_OC_InitTypeDef).
+         */
+        TIM_OC_InitTypeDef ocConfig;
+
+        /*
+         * Mówi co się ma stać z wyjściowym pinem kiedy nastąpi OC.event.
+         * TIM_OCMODE_TIMING : nic. To się chyba nazywa "TIMING", bo to służy do timerów bez outputu. Tylko ISR.
+         * TIM_OCMODE_ACTIVE : ustawi się w stan wysoki.
+         * TIM_OCMODE_INACTIVE : w stan niski.
+         * TIM_OCMODE_TOGGLE : zmieni stan.
+         * TIM_OCMODE_PWM1
+         * TIM_OCMODE_PWM2
+         * TIM_OCMODE_FORCED_ACTIVE
+         * TIM_OCMODE_FORCED_INACTIVE
+         *
+         */
+        ocConfig.OCMode = TIM_OCMODE_TIMING;
+
+        /*
+         * Od 0 do 0xffff, chociaż zapewne dla 32 bitowego timera max będzie 0xffff ffff.
+         * To jest właśnie ta wartość PORÓWNYWANA Z COUNTEREM.
+         */
+        ocConfig.Pulse = 84 - 1; // 10kHz
+
+        /*
+         * TIM_OCPOLARITY_HIGH : prawdopodobnie mówi, że active (TIM_OCMODE_ACTIVE) oznacza stan wysoki.
+         * TIM_OCPOLARITY_LOW : odwrotnie. Czyli można logikę odwrócić tym.
+         */
+        ocConfig.OCPolarity = TIM_OCPOLARITY_HIGH;
+
+        /*
+         * TIM_OCFAST_ENABLE : pomija PRELOAD przy ustawaniu rejestru O.C. czyli wartość wpisana zaczyna działać od razu.
+         * TIM_OCFAST_DISABLE : preload jest włączony, wartość wpisana do O.C. zacznie działać od następnego UEV.
+         */
+        ocConfig.OCFastMode = TIM_OCFAST_DISABLE;
+
+
+        if(HAL_TIM_OC_ConfigChannel (&timHandle, &ocConfig, TIM_CHANNEL_2) != HAL_OK) {
+            Error_Handler();
+        }
+
+        if(HAL_TIM_OC_Start(&timHandle, TIM_CHANNEL_2) != HAL_OK) {
+          Error_Handler();
+        }
 }
 
 /*
@@ -251,7 +302,13 @@ void segment7Init ()
  */
 void TIM4_IRQHandler (void)
 {
-        if(__HAL_TIM_GET_FLAG (&timHandle, TIM_FLAG_CC1) && __HAL_TIM_GET_IT_SOURCE (&timHandle, TIM_IT_CC1)) {
+        /*
+         * I.C. ~1kHz
+         * Uwaga! Makro __HAL_TIM_GET_IT_SOURCE ma mylną nazwę, bo ono sprawdza rejestr DIER, czyli
+         * sprawdza, czy dane przerwanie jest WŁĄCZONE czy nie. Jeśli by nie było włączone, to byśmy
+         * nigdy się nie znaleźli w ISR z powodu tego konkretnego przerwania.
+         */
+        if(__HAL_TIM_GET_FLAG (&timHandle, TIM_FLAG_CC1) /*&& __HAL_TIM_GET_IT_SOURCE (&timHandle, TIM_IT_CC1)*/) {
                 __HAL_TIM_CLEAR_IT (&timHandle, TIM_IT_CC1);
 //                 static int i = 0;
 //                 static int32_t prevVal = -1;
@@ -270,39 +327,46 @@ void TIM4_IRQHandler (void)
                 return;
         }
 
-        if (__HAL_TIM_GET_FLAG (&timHandle, TIM_FLAG_UPDATE) && __HAL_TIM_GET_IT_SOURCE (&timHandle, TIM_IT_UPDATE)) {
+        // 10kHz
+        if(__HAL_TIM_GET_FLAG (&timHandle, TIM_FLAG_CC2)) {
+            __HAL_TIM_CLEAR_FLAG (&timHandle, TIM_FLAG_CC2);
+
+            ++noOfUpdateEventsSinceLastRise;
+
+            // From 0 to 49 (example value when DISPLAYS_NO == 5 and CYCLES_NO == 10).
+            static uint8_t cnt = 0;
+            // Which segment to lit up. From 0 to 4.
+            uint8_t segmentNo = cnt / CYCLES_NO;
+            // Previous value for determining if there was a change or not. There's no point in doing anything if nothing changed.
+            static int8_t prevSegmentNo = -1;
+
+            // From 0 to 9. For brightnes control.
+            uint8_t cycleNo = cnt % CYCLES_NO;
+            // Duty cycle. Or conpletely off if displayOn is false.
+            bool cycleOn = (cycleNo < brightness) && displayOn;
+            static bool prevCycleOn = false;
+
+            // If nothing happened, skip this tick.
+            if (cycleOn != prevCycleOn || segmentNo != prevSegmentNo) {
+
+                    if (segmentNo != prevSegmentNo) {
+                            segment7SetDisplayOn (prevSegmentNo, false);
+                    }
+
+                    // Set individual segments to segment[segmentNo]
+                    segment7SetSegmentsOn (segment[segmentNo]);
+                    // Turn apropriate display on or off.
+                    segment7SetDisplayOn (segmentNo, cycleOn);
+            }
+
+            cnt = (cnt + 1) % (DISPLAYS_NO * CYCLES_NO);
+            prevSegmentNo = segmentNo;
+            prevCycleOn = cycleOn;
+        }
+
+        // 100Hz
+        if (__HAL_TIM_GET_FLAG (&timHandle, TIM_FLAG_UPDATE) /*&& __HAL_TIM_GET_IT_SOURCE (&timHandle, TIM_IT_UPDATE)*/) {
                 __HAL_TIM_CLEAR_IT (&timHandle, TIM_IT_UPDATE);
-                ++noOfUpdateEventsSinceLastRise;
-
-                // From 0 to 49 (example value when DISPLAYS_NO == 5 and CYCLES_NO == 10).
-                static uint8_t cnt = 0;
-                // Which segment to lit up. From 0 to 4.
-                uint8_t segmentNo = cnt / CYCLES_NO;
-                // Previous value for determining if there was a change or not. There's no point in doing anything if nothing changed.
-                static int8_t prevSegmentNo = -1;
-
-                // From 0 to 9. For brightnes control.
-                uint8_t cycleNo = cnt % CYCLES_NO;
-                // Duty cycle. Or conpletely off if displayOn is false.
-                bool cycleOn = (cycleNo < brightness) && displayOn;
-                static bool prevCycleOn = false;
-
-                // If nothing happened, skip this tick.
-                if (cycleOn != prevCycleOn || segmentNo != prevSegmentNo) {
-
-                        if (segmentNo != prevSegmentNo) {
-                                segment7SetDisplayOn (prevSegmentNo, false);
-                        }
-
-                        // Set individual segments to segment[segmentNo]
-                        segment7SetSegmentsOn (segment[segmentNo]);
-                        // Turn apropriate display on or off.
-                        segment7SetDisplayOn (segmentNo, cycleOn);
-                }
-
-                cnt = (cnt + 1) % (DISPLAYS_NO * CYCLES_NO);
-                prevSegmentNo = segmentNo;
-                prevCycleOn = cycleOn;
         }
 }
 
