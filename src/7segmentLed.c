@@ -246,9 +246,6 @@ void segment7Init ()
 
         /*---------------------------------------------------------------------------*/
 
-        //         os2 = UPDATE EVENT
-
-
         /*
          * Kiedy kanał działa w trybie OC, to zdarzenie jest wtedy gdy counter zrównuje się
          * z rejestrem OC (do którego nalezy wpisać wartość - pole Pulse struktury TIM_OC_InitTypeDef).
