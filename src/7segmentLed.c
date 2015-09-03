@@ -90,16 +90,16 @@ static void segment7SetDisplayOn (uint8_t displayNo, bool on);
  *         d
  */
 static uint8_t font[] = {
-        SEGMENT7_A | SEGMENT7_F | SEGMENT7_B | SEGMENT7_E | SEGMENT7_C | SEGMENT7_D, // 0
-        SEGMENT7_B | SEGMENT7_C, // 1
-        SEGMENT7_A | SEGMENT7_B | SEGMENT7_G | SEGMENT7_E | SEGMENT7_D, // 2
-        SEGMENT7_A | SEGMENT7_B | SEGMENT7_G | SEGMENT7_C | SEGMENT7_D, // 3
-        SEGMENT7_F | SEGMENT7_G | SEGMENT7_B | SEGMENT7_C, // 4
-        SEGMENT7_A | SEGMENT7_F | SEGMENT7_G | SEGMENT7_C | SEGMENT7_D, // 5
-        SEGMENT7_A | SEGMENT7_F | SEGMENT7_G | SEGMENT7_C | SEGMENT7_E | SEGMENT7_D, // 6
-        SEGMENT7_A | SEGMENT7_B | SEGMENT7_C, // 7
-        SEGMENT7_A | SEGMENT7_B | SEGMENT7_C  | SEGMENT7_D | SEGMENT7_E | SEGMENT7_F | SEGMENT7_G, // 8
-        SEGMENT7_A | SEGMENT7_B | SEGMENT7_C  | SEGMENT7_D | SEGMENT7_F | SEGMENT7_G, // 9
+        SEGMENT7_A | SEGMENT7_F | SEGMENT7_B | SEGMENT7_E | SEGMENT7_C | SEGMENT7_D,              // 0
+        SEGMENT7_B | SEGMENT7_C,                                                                  // 1
+        SEGMENT7_A | SEGMENT7_B | SEGMENT7_G | SEGMENT7_E | SEGMENT7_D,                           // 2
+        SEGMENT7_A | SEGMENT7_B | SEGMENT7_G | SEGMENT7_C | SEGMENT7_D,                           // 3
+        SEGMENT7_F | SEGMENT7_G | SEGMENT7_B | SEGMENT7_C,                                        // 4
+        SEGMENT7_A | SEGMENT7_F | SEGMENT7_G | SEGMENT7_C | SEGMENT7_D,                           // 5
+        SEGMENT7_A | SEGMENT7_F | SEGMENT7_G | SEGMENT7_C | SEGMENT7_E | SEGMENT7_D,              // 6
+        SEGMENT7_A | SEGMENT7_B | SEGMENT7_C,                                                     // 7
+        SEGMENT7_A | SEGMENT7_B | SEGMENT7_C | SEGMENT7_D | SEGMENT7_E | SEGMENT7_F | SEGMENT7_G, // 8
+        SEGMENT7_A | SEGMENT7_B | SEGMENT7_C | SEGMENT7_D | SEGMENT7_F | SEGMENT7_G,              // 9
 };
 
 static uint8_t segment[DISPLAYS_NO];
@@ -178,14 +178,12 @@ void segment7Init ()
         gpioInitStruct.Pin = LED_DIGIT4_PIN;
         HAL_GPIO_Init (LED_DIGIT4_PORT, &gpioInitStruct);
 
-
         // Variables used by the timer
         segment7SetDisplayOn (0, 0);
         segment7SetDisplayOn (1, 0);
         segment7SetDisplayOn (2, 0);
         segment7SetDisplayOn (3, 0);
         segment7SetDisplayOn (4, 0);
-
 
         bzero (segment, DISPLAYS_NO);
         segment7SetBrightness (10);
@@ -197,16 +195,16 @@ void segment7Init ()
         timHandle.Instance = TIM4; // APB1 (wolniejsza max 42MHz)
 
         // 10kHz
-//        timHandle.Init.Period = (uint32_t)((HAL_RCC_GetHCLKFreq () / 2) / 10000) - 1; // 8399
-//        timHandle.Init.Prescaler = 0;
+        //        timHandle.Init.Period = (uint32_t)((HAL_RCC_GetHCLKFreq () / 2) / 10000) - 1; // 8399
+        //        timHandle.Init.Prescaler = 0;
 
         timHandle.Init.Prescaler = (uint32_t)((HAL_RCC_GetHCLKFreq () / 2) / 840000) - 1; // 1 tick = 84MHz/100 = 840kHz
-        timHandle.Init.Period = 8400 - 1; // Update event every 10ms = 100Hz
+        timHandle.Init.Period = 8400 - 1;                                                 // Update event every 10ms = 100Hz
         timHandle.Init.ClockDivision = 0;
         timHandle.Init.CounterMode = TIM_COUNTERMODE_UP;
 
         if (HAL_TIM_Base_Init (&timHandle) != HAL_OK) {
-            Error_Handler();
+                Error_Handler ();
         }
 
         __HAL_RCC_TIM4_CLK_ENABLE ();
@@ -214,7 +212,7 @@ void segment7Init ()
         HAL_NVIC_EnableIRQ (TIM4_IRQn);
 
         if (HAL_TIM_Base_Start_IT (&timHandle) != HAL_OK) {
-            Error_Handler();
+                Error_Handler ();
         }
 
         /*---------------------------------------------------------------------------*/
@@ -230,18 +228,18 @@ void segment7Init ()
         HAL_GPIO_Init (GPIOD, &gpioInitStruct);
 
         // Dotycząca timera
-        TIM_IC_InitTypeDef  sICConfig;
-        sICConfig.ICPolarity  = TIM_ICPOLARITY_RISING;
+        TIM_IC_InitTypeDef sICConfig;
+        sICConfig.ICPolarity = TIM_ICPOLARITY_RISING;
         sICConfig.ICSelection = TIM_ICSELECTION_DIRECTTI;
         sICConfig.ICFilter = 0;
         sICConfig.ICPrescaler = TIM_ICPSC_DIV1;
 
-        if(HAL_TIM_IC_ConfigChannel (&timHandle, &sICConfig, TIM_CHANNEL_1) != HAL_OK) {
-                Error_Handler();
+        if (HAL_TIM_IC_ConfigChannel (&timHandle, &sICConfig, TIM_CHANNEL_1) != HAL_OK) {
+                Error_Handler ();
         }
 
         if (HAL_TIM_IC_Start_IT (&timHandle, TIM_CHANNEL_1) != HAL_OK) {
-            Error_Handler();
+                Error_Handler ();
         }
 
         /*---------------------------------------------------------------------------*/
@@ -284,13 +282,12 @@ void segment7Init ()
          */
         ocConfig.OCFastMode = TIM_OCFAST_DISABLE;
 
-
-        if(HAL_TIM_OC_ConfigChannel (&timHandle, &ocConfig, TIM_CHANNEL_2) != HAL_OK) {
-            Error_Handler();
+        if (HAL_TIM_OC_ConfigChannel (&timHandle, &ocConfig, TIM_CHANNEL_2) != HAL_OK) {
+                Error_Handler ();
         }
 
-        if(HAL_TIM_OC_Start(&timHandle, TIM_CHANNEL_2) != HAL_OK) {
-          Error_Handler();
+        if (HAL_TIM_OC_Start (&timHandle, TIM_CHANNEL_2) != HAL_OK) {
+                Error_Handler ();
         }
 }
 
@@ -305,60 +302,60 @@ void TIM4_IRQHandler (void)
          * sprawdza, czy dane przerwanie jest WŁĄCZONE czy nie. Jeśli by nie było włączone, to byśmy
          * nigdy się nie znaleźli w ISR z powodu tego konkretnego przerwania.
          */
-        if(__HAL_TIM_GET_FLAG (&timHandle, TIM_FLAG_CC1) /*&& __HAL_TIM_GET_IT_SOURCE (&timHandle, TIM_IT_CC1)*/) {
+        if (__HAL_TIM_GET_FLAG (&timHandle, TIM_FLAG_CC1) /*&& __HAL_TIM_GET_IT_SOURCE (&timHandle, TIM_IT_CC1)*/) {
                 __HAL_TIM_CLEAR_IT (&timHandle, TIM_IT_CC1);
-//                 static int i = 0;
-//                 static int32_t prevVal = -1;
-//
-//                 int32_t val = HAL_TIM_ReadCapturedValue (&timHandle, TIM_CHANNEL_1);
-//
-//
-//                 if (!(++i % 1000)) {
-//                         //inputCapture = (uint16_t)((val > prevVal) ? (val - prevVal) : (prevVal - val));
-//                         inputCapture = noOfUpdateEventsSinceLastRise;
-//                 }
-//
-//
-//                 prevVal = val;
+                //                 static int i = 0;
+                //                 static int32_t prevVal = -1;
+                //
+                //                 int32_t val = HAL_TIM_ReadCapturedValue (&timHandle, TIM_CHANNEL_1);
+                //
+                //
+                //                 if (!(++i % 1000)) {
+                //                         //inputCapture = (uint16_t)((val > prevVal) ? (val - prevVal) : (prevVal - val));
+                //                         inputCapture = noOfUpdateEventsSinceLastRise;
+                //                 }
+                //
+                //
+                //                 prevVal = val;
                 noOfUpdateEventsSinceLastRise = 0;
                 return;
         }
 
         // 10kHz
-        if(__HAL_TIM_GET_FLAG (&timHandle, TIM_FLAG_CC2)) {
-            __HAL_TIM_CLEAR_FLAG (&timHandle, TIM_FLAG_CC2);
+        if (__HAL_TIM_GET_FLAG (&timHandle, TIM_FLAG_CC2)) {
+                __HAL_TIM_CLEAR_FLAG (&timHandle, TIM_FLAG_CC2);
 
-            ++noOfUpdateEventsSinceLastRise;
+                ++noOfUpdateEventsSinceLastRise;
 
-            // From 0 to 49 (example value when DISPLAYS_NO == 5 and CYCLES_NO == 10).
-            static uint8_t cnt = 0;
-            // Which segment to lit up. From 0 to 4.
-            uint8_t segmentNo = cnt / CYCLES_NO;
-            // Previous value for determining if there was a change or not. There's no point in doing anything if nothing changed.
-            static int8_t prevSegmentNo = -1;
+                // From 0 to 49 (example value when DISPLAYS_NO == 5 and CYCLES_NO == 10).
+                static uint8_t cnt = 0;
+                // Which segment to lit up. From 0 to 4.
+                uint8_t segmentNo = cnt / CYCLES_NO;
+                // Previous value for determining if there was a change or not. There's no point in doing anything if nothing changed.
+                static int8_t prevSegmentNo = -1;
 
-            // From 0 to 9. For brightnes control.
-            uint8_t cycleNo = cnt % CYCLES_NO;
-            // Duty cycle. Or conpletely off if displayOn is false.
-            bool cycleOn = (cycleNo < brightness) && displayOn;
-            static bool prevCycleOn = false;
+                // From 0 to 9. For brightnes control.
+                uint8_t cycleNo = cnt % CYCLES_NO;
+                // Duty cycle. Or conpletely off if displayOn is false.
+                bool cycleOn = (cycleNo < brightness) && displayOn;
+                static bool prevCycleOn = false;
 
-            // If nothing happened, skip this tick.
-            if (cycleOn != prevCycleOn || segmentNo != prevSegmentNo) {
+                // If nothing happened, skip this tick.
+                if (cycleOn != prevCycleOn || segmentNo != prevSegmentNo) {
 
-                    if (segmentNo != prevSegmentNo) {
-                            segment7SetDisplayOn (prevSegmentNo, false);
-                    }
+                        if (segmentNo != prevSegmentNo) {
+                                segment7SetDisplayOn (prevSegmentNo, false);
+                        }
 
-                    // Set individual segments to segment[segmentNo]
-                    segment7SetSegmentsOn (segment[segmentNo]);
-                    // Turn apropriate display on or off.
-                    segment7SetDisplayOn (segmentNo, cycleOn);
-            }
+                        // Set individual segments to segment[segmentNo]
+                        segment7SetSegmentsOn (segment[segmentNo]);
+                        // Turn apropriate display on or off.
+                        segment7SetDisplayOn (segmentNo, cycleOn);
+                }
 
-            cnt = (cnt + 1) % (DISPLAYS_NO * CYCLES_NO);
-            prevSegmentNo = segmentNo;
-            prevCycleOn = cycleOn;
+                cnt = (cnt + 1) % (DISPLAYS_NO * CYCLES_NO);
+                prevSegmentNo = segmentNo;
+                prevCycleOn = cycleOn;
         }
 
         // 100Hz
@@ -366,7 +363,6 @@ void TIM4_IRQHandler (void)
                 __HAL_TIM_CLEAR_IT (&timHandle, TIM_IT_UPDATE);
         }
 }
-
 
 /*
  * Turn on and off individual displays.
@@ -455,7 +451,6 @@ void segment7SetBrightness (uint8_t i)
         brightness = i;
 }
 
-
 /*
  *
  */
@@ -478,5 +473,5 @@ void segment7SetDecimalNumber (uint32_t decimal)
 
 void segment7SetDigit (uint8_t displayNo, uint8_t i)
 {
-                segment7Set (displayNo, font[i]);
+        segment7Set (displayNo, font[i]);
 }

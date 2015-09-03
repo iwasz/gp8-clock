@@ -9,15 +9,15 @@
 static void SystemClock_Config (void);
 USBD_HandleTypeDef USBD_Device;
 static TIM_HandleTypeDef stopWatchTimHandle;
-extern uint32_t noOfUpdateEventsSinceLastRise ;
+extern uint32_t noOfUpdateEventsSinceLastRise;
 
-typedef enum { WATCH_STOPPED, WATCH_RUNNING } WatchState;
+typedef enum { WATCH_STOPPED,
+               WATCH_RUNNING } WatchState;
 uint8_t state = WATCH_STOPPED;
 
 #define EVENT_TRESHOLD 300
 // Delay between events
 uint32_t timeFromLastEvent = EVENT_TRESHOLD + 1;
-
 
 /**
  * How much update events since last rise (noOfUpdateEventsSinceLastRise) indicates
@@ -31,9 +31,9 @@ int main (void)
         SystemClock_Config ();
         segment7Init ();
 
-/**
- * Stop-watch
- */
+        /**
+         * Stop-watch
+         */
 
         // Timer for multiplexing displays
         stopWatchTimHandle.Instance = TIM5; // APB1 (wolniejsza max 42MHz)
@@ -45,7 +45,7 @@ int main (void)
         stopWatchTimHandle.Init.CounterMode = TIM_COUNTERMODE_UP;
 
         if (HAL_TIM_Base_Init (&stopWatchTimHandle) != HAL_OK) {
-            Error_Handler();
+                Error_Handler ();
         }
 
         __HAL_RCC_TIM5_CLK_ENABLE ();
@@ -53,26 +53,24 @@ int main (void)
         HAL_NVIC_EnableIRQ (TIM5_IRQn);
 
         if (HAL_TIM_Base_Start_IT (&stopWatchTimHandle) != HAL_OK) {
-            Error_Handler();
+                Error_Handler ();
         }
 
-
-//        /* Init Device Library */
-//        USBD_Init (&USBD_Device, &VCP_Desc, 0);
-//
-//        /* Add Supported Class */
-//        USBD_RegisterClass (&USBD_Device, USBD_CDC_CLASS);
-//
-//        /* Add CDC Interface Class */
-//        USBD_CDC_RegisterInterface (&USBD_Device, &USBD_CDC_fops);
-//
-//        /* Start Device Process */
-//        USBD_Start (&USBD_Device);
-//        printf ("init OK\n");
+        //        /* Init Device Library */
+        //        USBD_Init (&USBD_Device, &VCP_Desc, 0);
+        //
+        //        /* Add Supported Class */
+        //        USBD_RegisterClass (&USBD_Device, USBD_CDC_CLASS);
+        //
+        //        /* Add CDC Interface Class */
+        //        USBD_CDC_RegisterInterface (&USBD_Device, &USBD_CDC_fops);
+        //
+        //        /* Start Device Process */
+        //        USBD_Start (&USBD_Device);
+        //        printf ("init OK\n");
 
         while (1) {
         }
-
 }
 
 /**
@@ -128,15 +126,15 @@ static void SystemClock_Config (void)
 
         RCC_OscInitTypeDef rccOscInitStruct;
         rccOscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE; // HSE, HSI, LSE, LSI, NONE
-        rccOscInitStruct.HSEState = RCC_HSE_ON;               // ON, OFF, BYPASS
+        rccOscInitStruct.HSEState = RCC_HSE_ON;                   // ON, OFF, BYPASS
         rccOscInitStruct.HSIState = RCC_HSI_OFF;
         rccOscInitStruct.LSEState = RCC_LSE_OFF;
         rccOscInitStruct.LSIState = RCC_LSI_OFF;
-        rccOscInitStruct.PLL.PLLState = RCC_PLL_ON;               // On / Off
-        rccOscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;       // HSE or HSI
+        rccOscInitStruct.PLL.PLLState = RCC_PLL_ON;         // On / Off
+        rccOscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE; // HSE or HSI
         rccOscInitStruct.PLL.PLLM = 8;                      // Between 0 and 63
-        rccOscInitStruct.PLL.PLLN = 336;                   // Betwen 192 and 432
-        rccOscInitStruct.PLL.PLLP = RCC_PLLP_DIV2; // RCC_PLLP_DIV2, RCC_PLLP_DIV4, RCC_PLLP_DIV6, RCC_PLLP_DIV8
+        rccOscInitStruct.PLL.PLLN = 336;                    // Betwen 192 and 432
+        rccOscInitStruct.PLL.PLLP = RCC_PLLP_DIV2;          // RCC_PLLP_DIV2, RCC_PLLP_DIV4, RCC_PLLP_DIV6, RCC_PLLP_DIV8
         rccOscInitStruct.PLL.PLLQ = 7;                      // Between 4 and 15.
 
         if (HAL_RCC_OscConfig (&rccOscInitStruct) != HAL_OK) {

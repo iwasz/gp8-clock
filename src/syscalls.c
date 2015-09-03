@@ -141,17 +141,16 @@ caddr_t _sbrk (int incr)
         }
         prev_heap_end = heap_end;
 
-        char * stack = (char*) __get_MSP ();
+        char *stack = (char *)__get_MSP ();
         if (heap_end + incr > stack) {
                 _write (STDERR_FILENO, "Heap and stack collision\n", 25);
                 errno = ENOMEM;
-                return (caddr_t) -1;
+                return (caddr_t)-1;
                 //abort ();
         }
 
         heap_end += incr;
-        return (caddr_t) prev_heap_end;
-
+        return (caddr_t)prev_heap_end;
 }
 
 /*
@@ -162,32 +161,32 @@ caddr_t _sbrk (int incr)
 
 int _read (int file, char *ptr, int len)
 {
-//        TODO implement!
-//        int n;
-//        int num = 0;
-//        switch (file) {
-//        case STDIN_FILENO:
-//                for (n = 0; n < len; n++) {
-//#if   STDIN_USART == 1
-//                        while ((USART1->SR & USART_FLAG_RXNE) == (uint16_t)RESET) {}
-//                        char c = (char)(USART1->DR & (uint16_t)0x01FF);
-//#elif STDIN_USART == 2
-//                        while ((USART2->SR & USART_FLAG_RXNE)
-//                                        == (uint16_t) RESET) {
-//                        }
-//                        char c = (char) (USART2->DR & (uint16_t) 0x01FF);
-//#elif STDIN_USART == 3
-//                        while ((USART3->SR & USART_FLAG_RXNE) == (uint16_t)RESET) {}
-//                        char c = (char)(USART3->DR & (uint16_t)0x01FF);
-//#endif
-//                        *ptr++ = c;
-//                        num++;
-//                }
-//                break;
-//        default:
-//                errno = EBADF;
-//                return -1;
-//        }
+        //        TODO implement!
+        //        int n;
+        //        int num = 0;
+        //        switch (file) {
+        //        case STDIN_FILENO:
+        //                for (n = 0; n < len; n++) {
+        //#if   STDIN_USART == 1
+        //                        while ((USART1->SR & USART_FLAG_RXNE) == (uint16_t)RESET) {}
+        //                        char c = (char)(USART1->DR & (uint16_t)0x01FF);
+        //#elif STDIN_USART == 2
+        //                        while ((USART2->SR & USART_FLAG_RXNE)
+        //                                        == (uint16_t) RESET) {
+        //                        }
+        //                        char c = (char) (USART2->DR & (uint16_t) 0x01FF);
+        //#elif STDIN_USART == 3
+        //                        while ((USART3->SR & USART_FLAG_RXNE) == (uint16_t)RESET) {}
+        //                        char c = (char)(USART3->DR & (uint16_t)0x01FF);
+        //#endif
+        //                        *ptr++ = c;
+        //                        num++;
+        //                }
+        //                break;
+        //        default:
+        //                errno = EBADF;
+        //                return -1;
+        //        }
         return 0;
 }
 
@@ -240,6 +239,6 @@ int _wait (int *status)
  */
 int _write (int file, char *ptr, int len)
 {
-//        cdcItfTransmit ((uint8_t *) ptr, len);
+        //        cdcItfTransmit ((uint8_t *) ptr, len);
         return len;
 }

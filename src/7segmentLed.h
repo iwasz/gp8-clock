@@ -54,7 +54,6 @@ extern void segment7Set (uint8_t displayNo, uint8_t segments);
  */
 extern uint8_t segment7Get (uint8_t displayNo);
 
-
 /**
  * Turn on the displays whatever brightnes they are set to.
  */
@@ -74,7 +73,6 @@ extern bool segment7IsOn ();
  * Brightness 0-10
  */
 extern void segment7SetBrightness (uint8_t i);
-
 
 /**
  * Brightness 0-10
