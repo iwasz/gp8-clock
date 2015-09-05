@@ -195,11 +195,11 @@ void segment7Init ()
         timHandle.Instance = TIM4; // APB1 (wolniejsza max 42MHz)
 
         // 10kHz
-        //        timHandle.Init.Period = (uint32_t)((HAL_RCC_GetHCLKFreq () / 2) / 10000) - 1; // 8399
-        //        timHandle.Init.Prescaler = 0;
+        timHandle.Init.Period = (uint32_t)((HAL_RCC_GetHCLKFreq () / 2) / 10000) - 1; // 8399
+        timHandle.Init.Prescaler = 0;
 
-        timHandle.Init.Prescaler = (uint32_t)((HAL_RCC_GetHCLKFreq () / 2) / 840000) - 1; // 1 tick = 84MHz/100 = 840kHz
-        timHandle.Init.Period = 8400 - 1;                                                 // Update event every 10ms = 100Hz
+//        timHandle.Init.Prescaler = (uint32_t)((HAL_RCC_GetHCLKFreq () / 2) / 840000) - 1; // 1 tick = 84MHz/100 = 840kHz
+//        timHandle.Init.Period = 8400 - 1;                                                 // Update event every 10ms = 100Hz
         timHandle.Init.ClockDivision = 0;
         timHandle.Init.CounterMode = TIM_COUNTERMODE_UP;
 
@@ -217,8 +217,7 @@ void segment7Init ()
 
         /*---------------------------------------------------------------------------*/
 
-        // Konfigureacja kanału.
-        // Dotycząca wejścia
+        // Konfigureacja kanału. Input Capture. Wejście.
         __HAL_RCC_GPIOD_CLK_ENABLE ();
         gpioInitStruct.Pin = GPIO_PIN_12;
         gpioInitStruct.Mode = GPIO_MODE_AF_PP;
@@ -244,51 +243,51 @@ void segment7Init ()
 
         /*---------------------------------------------------------------------------*/
 
-        /*
-         * Kiedy kanał działa w trybie OC, to zdarzenie jest wtedy gdy counter zrównuje się
-         * z rejestrem OC (do którego nalezy wpisać wartość - pole Pulse struktury TIM_OC_InitTypeDef).
-         */
-        TIM_OC_InitTypeDef ocConfig;
+//        /*
+//         * Kiedy kanał działa w trybie OC, to zdarzenie jest wtedy gdy counter zrównuje się
+//         * z rejestrem OC (do którego nalezy wpisać wartość - pole Pulse struktury TIM_OC_InitTypeDef).
+//         */
+//        TIM_OC_InitTypeDef ocConfig;
 
-        /*
-         * Mówi co się ma stać z wyjściowym pinem kiedy nastąpi OC.event.
-         * TIM_OCMODE_TIMING : nic. To się chyba nazywa "TIMING", bo to służy do timerów bez outputu. Tylko ISR.
-         * TIM_OCMODE_ACTIVE : ustawi się w stan wysoki.
-         * TIM_OCMODE_INACTIVE : w stan niski.
-         * TIM_OCMODE_TOGGLE : zmieni stan.
-         * TIM_OCMODE_PWM1
-         * TIM_OCMODE_PWM2
-         * TIM_OCMODE_FORCED_ACTIVE
-         * TIM_OCMODE_FORCED_INACTIVE
-         *
-         */
-        ocConfig.OCMode = TIM_OCMODE_TIMING;
+//        /*
+//         * Mówi co się ma stać z wyjściowym pinem kiedy nastąpi OC.event.
+//         * TIM_OCMODE_TIMING : nic. To się chyba nazywa "TIMING", bo to służy do timerów bez outputu. Tylko ISR.
+//         * TIM_OCMODE_ACTIVE : ustawi się w stan wysoki.
+//         * TIM_OCMODE_INACTIVE : w stan niski.
+//         * TIM_OCMODE_TOGGLE : zmieni stan.
+//         * TIM_OCMODE_PWM1
+//         * TIM_OCMODE_PWM2
+//         * TIM_OCMODE_FORCED_ACTIVE
+//         * TIM_OCMODE_FORCED_INACTIVE
+//         *
+//         */
+//        ocConfig.OCMode = TIM_OCMODE_TIMING;
 
-        /*
-         * Od 0 do 0xffff, chociaż zapewne dla 32 bitowego timera max będzie 0xffff ffff.
-         * To jest właśnie ta wartość PORÓWNYWANA Z COUNTEREM.
-         */
-        ocConfig.Pulse = 84 - 1; // 10kHz
+//        /*
+//         * Od 0 do 0xffff, chociaż zapewne dla 32 bitowego timera max będzie 0xffff ffff.
+//         * To jest właśnie ta wartość PORÓWNYWANA Z COUNTEREM.
+//         */
+//        ocConfig.Pulse = 84 - 1; // 10kHz
 
-        /*
-         * TIM_OCPOLARITY_HIGH : prawdopodobnie mówi, że active (TIM_OCMODE_ACTIVE) oznacza stan wysoki.
-         * TIM_OCPOLARITY_LOW : odwrotnie. Czyli można logikę odwrócić tym.
-         */
-        ocConfig.OCPolarity = TIM_OCPOLARITY_HIGH;
+//        /*
+//         * TIM_OCPOLARITY_HIGH : prawdopodobnie mówi, że active (TIM_OCMODE_ACTIVE) oznacza stan wysoki.
+//         * TIM_OCPOLARITY_LOW : odwrotnie. Czyli można logikę odwrócić tym.
+//         */
+//        ocConfig.OCPolarity = TIM_OCPOLARITY_HIGH;
 
-        /*
-         * TIM_OCFAST_ENABLE : pomija PRELOAD przy ustawaniu rejestru O.C. czyli wartość wpisana zaczyna działać od razu.
-         * TIM_OCFAST_DISABLE : preload jest włączony, wartość wpisana do O.C. zacznie działać od następnego UEV.
-         */
-        ocConfig.OCFastMode = TIM_OCFAST_DISABLE;
+//        /*
+//         * TIM_OCFAST_ENABLE : pomija PRELOAD przy ustawaniu rejestru O.C. czyli wartość wpisana zaczyna działać od razu.
+//         * TIM_OCFAST_DISABLE : preload jest włączony, wartość wpisana do O.C. zacznie działać od następnego UEV.
+//         */
+//        ocConfig.OCFastMode = TIM_OCFAST_DISABLE;
 
-        if (HAL_TIM_OC_ConfigChannel (&timHandle, &ocConfig, TIM_CHANNEL_2) != HAL_OK) {
-                Error_Handler ();
-        }
+//        if (HAL_TIM_OC_ConfigChannel (&timHandle, &ocConfig, TIM_CHANNEL_2) != HAL_OK) {
+//                Error_Handler ();
+//        }
 
-        if (HAL_TIM_OC_Start (&timHandle, TIM_CHANNEL_2) != HAL_OK) {
-                Error_Handler ();
-        }
+//        if (HAL_TIM_OC_Start (&timHandle, TIM_CHANNEL_2) != HAL_OK) {
+//                Error_Handler ();
+//        }
 }
 
 /*
@@ -319,12 +318,21 @@ void TIM4_IRQHandler (void)
                 //                 prevVal = val;
                 noOfUpdateEventsSinceLastRise = 0;
                 return;
+
+//                static int i = 0;
+//                segment7SetDisplayOn (0, ++i % 2);
+//                segment7SetSegmentsOn (0xff);
         }
 
-        // 10kHz
-        if (__HAL_TIM_GET_FLAG (&timHandle, TIM_FLAG_CC2)) {
-                __HAL_TIM_CLEAR_FLAG (&timHandle, TIM_FLAG_CC2);
+//        if (__HAL_TIM_GET_FLAG (&timHandle, TIM_FLAG_CC2) && __HAL_TIM_GET_IT_SOURCE (&timHandle, TIM_azsZZSSQIT_CC2)) {
+//                __HAL_TIM_CLEAR_FLAG (&timHandle, TIM_FLAG_CC2);
 
+
+//        }
+
+        // 10kHz
+        if (__HAL_TIM_GET_FLAG (&timHandle, TIM_FLAG_UPDATE) && __HAL_TIM_GET_IT_SOURCE (&timHandle, TIM_IT_UPDATE)) {
+                __HAL_TIM_CLEAR_IT (&timHandle, TIM_IT_UPDATE);
                 ++noOfUpdateEventsSinceLastRise;
 
                 // From 0 to 49 (example value when DISPLAYS_NO == 5 and CYCLES_NO == 10).
@@ -356,11 +364,6 @@ void TIM4_IRQHandler (void)
                 cnt = (cnt + 1) % (DISPLAYS_NO * CYCLES_NO);
                 prevSegmentNo = segmentNo;
                 prevCycleOn = cycleOn;
-        }
-
-        // 100Hz
-        if (__HAL_TIM_GET_FLAG (&timHandle, TIM_FLAG_UPDATE) /*&& __HAL_TIM_GET_IT_SOURCE (&timHandle, TIM_IT_UPDATE)*/) {
-                __HAL_TIM_CLEAR_IT (&timHandle, TIM_IT_UPDATE);
         }
 }
 
