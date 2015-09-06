@@ -1,3 +1,4 @@
+#if 0
 /**
  ******************************************************************************
  * @file    USB_Device/CDC_Standalone/Src/usbd_cdc_interface.c
@@ -358,3 +359,4 @@ static void TIM_Config (void)
                 Error_Handler ();
         }
 }
+#endif

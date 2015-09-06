@@ -6,7 +6,7 @@
  */
 
 #include "7segmentLed.h"
-#include <stm32f4xx_hal.h>
+#include <stm32f0xx_hal.h>
 #include <string.h>
 
 // For brightness controll
@@ -22,37 +22,37 @@ static void segment7SetDisplayOn (uint8_t displayNo, bool on);
  *       e   c   dp
  *         d
  */
-#define LEDA_GPIO_CLK_ENABLE __HAL_RCC_GPIOC_CLK_ENABLE
+#define LEDA_GPIO_CLK_ENABLE __HAL_RCC_GPIOA_CLK_ENABLE
 #define LEDA_PIN GPIO_PIN_0
-#define LEDA_PORT GPIOC
+#define LEDA_PORT GPIOA
 
-#define LEDF_GPIO_CLK_ENABLE __HAL_RCC_GPIOC_CLK_ENABLE
+#define LEDF_GPIO_CLK_ENABLE __HAL_RCC_GPIOA_CLK_ENABLE
 #define LEDF_PIN GPIO_PIN_3
-#define LEDF_PORT GPIOC
+#define LEDF_PORT GPIOA
 
-#define LEDB_GPIO_CLK_ENABLE __HAL_RCC_GPIOC_CLK_ENABLE
+#define LEDB_GPIO_CLK_ENABLE __HAL_RCC_GPIOA_CLK_ENABLE
 #define LEDB_PIN GPIO_PIN_1
-#define LEDB_PORT GPIOC
+#define LEDB_PORT GPIOA
 
-#define LEDG_GPIO_CLK_ENABLE __HAL_RCC_GPIOC_CLK_ENABLE
+#define LEDG_GPIO_CLK_ENABLE __HAL_RCC_GPIOA_CLK_ENABLE
 #define LEDG_PIN GPIO_PIN_2
-#define LEDG_PORT GPIOC
+#define LEDG_PORT GPIOA
 
-#define LEDE_GPIO_CLK_ENABLE __HAL_RCC_GPIOC_CLK_ENABLE
+#define LEDE_GPIO_CLK_ENABLE __HAL_RCC_GPIOA_CLK_ENABLE
 #define LEDE_PIN GPIO_PIN_5
-#define LEDE_PORT GPIOC
+#define LEDE_PORT GPIOA
 
-#define LEDC_GPIO_CLK_ENABLE __HAL_RCC_GPIOC_CLK_ENABLE
+#define LEDC_GPIO_CLK_ENABLE __HAL_RCC_GPIOA_CLK_ENABLE
 #define LEDC_PIN GPIO_PIN_7
-#define LEDC_PORT GPIOC
+#define LEDC_PORT GPIOA
 
-#define LEDD_GPIO_CLK_ENABLE __HAL_RCC_GPIOC_CLK_ENABLE
+#define LEDD_GPIO_CLK_ENABLE __HAL_RCC_GPIOA_CLK_ENABLE
 #define LEDD_PIN GPIO_PIN_4
-#define LEDD_PORT GPIOC
+#define LEDD_PORT GPIOA
 
-#define LEDDP_GPIO_CLK_ENABLE __HAL_RCC_GPIOC_CLK_ENABLE
+#define LEDDP_GPIO_CLK_ENABLE __HAL_RCC_GPIOA_CLK_ENABLE
 #define LEDDP_PIN GPIO_PIN_6
-#define LEDDP_PORT GPIOC
+#define LEDDP_PORT GPIOA
 
 /*
  *  _   _   _   _   _
@@ -62,25 +62,25 @@ static void segment7SetDisplayOn (uint8_t displayNo, bool on);
  *  0   1   2   3   4
  */
 
-#define LED_DIGIT0_GPIO_CLK_ENABLE __HAL_RCC_GPIOC_CLK_ENABLE
+#define LED_DIGIT0_GPIO_CLK_ENABLE __HAL_RCC_GPIOA_CLK_ENABLE
 #define LED_DIGIT0_PIN GPIO_PIN_8
-#define LED_DIGIT0_PORT GPIOC
+#define LED_DIGIT0_PORT GPIOA
 
-#define LED_DIGIT1_GPIO_CLK_ENABLE __HAL_RCC_GPIOC_CLK_ENABLE
+#define LED_DIGIT1_GPIO_CLK_ENABLE __HAL_RCC_GPIOA_CLK_ENABLE
 #define LED_DIGIT1_PIN GPIO_PIN_9
-#define LED_DIGIT1_PORT GPIOC
+#define LED_DIGIT1_PORT GPIOA
 
-#define LED_DIGIT2_GPIO_CLK_ENABLE __HAL_RCC_GPIOC_CLK_ENABLE
+#define LED_DIGIT2_GPIO_CLK_ENABLE __HAL_RCC_GPIOA_CLK_ENABLE
 #define LED_DIGIT2_PIN GPIO_PIN_10
-#define LED_DIGIT2_PORT GPIOC
+#define LED_DIGIT2_PORT GPIOA
 
-#define LED_DIGIT3_GPIO_CLK_ENABLE __HAL_RCC_GPIOC_CLK_ENABLE
+#define LED_DIGIT3_GPIO_CLK_ENABLE __HAL_RCC_GPIOA_CLK_ENABLE
 #define LED_DIGIT3_PIN GPIO_PIN_11
-#define LED_DIGIT3_PORT GPIOC
+#define LED_DIGIT3_PORT GPIOA
 
-#define LED_DIGIT4_GPIO_CLK_ENABLE __HAL_RCC_GPIOC_CLK_ENABLE
+#define LED_DIGIT4_GPIO_CLK_ENABLE __HAL_RCC_GPIOA_CLK_ENABLE
 #define LED_DIGIT4_PIN GPIO_PIN_12
-#define LED_DIGIT4_PORT GPIOC
+#define LED_DIGIT4_PORT GPIOA
 
 /*
  *  _      a
@@ -126,7 +126,7 @@ void segment7Init ()
         gpioInitStruct.Pin = LEDA_PIN;
         gpioInitStruct.Mode = GPIO_MODE_OUTPUT_PP;
         gpioInitStruct.Pull = GPIO_PULLDOWN;
-        gpioInitStruct.Speed = GPIO_SPEED_FAST;
+        gpioInitStruct.Speed = GPIO_SPEED_HIGH;
         HAL_GPIO_Init (LEDA_PORT, &gpioInitStruct);
 
         LEDF_GPIO_CLK_ENABLE ();
@@ -192,7 +192,7 @@ void segment7Init ()
         /*---------------------------------------------------------------------------*/
 
         // Timer for multiplexing displays
-        timHandle.Instance = TIM4; // APB1 (wolniejsza max 42MHz)
+        timHandle.Instance = TIM2; // APB1 (wolniejsza max 42MHz)
 
         // 10kHz
         timHandle.Init.Period = (uint32_t)((HAL_RCC_GetHCLKFreq () / 2) / 10000) - 1; // 8399
@@ -203,13 +203,13 @@ void segment7Init ()
         timHandle.Init.ClockDivision = 0;
         timHandle.Init.CounterMode = TIM_COUNTERMODE_UP;
 
+        __HAL_RCC_TIM2_CLK_ENABLE ();
+        HAL_NVIC_SetPriority (TIM2_IRQn, 3, 0);
+        HAL_NVIC_EnableIRQ (TIM2_IRQn);
+
         if (HAL_TIM_Base_Init (&timHandle) != HAL_OK) {
                 Error_Handler ();
         }
-
-        __HAL_RCC_TIM4_CLK_ENABLE ();
-        HAL_NVIC_SetPriority (TIM4_IRQn, 0, 1);
-        HAL_NVIC_EnableIRQ (TIM4_IRQn);
 
         if (HAL_TIM_Base_Start_IT (&timHandle) != HAL_OK) {
                 Error_Handler ();
@@ -218,13 +218,13 @@ void segment7Init ()
         /*---------------------------------------------------------------------------*/
 
         // Konfigureacja kanału. Input Capture. Wejście.
-        __HAL_RCC_GPIOD_CLK_ENABLE ();
-        gpioInitStruct.Pin = GPIO_PIN_12;
+        __HAL_RCC_GPIOA_CLK_ENABLE ();
+        gpioInitStruct.Pin = GPIO_PIN_15;
         gpioInitStruct.Mode = GPIO_MODE_AF_PP;
         gpioInitStruct.Pull = GPIO_PULLUP;
-        gpioInitStruct.Alternate = GPIO_AF2_TIM4;
-        gpioInitStruct.Speed = GPIO_SPEED_FAST;
-        HAL_GPIO_Init (GPIOD, &gpioInitStruct);
+        gpioInitStruct.Alternate = GPIO_AF2_TIM2;
+        gpioInitStruct.Speed = GPIO_SPEED_HIGH;
+        HAL_GPIO_Init (GPIOA, &gpioInitStruct);
 
         // Dotycząca timera
         TIM_IC_InitTypeDef sICConfig;
@@ -293,7 +293,7 @@ void segment7Init ()
 /*
  *
  */
-void TIM4_IRQHandler (void)
+void TIM2_IRQHandler (void)
 {
         /*
          * I.C. ~1kHz

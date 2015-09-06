@@ -1,15 +1,15 @@
-#include <stm32f4xx_hal.h>
-#include "usbd_core.h"
-#include "usbd_desc.h"
-#include "usbd_cdc.h"
-#include "usbd_cdc_interface.h"
+#include <stm32f0xx_hal.h>
+//#include "usbd_core.h"
+//#include "usbd_desc.h"
+//#include "usbd_cdc.h"
+//#include "usbd_cdc_interface.h"
 #include "config.h"
 #include "7segmentLed.h"
 
 static void SystemClock_Config (void);
-USBD_HandleTypeDef USBD_Device;
-static TIM_HandleTypeDef stopWatchTimHandle;
+//USBD_HandleTypeDef USBD_Device;
 extern uint32_t noOfUpdateEventsSinceLastRise;
+static TIM_HandleTypeDef stopWatchTimHandle;
 
 typedef enum { WATCH_STOPPED,
                WATCH_RUNNING } WatchState;
@@ -31,30 +31,39 @@ int main (void)
         SystemClock_Config ();
         segment7Init ();
 
+        __HAL_RCC_GPIOB_CLK_ENABLE (); // Włączenie zegara.
+        GPIO_InitTypeDef gpioInitStruct;
+        gpioInitStruct.Pin = GPIO_PIN_7;
+        gpioInitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+        gpioInitStruct.Pull = GPIO_PULLDOWN;
+        gpioInitStruct.Speed = GPIO_SPEED_LOW;
+        HAL_GPIO_Init (GPIOB, &gpioInitStruct);
+
         /**
          * Stop-watch
          */
-
-        // Timer for multiplexing displays
-        stopWatchTimHandle.Instance = TIM5; // APB1 (wolniejsza max 42MHz)
+        stopWatchTimHandle.Instance = TIM14;
 
         // 100Hz
         stopWatchTimHandle.Init.Period = 100;
-        stopWatchTimHandle.Init.Prescaler = (uint32_t)((HAL_RCC_GetHCLKFreq () / 2) / 10000) - 1;
+        stopWatchTimHandle.Init.Prescaler = (uint32_t)(HAL_RCC_GetHCLKFreq () / 10000) - 1;
         stopWatchTimHandle.Init.ClockDivision = 0;
         stopWatchTimHandle.Init.CounterMode = TIM_COUNTERMODE_UP;
+        stopWatchTimHandle.Init.RepetitionCounter = 0;
+
+        // Uwaga! Zpisać to!!! Msp init jest wywoływane PRZED TIM_Base_SetConfig
+        __HAL_RCC_TIM14_CLK_ENABLE ();
+        HAL_NVIC_SetPriority (TIM14_IRQn, 0, 0);
+        HAL_NVIC_EnableIRQ (TIM14_IRQn);
 
         if (HAL_TIM_Base_Init (&stopWatchTimHandle) != HAL_OK) {
                 Error_Handler ();
         }
 
-        __HAL_RCC_TIM5_CLK_ENABLE ();
-        HAL_NVIC_SetPriority (TIM5_IRQn, 0, 0);
-        HAL_NVIC_EnableIRQ (TIM5_IRQn);
-
         if (HAL_TIM_Base_Start_IT (&stopWatchTimHandle) != HAL_OK) {
                 Error_Handler ();
         }
+
 
         //        /* Init Device Library */
         //        USBD_Init (&USBD_Device, &VCP_Desc, 0);
@@ -70,6 +79,11 @@ int main (void)
         //        printf ("init OK\n");
 
         while (1) {
+//                HAL_Delay (500);
+//                HAL_GPIO_WritePin (GPIOB, GPIO_PIN_7, 1);
+
+//                HAL_Delay (500);
+//                HAL_GPIO_WritePin (GPIOB, GPIO_PIN_7, 0);
         }
 }
 
@@ -77,9 +91,10 @@ int main (void)
  * Stop-watch ISR.
  * Here the value displayed is updated. 100Hz
  */
-void TIM5_IRQHandler (void)
+void TIM14_IRQHandler (void)
 {
         __HAL_TIM_CLEAR_IT (&stopWatchTimHandle, TIM_IT_UPDATE);
+
         static uint16_t cnt = 0;
         uint16_t cntTmp = cnt;
 
@@ -123,39 +138,66 @@ void TIM5_IRQHandler (void)
 
 static void SystemClock_Config (void)
 {
-        __HAL_RCC_PWR_CLK_ENABLE ();
-        __HAL_PWR_VOLTAGESCALING_CONFIG (PWR_REGULATOR_VOLTAGE_SCALE1);
+        RCC_ClkInitTypeDef RCC_ClkInitStruct;
+        RCC_OscInitTypeDef RCC_OscInitStruct;
 
-        RCC_OscInitTypeDef rccOscInitStruct;
-        rccOscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE; // HSE, HSI, LSE, LSI, NONE
-        rccOscInitStruct.HSEState = RCC_HSE_ON;                   // ON, OFF, BYPASS
-        rccOscInitStruct.HSIState = RCC_HSI_OFF;
-        rccOscInitStruct.LSEState = RCC_LSE_OFF;
-        rccOscInitStruct.LSIState = RCC_LSI_OFF;
-        rccOscInitStruct.PLL.PLLState = RCC_PLL_ON;         // On / Off
-        rccOscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE; // HSE or HSI
-        rccOscInitStruct.PLL.PLLM = 8;                      // Between 0 and 63
-        rccOscInitStruct.PLL.PLLN = 336;                    // Betwen 192 and 432
-        rccOscInitStruct.PLL.PLLP = RCC_PLLP_DIV2;          // RCC_PLLP_DIV2, RCC_PLLP_DIV4, RCC_PLLP_DIV6, RCC_PLLP_DIV8
-        rccOscInitStruct.PLL.PLLQ = 7;                      // Between 4 and 15.
+        /* Select HSI48 Oscillator as PLL source */
+        RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI48;
+        RCC_OscInitStruct.HSI48State = RCC_HSI48_ON;
+        RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
+        RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSI48;
+        RCC_OscInitStruct.PLL.PREDIV = RCC_PREDIV_DIV2;
+        RCC_OscInitStruct.PLL.PLLMUL = RCC_PLL_MUL2;
 
-        if (HAL_RCC_OscConfig (&rccOscInitStruct) != HAL_OK) {
+        if (HAL_RCC_OscConfig (&RCC_OscInitStruct) != HAL_OK) {
                 Error_Handler ();
         }
 
-        RCC_ClkInitTypeDef rccClkInitStruct;
+        /* Select PLL as system clock source and configure the HCLK and PCLK1 clocks dividers */
+        RCC_ClkInitStruct.ClockType = (RCC_CLOCKTYPE_SYSCLK | RCC_CLOCKTYPE_HCLK | RCC_CLOCKTYPE_PCLK1);
+        RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
+        RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
+        RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV1;
 
-        // ClockType mówi które zegary konfigurujemy. W tym przypadku konfigurujemy wszytskie.
-        rccClkInitStruct.ClockType = (RCC_CLOCKTYPE_SYSCLK | RCC_CLOCKTYPE_HCLK | RCC_CLOCKTYPE_PCLK1 | RCC_CLOCKTYPE_PCLK2);
-        rccClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK; // HSI, HSE lub PLL
-        rccClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
-        rccClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV4;
-        rccClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV2;
-
-        if (HAL_RCC_ClockConfig (&rccClkInitStruct, FLASH_LATENCY_5) != HAL_OK) {
+        if (HAL_RCC_ClockConfig (&RCC_ClkInitStruct, FLASH_LATENCY_1) != HAL_OK) {
                 Error_Handler ();
         }
 }
+//static void SystemClock_Config (void)
+//{
+//        __HAL_RCC_PWR_CLK_ENABLE ();
+//        __HAL_PWR_VOLTAGESCALING_CONFIG (PWR_REGULATOR_VOLTAGE_SCALE1);
+
+//        RCC_OscInitTypeDef rccOscInitStruct;
+//        rccOscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE; // HSE, HSI, LSE, LSI, NONE
+//        rccOscInitStruct.HSEState = RCC_HSE_ON;                   // ON, OFF, BYPASS
+//        rccOscInitStruct.HSIState = RCC_HSI_OFF;
+//        rccOscInitStruct.LSEState = RCC_LSE_OFF;
+//        rccOscInitStruct.LSIState = RCC_LSI_OFF;
+//        rccOscInitStruct.PLL.PLLState = RCC_PLL_ON;         // On / Off
+//        rccOscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE; // HSE or HSI
+//        rccOscInitStruct.PLL.PLLM = 8;                      // Between 0 and 63
+//        rccOscInitStruct.PLL.PLLN = 336;                    // Betwen 192 and 432
+//        rccOscInitStruct.PLL.PLLP = RCC_PLLP_DIV2;          // RCC_PLLP_DIV2, RCC_PLLP_DIV4, RCC_PLLP_DIV6, RCC_PLLP_DIV8
+//        rccOscInitStruct.PLL.PLLQ = 7;                      // Between 4 and 15.
+
+//        if (HAL_RCC_OscConfig (&rccOscInitStruct) != HAL_OK) {
+//                Error_Handler ();
+//        }
+
+//        RCC_ClkInitTypeDef rccClkInitStruct;
+
+//        // ClockType mówi które zegary konfigurujemy. W tym przypadku konfigurujemy wszytskie.
+//        rccClkInitStruct.ClockType = (RCC_CLOCKTYPE_SYSCLK | RCC_CLOCKTYPE_HCLK | RCC_CLOCKTYPE_PCLK1 | RCC_CLOCKTYPE_PCLK2);
+//        rccClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK; // HSI, HSE lub PLL
+//        rccClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
+//        rccClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV4;
+//        rccClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV2;
+
+//        if (HAL_RCC_ClockConfig (&rccClkInitStruct, FLASH_LATENCY_5) != HAL_OK) {
+//                Error_Handler ();
+//        }
+//}
 
 /**
  * @brief  This function is executed in case of error occurrence.

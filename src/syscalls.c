@@ -8,8 +8,7 @@
 #include <sys/stat.h>
 #include <sys/times.h>
 #include <sys/unistd.h>
-#include <stm32f4xx.h>
-#include <stm32f4xx_hal.h>
+#include <stm32f0xx_hal.h>
 
 #undef errno
 extern int errno;

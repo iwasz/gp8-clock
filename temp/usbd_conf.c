@@ -1,3 +1,4 @@
+#if 0
 /**
  ******************************************************************************
  * @file    USB_Device/CDC_Standalone/Src/usbd_conf.c
@@ -342,7 +343,7 @@ USBD_StatusTypeDef USBD_LL_Init (USBD_HandleTypeDef *pdev)
         /* Change Systick prioity */
         NVIC_SetPriority (SysTick_IRQn, 0);
 
-#ifdef USE_USB_FS  
+#ifdef USE_USB_FS
         /*Set LL Driver parameters */
         hpcd.Instance = USB_OTG_FS;
         hpcd.Init.dev_endpoints = 4;
@@ -364,8 +365,8 @@ USBD_StatusTypeDef USBD_LL_Init (USBD_HandleTypeDef *pdev)
         HAL_PCDEx_SetTxFiFo(&hpcd, 0, 0x40);
         HAL_PCDEx_SetTxFiFo(&hpcd, 1, 0x80);
 
-#endif 
-#ifdef USE_USB_HS  
+#endif
+#ifdef USE_USB_HS
         /*Set LL Driver parameters */
         hpcd.Instance = USB_OTG_HS;
         hpcd.Init.dev_endpoints = 6;
@@ -400,7 +401,7 @@ USBD_StatusTypeDef USBD_LL_Init (USBD_HandleTypeDef *pdev)
         HAL_PCDEx_SetTxFiFo(&hpcd, 0, 0x80);
         HAL_PCDEx_SetTxFiFo(&hpcd, 1, 0x174);
 
-#endif 
+#endif
         return USBD_OK;
 }
 
@@ -578,3 +579,4 @@ void USBD_LL_Delay (uint32_t Delay)
 }
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
+#endif
