@@ -192,7 +192,7 @@ void segment7Init ()
         /*---------------------------------------------------------------------------*/
 
         // Timer for multiplexing displays
-        timHandle.Instance = TIM2; // APB1 (wolniejsza max 42MHz)
+        timHandle.Instance = TIM3;
 
         // 10kHz
         timHandle.Init.Period = (uint32_t)((HAL_RCC_GetHCLKFreq () / 2) / 10000) - 1; // 8399
@@ -203,9 +203,9 @@ void segment7Init ()
         timHandle.Init.ClockDivision = 0;
         timHandle.Init.CounterMode = TIM_COUNTERMODE_UP;
 
-        __HAL_RCC_TIM2_CLK_ENABLE ();
-        HAL_NVIC_SetPriority (TIM2_IRQn, 3, 0);
-        HAL_NVIC_EnableIRQ (TIM2_IRQn);
+        __HAL_RCC_TIM3_CLK_ENABLE ();
+        HAL_NVIC_SetPriority (TIM3_IRQn, 3, 0);
+        HAL_NVIC_EnableIRQ (TIM3_IRQn);
 
         if (HAL_TIM_Base_Init (&timHandle) != HAL_OK) {
                 Error_Handler ();
@@ -218,13 +218,13 @@ void segment7Init ()
         /*---------------------------------------------------------------------------*/
 
         // Konfigureacja kanału. Input Capture. Wejście.
-        __HAL_RCC_GPIOA_CLK_ENABLE ();
-        gpioInitStruct.Pin = GPIO_PIN_15;
+        __HAL_RCC_GPIOB_CLK_ENABLE ();
+        gpioInitStruct.Pin = GPIO_PIN_1;
         gpioInitStruct.Mode = GPIO_MODE_AF_PP;
         gpioInitStruct.Pull = GPIO_PULLUP;
-        gpioInitStruct.Alternate = GPIO_AF2_TIM2;
+        gpioInitStruct.Alternate = GPIO_AF1_TIM3;
         gpioInitStruct.Speed = GPIO_SPEED_HIGH;
-        HAL_GPIO_Init (GPIOA, &gpioInitStruct);
+        HAL_GPIO_Init (GPIOB, &gpioInitStruct);
 
         // Dotycząca timera
         TIM_IC_InitTypeDef sICConfig;
@@ -233,11 +233,11 @@ void segment7Init ()
         sICConfig.ICFilter = 0;
         sICConfig.ICPrescaler = TIM_ICPSC_DIV1;
 
-        if (HAL_TIM_IC_ConfigChannel (&timHandle, &sICConfig, TIM_CHANNEL_1) != HAL_OK) {
+        if (HAL_TIM_IC_ConfigChannel (&timHandle, &sICConfig, TIM_CHANNEL_4) != HAL_OK) {
                 Error_Handler ();
         }
 
-        if (HAL_TIM_IC_Start_IT (&timHandle, TIM_CHANNEL_1) != HAL_OK) {
+        if (HAL_TIM_IC_Start_IT (&timHandle, TIM_CHANNEL_4) != HAL_OK) {
                 Error_Handler ();
         }
 
@@ -293,7 +293,7 @@ void segment7Init ()
 /*
  *
  */
-void TIM2_IRQHandler (void)
+void TIM3_IRQHandler (void)
 {
         /*
          * I.C. ~1kHz
@@ -301,12 +301,12 @@ void TIM2_IRQHandler (void)
          * sprawdza, czy dane przerwanie jest WŁĄCZONE czy nie. Jeśli by nie było włączone, to byśmy
          * nigdy się nie znaleźli w ISR z powodu tego konkretnego przerwania.
          */
-        if (__HAL_TIM_GET_FLAG (&timHandle, TIM_FLAG_CC1) /*&& __HAL_TIM_GET_IT_SOURCE (&timHandle, TIM_IT_CC1)*/) {
-                __HAL_TIM_CLEAR_IT (&timHandle, TIM_IT_CC1);
+        if (__HAL_TIM_GET_FLAG (&timHandle, TIM_FLAG_CC4) /*&& __HAL_TIM_GET_IT_SOURCE (&timHandle, TIM_IT_CC1)*/) {
+                __HAL_TIM_CLEAR_IT (&timHandle, TIM_IT_CC4);
                 //                 static int i = 0;
                 //                 static int32_t prevVal = -1;
                 //
-                //                 int32_t val = HAL_TIM_ReadCapturedValue (&timHandle, TIM_CHANNEL_1);
+                //                 int32_t val = HAL_TIM_ReadCapturedValue (&timHandle, TIM_CHANNEL_4);
                 //
                 //
                 //                 if (!(++i % 1000)) {
