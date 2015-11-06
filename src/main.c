@@ -25,45 +25,115 @@ uint32_t timeFromLastEvent = EVENT_TRESHOLD + 1;
  */
 #define UPDATE_EVENT_TRESHOLD 50
 
+/*****************************************************************************/
+
+#define PLATES_NUM 4
+#define SEGMENTS_PER_PLATE_NUM 12
+
+// Tells which segments in given plate are lit and which are not.
+//static uint16_t plate[PLATES_NUM] = { 0xffff, 0xffff, 0xffff, 0xffff };
+static uint16_t plate[PLATES_NUM] = { 0xffff, 0xffff, 0xffff, 0xffff };
+
+static GPIO_TypeDef *platePort[PLATES_NUM] = { GPIOB, GPIOB, GPIOB, GPIOB };
+
+static uint16_t platePin[PLATES_NUM] = { GPIO_PIN_4, GPIO_PIN_5, GPIO_PIN_6, GPIO_PIN_7 };
+
+static GPIO_TypeDef *segmentPort[SEGMENTS_PER_PLATE_NUM] = { GPIOB, GPIOB, GPIOA, GPIOA,
+                                                             GPIOB, GPIOB, GPIOB, GPIOB,
+                                                             GPIOA, GPIOA, GPIOA, GPIOA };
+
+static uint16_t segmentPin[SEGMENTS_PER_PLATE_NUM] = { GPIO_PIN_3, GPIO_PIN_2, GPIO_PIN_15, GPIO_PIN_14,
+                                                       GPIO_PIN_12, GPIO_PIN_13, GPIO_PIN_14, GPIO_PIN_15,
+                                                       GPIO_PIN_8, GPIO_PIN_9, GPIO_PIN_10, GPIO_PIN_12 };
+
+/*****************************************************************************/
+
 int main (void)
 {
         HAL_Init ();
         SystemClock_Config ();
-        segment7Init ();
+        //        segment7Init ();
 
         __HAL_RCC_GPIOB_CLK_ENABLE (); // Włączenie zegara.
+        __HAL_RCC_GPIOA_CLK_ENABLE (); // Włączenie zegara.
         GPIO_InitTypeDef gpioInitStruct;
-        gpioInitStruct.Pin = GPIO_PIN_7;
-        gpioInitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-        gpioInitStruct.Pull = GPIO_PULLDOWN;
+        gpioInitStruct.Mode = GPIO_MODE_OUTPUT_OD;
+        gpioInitStruct.Pull = GPIO_NOPULL;
         gpioInitStruct.Speed = GPIO_SPEED_LOW;
-        HAL_GPIO_Init (GPIOB, &gpioInitStruct);
+//        HAL_GPIO_Init (GPIOB, &gpioInitStruct);
 
-        /**
-         * Stop-watch
-         */
-        stopWatchTimHandle.Instance = TIM14;
-
-        // 100Hz
-        stopWatchTimHandle.Init.Period = 100;
-        stopWatchTimHandle.Init.Prescaler = (uint32_t)(HAL_RCC_GetHCLKFreq () / 10000) - 1;
-        stopWatchTimHandle.Init.ClockDivision = 0;
-        stopWatchTimHandle.Init.CounterMode = TIM_COUNTERMODE_UP;
-        stopWatchTimHandle.Init.RepetitionCounter = 0;
-
-        // Uwaga! Zpisać to!!! Msp init jest wywoływane PRZED TIM_Base_SetConfig
-        __HAL_RCC_TIM14_CLK_ENABLE ();
-        HAL_NVIC_SetPriority (TIM14_IRQn, 0, 0);
-        HAL_NVIC_EnableIRQ (TIM14_IRQn);
-
-        if (HAL_TIM_Base_Init (&stopWatchTimHandle) != HAL_OK) {
-                Error_Handler ();
+        for (int i = 0; i < PLATES_NUM; ++i) {
+                gpioInitStruct.Pin = platePin[i];
+                HAL_GPIO_Init (platePort[i], &gpioInitStruct);
         }
 
-        if (HAL_TIM_Base_Start_IT (&stopWatchTimHandle) != HAL_OK) {
-                Error_Handler ();
+        for (int i = 0; i < SEGMENTS_PER_PLATE_NUM; ++i) {
+                gpioInitStruct.Pin = segmentPin[i];
+                HAL_GPIO_Init (segmentPort[i], &gpioInitStruct);
         }
 
+//        gpioInitStruct.Pin = GPIO_PIN_5;
+//        HAL_GPIO_Init (GPIOB, &gpioInitStruct);
+//        gpioInitStruct.Pin = GPIO_PIN_4;
+//        HAL_GPIO_Init (GPIOB, &gpioInitStruct);
+//        GPIOB->BSRR = GPIO_PIN_4 | GPIO_PIN_5 | GPIO_PIN_6 | GPIO_PIN_7; // Set
+
+//        while (1) {
+//                GPIOB->BSRR = GPIO_PIN_4; // Set = floating
+//                GPIOB->PUPDR = 2 << (4 * 2); // Pull down on pin 4
+
+//                HAL_Delay (1);
+
+//                GPIOB->BSRR = GPIO_PIN_4; // Set = floating
+//                GPIOB->PUPDR = 0; // No pull up / pull down on entire GPIOB
+
+//                HAL_Delay (1);
+
+//                GPIOB->BSRR = GPIO_PIN_4; // Set = floating
+//                GPIOB->PUPDR = 2 << (4 * 2); // Pull down on pin 4
+
+//                HAL_Delay (1);
+
+//                GPIOB->BSRR = GPIO_PIN_4 << 16; // Reset = 0
+//                HAL_Delay (1);
+//        }
+
+
+//        gpioInitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+//        gpioInitStruct.Pull = GPIO_NOPULL;
+//        gpioInitStruct.Pin = GPIO_PIN_3;
+//        HAL_GPIO_Init (GPIOB, &gpioInitStruct);
+//        gpioInitStruct.Pin = GPIO_PIN_2;
+//        HAL_GPIO_Init (GPIOB, &gpioInitStruct);
+//        gpioInitStruct.Pin = GPIO_PIN_1;
+//        HAL_GPIO_Init (GPIOB, &gpioInitStruct);
+//        gpioInitStruct.Pin = GPIO_PIN_0;
+//        HAL_GPIO_Init (GPIOB, &gpioInitStruct);
+
+        //        /**
+        //         * Stop-watch
+        //         */
+        //        stopWatchTimHandle.Instance = TIM14;
+
+        //        // 100Hz
+        //        stopWatchTimHandle.Init.Period = 100;
+        //        stopWatchTimHandle.Init.Prescaler = (uint32_t)(HAL_RCC_GetHCLKFreq () / 10000) - 1;
+        //        stopWatchTimHandle.Init.ClockDivision = 0;
+        //        stopWatchTimHandle.Init.CounterMode = TIM_COUNTERMODE_UP;
+        //        stopWatchTimHandle.Init.RepetitionCounter = 0;
+
+        //        // Uwaga! Zpisać to!!! Msp init jest wywoływane PRZED TIM_Base_SetConfig
+        //        __HAL_RCC_TIM14_CLK_ENABLE ();
+        //        HAL_NVIC_SetPriority (TIM14_IRQn, 0, 0);
+        //        HAL_NVIC_EnableIRQ (TIM14_IRQn);
+
+        //        if (HAL_TIM_Base_Init (&stopWatchTimHandle) != HAL_OK) {
+        //                Error_Handler ();
+        //        }
+
+        //        if (HAL_TIM_Base_Start_IT (&stopWatchTimHandle) != HAL_OK) {
+        //                Error_Handler ();
+        //        }
 
         //        /* Init Device Library */
         //        USBD_Init (&USBD_Device, &VCP_Desc, 0);
@@ -79,14 +149,90 @@ int main (void)
         //        printf ("init OK\n");
 
         while (1) {
-//                HAL_Delay (500);
-//                HAL_GPIO_WritePin (GPIOB, GPIO_PIN_7, 1);
 
-//                HAL_Delay (500);
-//                HAL_GPIO_WritePin (GPIOB, GPIO_PIN_7, 0);
+                for (int p = 0; p < PLATES_NUM; ++p) {
+
+                        platePort[p]->BSRR = platePin[p]; // Set = floating
+                        platePort[p]->PUPDR &= ~((platePin[p] * platePin[p]) << 1); // No pull up / pull down on entire GPIOB
+
+
+                        for (int i = 0; i < SEGMENTS_PER_PLATE_NUM; ++i) {
+                                if (plate[0] & (1 << i)) { // Segment i should be ON.
+                                        segmentPort[i]->BSRR = segmentPin[i] << 16;
+                                }
+                                else { // Segment i should be OFF.
+                                        segmentPort[i]->BSRR = segmentPin[i];
+                                }
+                        }
+
+                        HAL_Delay (1);
+
+                        platePort[p]->BSRR = platePin[p] << 16; // Reset common
+
+                        for (int i = 0; i < SEGMENTS_PER_PLATE_NUM; ++i) {
+                                if (plate[0] & (1 << i)) {
+                                        segmentPort[i]->BSRR = segmentPin[i];
+                                }
+                                else {
+                                        segmentPort[i]->BSRR = segmentPin[i] << 16;
+                                }
+                        }
+
+                        HAL_Delay (1);
+
+                        platePort[p]->BSRR = platePin[p]; // Set = floating
+                        platePort[p]->PUPDR |= ((platePin[p] * platePin[p]) << 1);
+
+                }
+//                /*---------------------------------------------------------------------------*/
+
+//                GPIOB->OTYPER &= ~GPIO_PIN_5; // PP
+
+//                GPIOB->BSRR = GPIO_PIN_5; // Set
+//                GPIOB->BSRR = GPIO_PIN_3 << 16;
+//                HAL_Delay (1);
+
+//                GPIOB->BSRR = GPIO_PIN_5 << 16; // Reset
+//                GPIOB->BSRR = GPIO_PIN_3;
+//                HAL_Delay (1);
+
+//                GPIOB->OTYPER |= GPIO_PIN_5; // OD
+//                                             //                GPIOB->OTYPER |= GPIO_PIN_3; // OD
+//                GPIOB->BSRR = GPIO_PIN_5;    // Set
+
+//                /*---------------------------------------------------------------------------*/
+
+//                GPIOB->OTYPER &= ~GPIO_PIN_6; // PP
+
+//                GPIOB->BSRR = GPIO_PIN_6; // Set
+//                GPIOB->BSRR = GPIO_PIN_3;
+//                HAL_Delay (1);
+
+//                GPIOB->BSRR = GPIO_PIN_6 << 16; // Reset
+//                GPIOB->BSRR = GPIO_PIN_3 << 16;
+//                HAL_Delay (1);
+
+//                GPIOB->OTYPER |= GPIO_PIN_6; // OD
+//                GPIOB->BSRR = GPIO_PIN_6;    // Set
+
+//                /*---------------------------------------------------------------------------*/
+
+//                GPIOB->OTYPER &= ~GPIO_PIN_7; // PP
+
+//                GPIOB->BSRR = GPIO_PIN_7; // Set
+//                GPIOB->BSRR = GPIO_PIN_3;
+//                HAL_Delay (1);
+
+//                GPIOB->BSRR = GPIO_PIN_7 << 16; // Reset
+//                GPIOB->BSRR = GPIO_PIN_3 << 16;
+//                HAL_Delay (1);
+
+//                GPIOB->OTYPER |= GPIO_PIN_7; // OD
+//                GPIOB->BSRR = GPIO_PIN_7;    // Set
         }
 }
 
+#if 0
 /**
  * Stop-watch ISR.
  * Here the value displayed is updated. 100Hz
@@ -133,7 +279,7 @@ void TIM14_IRQHandler (void)
                 }
         }
 }
-
+#endif
 /*****************************************************************************/
 
 static void SystemClock_Config (void)

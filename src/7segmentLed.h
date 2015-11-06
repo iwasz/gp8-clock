@@ -1,3 +1,4 @@
+#if 0
 /*
  * 7segmentLed.h
  *
@@ -86,3 +87,4 @@ extern void segment7SetDecimalNumber (uint32_t decimal);
 extern void segment7SetDigit (uint8_t displayNo, uint8_t i);
 
 #endif /* SRC_7SEGMENTLED_H_ */
+#endif

@@ -1,0 +1,1287 @@
+EESchema Schematic File Version 2
+LIBS:iwasz-kicad
+LIBS:power
+LIBS:device
+LIBS:transistors
+LIBS:conn
+LIBS:linear
+LIBS:regul
+LIBS:74xx
+LIBS:cmos4000
+LIBS:adc-dac
+LIBS:memory
+LIBS:xilinx
+LIBS:microcontrollers
+LIBS:dsp
+LIBS:microchip
+LIBS:analog_switches
+LIBS:motorola
+LIBS:texas
+LIBS:intel
+LIBS:audio
+LIBS:interface
+LIBS:digital-audio
+LIBS:philips
+LIBS:display
+LIBS:cypress
+LIBS:siliconi
+LIBS:opto
+LIBS:atmel
+LIBS:contrib
+LIBS:valves
+LIBS:gp8-clock-cache
+EELAYER 25 0
+EELAYER END
+$Descr A4 11693 8268
+encoding utf-8
+Sheet 1 3
+Title ""
+Date ""
+Rev ""
+Comp ""
+Comment1 ""
+Comment2 ""
+Comment3 ""
+Comment4 ""
+$EndDescr
+$Comp
+L STM32F0-LQFP48 U3
+U 1 1 56329BF0
+P 6550 4425
+F 0 "U3" H 6550 4075 60  0000 C CNN
+F 1 "STM32F0-LQFP48" H 6550 3975 60  0000 C CNN
+F 2 "w_smd_lqfp:lqfp48" H 7000 4125 60  0001 C CNN
+F 3 "" H 7000 4125 60  0000 C CNN
+F 4 "µC" H 6550 4425 60  0001 C CNN "Opis"
+	1    6550 4425
+	1    0    0    -1  
+$EndComp
+$Comp
+L C C13
+U 1 1 56329D4C
+P 8050 3775
+F 0 "C13" H 8075 3875 50  0000 L CNN
+F 1 "100nF" H 8075 3675 50  0000 L CNN
+F 2 "w_smd_cap:c_0603" H 8088 3625 30  0001 C CNN
+F 3 "" H 8050 3775 60  0000 C CNN
+F 4 "Decoupling capacitor" H 8050 3775 60  0001 C CNN "Opis"
+	1    8050 3775
+	1    0    0    -1  
+$EndComp
+$Comp
+L C C14
+U 1 1 5632A30E
+P 8350 3775
+F 0 "C14" H 8375 3875 50  0000 L CNN
+F 1 "4.7µF" H 8375 3675 50  0000 L CNN
+F 2 "w_smd_cap:c_0805" H 8388 3625 30  0001 C CNN
+F 3 "" H 8350 3775 60  0000 C CNN
+F 4 "Decoupling capacitor" H 8350 3775 60  0001 C CNN "Opis"
+	1    8350 3775
+	1    0    0    -1  
+$EndComp
+$Comp
+L GND #PWR01
+U 1 1 5632A456
+P 8350 4075
+F 0 "#PWR01" H 8350 3825 50  0001 C CNN
+F 1 "GND" H 8350 3925 50  0000 C CNN
+F 2 "" H 8350 4075 60  0000 C CNN
+F 3 "" H 8350 4075 60  0000 C CNN
+	1    8350 4075
+	1    0    0    -1  
+$EndComp
+$Comp
+L C C9
+U 1 1 5632A638
+P 7225 5775
+F 0 "C9" H 7250 5875 50  0000 L CNN
+F 1 "100nF" H 7250 5675 50  0000 L CNN
+F 2 "w_smd_cap:c_0603" H 7263 5625 30  0001 C CNN
+F 3 "" H 7225 5775 60  0000 C CNN
+F 4 "Decoupling capacitor" H 7225 5775 60  0001 C CNN "Opis"
+	1    7225 5775
+	1    0    0    -1  
+$EndComp
+$Comp
+L C C10
+U 1 1 5632A77A
+P 7550 5775
+F 0 "C10" H 7575 5875 50  0000 L CNN
+F 1 "100nF" H 7575 5675 50  0000 L CNN
+F 2 "w_smd_cap:c_0603" H 7588 5625 30  0001 C CNN
+F 3 "" H 7550 5775 60  0000 C CNN
+F 4 "Decoupling capacitor" H 7550 5775 60  0001 C CNN "Opis"
+	1    7550 5775
+	1    0    0    -1  
+$EndComp
+$Comp
+L C C11
+U 1 1 5632A7B5
+P 7850 5775
+F 0 "C11" H 7875 5875 50  0000 L CNN
+F 1 "4.7µF" H 7875 5675 50  0000 L CNN
+F 2 "w_smd_cap:c_0805" H 7888 5625 30  0001 C CNN
+F 3 "" H 7850 5775 60  0000 C CNN
+F 4 "Decoupling capacitor" H 7850 5775 60  0001 C CNN "Opis"
+	1    7850 5775
+	1    0    0    -1  
+$EndComp
+$Comp
+L GND #PWR02
+U 1 1 5632A81C
+P 7850 6125
+F 0 "#PWR02" H 7850 5875 50  0001 C CNN
+F 1 "GND" H 7850 5975 50  0000 C CNN
+F 2 "" H 7850 6125 60  0000 C CNN
+F 3 "" H 7850 6125 60  0000 C CNN
+	1    7850 6125
+	1    0    0    -1  
+$EndComp
+$Comp
+L C C8
+U 1 1 5632B571
+P 6225 2775
+F 0 "C8" H 6250 2875 50  0000 L CNN
+F 1 "100nF" H 6250 2675 50  0000 L CNN
+F 2 "w_smd_cap:c_0603" H 6263 2625 30  0001 C CNN
+F 3 "" H 6225 2775 60  0000 C CNN
+F 4 "Decoupling capacitor" H 6225 2775 60  0001 C CNN "Opis"
+	1    6225 2775
+	0    -1   -1   0   
+$EndComp
+$Comp
+L C C7
+U 1 1 5632B578
+P 6225 2450
+F 0 "C7" H 6250 2550 50  0000 L CNN
+F 1 "100nF" H 6250 2350 50  0000 L CNN
+F 2 "w_smd_cap:c_0603" H 6263 2300 30  0001 C CNN
+F 3 "" H 6225 2450 60  0000 C CNN
+F 4 "Decoupling capacitor" H 6225 2450 60  0001 C CNN "Opis"
+	1    6225 2450
+	0    -1   -1   0   
+$EndComp
+$Comp
+L C C6
+U 1 1 5632B57F
+P 6225 2150
+F 0 "C6" H 6250 2250 50  0000 L CNN
+F 1 "4.7µF" H 6250 2050 50  0000 L CNN
+F 2 "w_smd_cap:c_0805" H 6263 2000 30  0001 C CNN
+F 3 "" H 6225 2150 60  0000 C CNN
+F 4 "Decoupling capacitor" H 6225 2150 60  0001 C CNN "Opis"
+	1    6225 2150
+	0    -1   -1   0   
+$EndComp
+$Comp
+L GND #PWR03
+U 1 1 5632B585
+P 6525 2150
+F 0 "#PWR03" H 6525 1900 50  0001 C CNN
+F 1 "GND" H 6525 2000 50  0000 C CNN
+F 2 "" H 6525 2150 60  0000 C CNN
+F 3 "" H 6525 2150 60  0000 C CNN
+	1    6525 2150
+	0    -1   -1   0   
+$EndComp
+$Comp
+L C C5
+U 1 1 5632C969
+P 4725 4875
+F 0 "C5" H 4750 4975 50  0000 L CNN
+F 1 "10nF" H 4750 4775 50  0000 L CNN
+F 2 "w_smd_cap:c_0603" H 4763 4725 30  0001 C CNN
+F 3 "" H 4725 4875 60  0000 C CNN
+F 4 "Decoupling capacitor" H 4725 4875 60  0001 C CNN "Opis"
+	1    4725 4875
+	1    0    0    -1  
+$EndComp
+$Comp
+L C C2
+U 1 1 5632D031
+P 4425 4875
+F 0 "C2" H 4450 4975 50  0000 L CNN
+F 1 "1µF" H 4450 4775 50  0000 L CNN
+F 2 "w_smd_cap:c_0603" H 4463 4725 30  0001 C CNN
+F 3 "" H 4425 4875 60  0000 C CNN
+F 4 "Decoupling capacitor" H 4425 4875 60  0001 C CNN "Opis"
+	1    4425 4875
+	1    0    0    -1  
+$EndComp
+$Comp
+L GND #PWR04
+U 1 1 5632D5AE
+P 4425 5150
+F 0 "#PWR04" H 4425 4900 50  0001 C CNN
+F 1 "GND" H 4425 5000 50  0000 C CNN
+F 2 "" H 4425 5150 60  0000 C CNN
+F 3 "" H 4425 5150 60  0000 C CNN
+	1    4425 5150
+	1    0    0    -1  
+$EndComp
+NoConn ~ 5500 4475
+$Comp
+L GND #PWR05
+U 1 1 5632E153
+P 5300 4575
+F 0 "#PWR05" H 5300 4325 50  0001 C CNN
+F 1 "GND" H 5300 4425 50  0000 C CNN
+F 2 "" H 5300 4575 60  0000 C CNN
+F 3 "" H 5300 4575 60  0000 C CNN
+	1    5300 4575
+	0    1    1    0   
+$EndComp
+NoConn ~ 5500 3875
+$Comp
+L Crystal Y1
+U 1 1 5632FE9D
+P 4925 4175
+F 0 "Y1" H 4925 4325 50  0000 C CNN
+F 1 "Crystal" H 4925 4025 50  0000 C CNN
+F 2 "w_crystal:hc-49_smd" H 4925 4175 60  0001 C CNN
+F 3 "" H 4925 4175 60  0000 C CNN
+	1    4925 4175
+	0    1    1    0   
+$EndComp
+$Comp
+L R R22
+U 1 1 563308C8
+P 5225 4375
+F 0 "R22" V 5305 4375 50  0000 C CNN
+F 1 "R" V 5225 4375 50  0000 C CNN
+F 2 "w_smd_resistors:r_0603" V 5155 4375 30  0001 C CNN
+F 3 "" H 5225 4375 30  0000 C CNN
+	1    5225 4375
+	0    1    1    0   
+$EndComp
+$Comp
+L C C4
+U 1 1 56330F7F
+P 4600 4375
+F 0 "C4" H 4625 4475 50  0000 L CNN
+F 1 "?10pF" H 4625 4275 50  0000 L CNN
+F 2 "w_smd_cap:c_0603" H 4638 4225 30  0001 C CNN
+F 3 "" H 4600 4375 60  0000 C CNN
+F 4 "Decoupling capacitor" H 4600 4375 60  0001 C CNN "Opis"
+	1    4600 4375
+	0    1    1    0   
+$EndComp
+$Comp
+L C C3
+U 1 1 56331087
+P 4600 3975
+F 0 "C3" H 4625 4075 50  0000 L CNN
+F 1 "?10pF" H 4625 3875 50  0000 L CNN
+F 2 "w_smd_cap:c_0603" H 4638 3825 30  0001 C CNN
+F 3 "" H 4600 3975 60  0000 C CNN
+F 4 "Decoupling capacitor" H 4600 3975 60  0001 C CNN "Opis"
+	1    4600 3975
+	0    1    1    0   
+$EndComp
+$Comp
+L weight-scale-lcd U2
+U 1 1 56331F12
+P 1850 1225
+F 0 "U2" H 1850 1325 60  0000 C CNN
+F 1 "weight-scale-lcd" H 1850 1225 60  0000 C CNN
+F 2 "iwasz:weight-scale-lcd" H 1850 1225 60  0001 C CNN
+F 3 "" H 1850 1225 60  0000 C CNN
+	1    1850 1225
+	1    0    0    -1  
+$EndComp
+$Comp
+L LED D1
+U 1 1 56332E1B
+P 1775 6575
+F 0 "D1" H 1775 6675 50  0000 C CNN
+F 1 "LED" H 1775 6475 50  0000 C CNN
+F 2 "iwasz:weight-scale-backlight" H 1775 6575 60  0001 C CNN
+F 3 "" H 1775 6575 60  0000 C CNN
+	1    1775 6575
+	0    -1   -1   0   
+$EndComp
+$Comp
+L R R9
+U 1 1 56333024
+P 1775 6125
+F 0 "R9" V 1855 6125 50  0000 C CNN
+F 1 "560R" V 1775 6125 50  0000 C CNN
+F 2 "w_smd_resistors:r_0603" V 1705 6125 30  0001 C CNN
+F 3 "" H 1775 6125 30  0000 C CNN
+	1    1775 6125
+	-1   0    0    1   
+$EndComp
+$Comp
+L GND #PWR06
+U 1 1 563333C1
+P 1775 7375
+F 0 "#PWR06" H 1775 7125 50  0001 C CNN
+F 1 "GND" H 1775 7225 50  0000 C CNN
+F 2 "" H 1775 7375 60  0000 C CNN
+F 3 "" H 1775 7375 60  0000 C CNN
+	1    1775 7375
+	1    0    0    -1  
+$EndComp
+Text Notes 2050 6775 1    60   ~ 0
+Backlight
+$Comp
+L +3.3V #PWR07
+U 1 1 56335DD4
+P 6000 2050
+F 0 "#PWR07" H 6000 1900 50  0001 C CNN
+F 1 "+3.3V" H 6000 2190 50  0000 C CNN
+F 2 "" H 6000 2050 60  0000 C CNN
+F 3 "" H 6000 2050 60  0000 C CNN
+	1    6000 2050
+	1    0    0    -1  
+$EndComp
+$Comp
+L +3.3V #PWR08
+U 1 1 56336C0B
+P 8500 3575
+F 0 "#PWR08" H 8500 3425 50  0001 C CNN
+F 1 "+3.3V" H 8500 3715 50  0000 C CNN
+F 2 "" H 8500 3575 60  0000 C CNN
+F 3 "" H 8500 3575 60  0000 C CNN
+	1    8500 3575
+	0    1    1    0   
+$EndComp
+$Comp
+L +3.3V #PWR09
+U 1 1 5633746D
+P 8000 5550
+F 0 "#PWR09" H 8000 5400 50  0001 C CNN
+F 1 "+3.3V" H 8000 5690 50  0000 C CNN
+F 2 "" H 8000 5550 60  0000 C CNN
+F 3 "" H 8000 5550 60  0000 C CNN
+	1    8000 5550
+	0    1    1    0   
+$EndComp
+$Comp
+L +3.3V #PWR010
+U 1 1 56337C8A
+P 4275 4675
+F 0 "#PWR010" H 4275 4525 50  0001 C CNN
+F 1 "+3.3V" H 4275 4815 50  0000 C CNN
+F 2 "" H 4275 4675 60  0000 C CNN
+F 3 "" H 4275 4675 60  0000 C CNN
+	1    4275 4675
+	0    -1   -1   0   
+$EndComp
+$Comp
+L GND #PWR011
+U 1 1 563385BD
+P 4250 4375
+F 0 "#PWR011" H 4250 4125 50  0001 C CNN
+F 1 "GND" H 4250 4225 50  0000 C CNN
+F 2 "" H 4250 4375 60  0000 C CNN
+F 3 "" H 4250 4375 60  0000 C CNN
+	1    4250 4375
+	0    1    1    0   
+$EndComp
+$Comp
+L Q_NPN_BCE Q1
+U 1 1 5633990D
+P 1675 7050
+F 0 "Q1" H 1975 7100 50  0000 R CNN
+F 1 "Q_NPN_BCE" H 2275 7000 50  0000 R CNN
+F 2 "w_smd_trans:sot23" H 1875 7150 29  0001 C CNN
+F 3 "" H 1675 7050 60  0000 C CNN
+	1    1675 7050
+	1    0    0    -1  
+$EndComp
+$Comp
+L R R3
+U 1 1 5633C9C5
+P 1250 7050
+F 0 "R3" V 1330 7050 50  0000 C CNN
+F 1 "1k" V 1250 7050 50  0000 C CNN
+F 2 "w_smd_resistors:r_0603" V 1180 7050 30  0001 C CNN
+F 3 "" H 1250 7050 30  0000 C CNN
+	1    1250 7050
+	0    -1   -1   0   
+$EndComp
+$Comp
+L +3.3V #PWR012
+U 1 1 5633D97C
+P 1775 5800
+F 0 "#PWR012" H 1775 5650 50  0001 C CNN
+F 1 "+3.3V" H 1775 5940 50  0000 C CNN
+F 2 "" H 1775 5800 60  0000 C CNN
+F 3 "" H 1775 5800 60  0000 C CNN
+	1    1775 5800
+	1    0    0    -1  
+$EndComp
+Text Label 1025 7050 2    60   ~ 0
+backlight
+$Comp
+L R R1
+U 1 1 5633EC5A
+P 1100 2575
+F 0 "R1" V 1150 2425 50  0000 C CNN
+F 1 "33k" V 1100 2575 50  0000 C CNN
+F 2 "w_smd_resistors:r_0603" V 1030 2575 30  0001 C CNN
+F 3 "" H 1100 2575 30  0000 C CNN
+F 4 "External pull-up resistor." V 1100 2575 60  0001 C CNN "Opis"
+	1    1100 2575
+	-1   0    0    1   
+$EndComp
+$Comp
+L +BATT #PWR013
+U 1 1 5633F577
+P 900 2800
+F 0 "#PWR013" H 900 2650 50  0001 C CNN
+F 1 "+BATT" H 900 2940 50  0000 C CNN
+F 2 "" H 900 2800 60  0000 C CNN
+F 3 "" H 900 2800 60  0000 C CNN
+	1    900  2800
+	0    -1   -1   0   
+$EndComp
+$Comp
+L R R2
+U 1 1 56343EBC
+P 1200 2575
+F 0 "R2" V 1250 2425 50  0000 C CNN
+F 1 "33k" V 1200 2575 50  0000 C CNN
+F 2 "w_smd_resistors:r_0603" V 1130 2575 30  0001 C CNN
+F 3 "" H 1200 2575 30  0000 C CNN
+F 4 "External pull-up resistor." V 1200 2575 60  0001 C CNN "Opis"
+	1    1200 2575
+	-1   0    0    1   
+$EndComp
+$Comp
+L R R4
+U 1 1 56343F18
+P 1300 2575
+F 0 "R4" V 1350 2425 50  0000 C CNN
+F 1 "33k" V 1300 2575 50  0000 C CNN
+F 2 "w_smd_resistors:r_0603" V 1230 2575 30  0001 C CNN
+F 3 "" H 1300 2575 30  0000 C CNN
+F 4 "External pull-up resistor." V 1300 2575 60  0001 C CNN "Opis"
+	1    1300 2575
+	-1   0    0    1   
+$EndComp
+$Comp
+L R R5
+U 1 1 56343F71
+P 1400 2575
+F 0 "R5" V 1450 2425 50  0000 C CNN
+F 1 "33k" V 1400 2575 50  0000 C CNN
+F 2 "w_smd_resistors:r_0603" V 1330 2575 30  0001 C CNN
+F 3 "" H 1400 2575 30  0000 C CNN
+F 4 "External pull-up resistor." V 1400 2575 60  0001 C CNN "Opis"
+	1    1400 2575
+	-1   0    0    1   
+$EndComp
+$Comp
+L R R6
+U 1 1 56344974
+P 1500 2575
+F 0 "R6" V 1550 2425 50  0000 C CNN
+F 1 "33k" V 1500 2575 50  0000 C CNN
+F 2 "w_smd_resistors:r_0603" V 1430 2575 30  0001 C CNN
+F 3 "" H 1500 2575 30  0000 C CNN
+F 4 "External pull-up resistor." V 1500 2575 60  0001 C CNN "Opis"
+	1    1500 2575
+	-1   0    0    1   
+$EndComp
+$Comp
+L R R7
+U 1 1 563449D5
+P 1600 2575
+F 0 "R7" V 1650 2425 50  0000 C CNN
+F 1 "33k" V 1600 2575 50  0000 C CNN
+F 2 "w_smd_resistors:r_0603" V 1530 2575 30  0001 C CNN
+F 3 "" H 1600 2575 30  0000 C CNN
+F 4 "External pull-up resistor." V 1600 2575 60  0001 C CNN "Opis"
+	1    1600 2575
+	-1   0    0    1   
+$EndComp
+$Comp
+L R R8
+U 1 1 56344A39
+P 1700 2575
+F 0 "R8" V 1750 2425 50  0000 C CNN
+F 1 "33k" V 1700 2575 50  0000 C CNN
+F 2 "w_smd_resistors:r_0603" V 1630 2575 30  0001 C CNN
+F 3 "" H 1700 2575 30  0000 C CNN
+F 4 "External pull-up resistor." V 1700 2575 60  0001 C CNN "Opis"
+	1    1700 2575
+	-1   0    0    1   
+$EndComp
+$Comp
+L R R10
+U 1 1 56344AA0
+P 1800 2575
+F 0 "R10" V 1850 2425 50  0000 C CNN
+F 1 "33k" V 1800 2575 50  0000 C CNN
+F 2 "w_smd_resistors:r_0603" V 1730 2575 30  0001 C CNN
+F 3 "" H 1800 2575 30  0000 C CNN
+F 4 "External pull-up resistor." V 1800 2575 60  0001 C CNN "Opis"
+	1    1800 2575
+	-1   0    0    1   
+$EndComp
+$Comp
+L R R11
+U 1 1 56344B0A
+P 1900 2575
+F 0 "R11" V 1950 2425 50  0000 C CNN
+F 1 "33k" V 1900 2575 50  0000 C CNN
+F 2 "w_smd_resistors:r_0603" V 1830 2575 30  0001 C CNN
+F 3 "" H 1900 2575 30  0000 C CNN
+F 4 "External pull-up resistor." V 1900 2575 60  0001 C CNN "Opis"
+	1    1900 2575
+	-1   0    0    1   
+$EndComp
+$Comp
+L R R12
+U 1 1 56344B77
+P 2000 2575
+F 0 "R12" V 2050 2425 50  0000 C CNN
+F 1 "33k" V 2000 2575 50  0000 C CNN
+F 2 "w_smd_resistors:r_0603" V 1930 2575 30  0001 C CNN
+F 3 "" H 2000 2575 30  0000 C CNN
+F 4 "External pull-up resistor." V 2000 2575 60  0001 C CNN "Opis"
+	1    2000 2575
+	-1   0    0    1   
+$EndComp
+$Comp
+L R R14
+U 1 1 56344BE7
+P 2100 2575
+F 0 "R14" V 2150 2425 50  0000 C CNN
+F 1 "33k" V 2100 2575 50  0000 C CNN
+F 2 "w_smd_resistors:r_0603" V 2030 2575 30  0001 C CNN
+F 3 "" H 2100 2575 30  0000 C CNN
+F 4 "External pull-up resistor." V 2100 2575 60  0001 C CNN "Opis"
+	1    2100 2575
+	-1   0    0    1   
+$EndComp
+$Comp
+L R R15
+U 1 1 56344C5A
+P 2200 2575
+F 0 "R15" V 2250 2425 50  0000 C CNN
+F 1 "33k" V 2200 2575 50  0000 C CNN
+F 2 "w_smd_resistors:r_0603" V 2130 2575 30  0001 C CNN
+F 3 "" H 2200 2575 30  0000 C CNN
+F 4 "External pull-up resistor." V 2200 2575 60  0001 C CNN "Opis"
+	1    2200 2575
+	-1   0    0    1   
+$EndComp
+$Comp
+L R R16
+U 1 1 56344CD0
+P 2300 2575
+F 0 "R16" V 2350 2425 50  0000 C CNN
+F 1 "33k" V 2300 2575 50  0000 C CNN
+F 2 "w_smd_resistors:r_0603" V 2230 2575 30  0001 C CNN
+F 3 "" H 2300 2575 30  0000 C CNN
+F 4 "External pull-up resistor." V 2300 2575 60  0001 C CNN "Opis"
+	1    2300 2575
+	-1   0    0    1   
+$EndComp
+$Comp
+L R R17
+U 1 1 56344D49
+P 2400 2575
+F 0 "R17" V 2450 2425 50  0000 C CNN
+F 1 "33k" V 2400 2575 50  0000 C CNN
+F 2 "w_smd_resistors:r_0603" V 2330 2575 30  0001 C CNN
+F 3 "" H 2400 2575 30  0000 C CNN
+F 4 "External pull-up resistor." V 2400 2575 60  0001 C CNN "Opis"
+	1    2400 2575
+	-1   0    0    1   
+$EndComp
+$Comp
+L R R18
+U 1 1 56344DC5
+P 2500 2575
+F 0 "R18" V 2550 2425 50  0000 C CNN
+F 1 "33k" V 2500 2575 50  0000 C CNN
+F 2 "w_smd_resistors:r_0603" V 2430 2575 30  0001 C CNN
+F 3 "" H 2500 2575 30  0000 C CNN
+F 4 "External pull-up resistor." V 2500 2575 60  0001 C CNN "Opis"
+	1    2500 2575
+	-1   0    0    1   
+$EndComp
+$Comp
+L R R19
+U 1 1 56344E48
+P 2600 2575
+F 0 "R19" V 2650 2425 50  0000 C CNN
+F 1 "33k" V 2600 2575 50  0000 C CNN
+F 2 "w_smd_resistors:r_0603" V 2530 2575 30  0001 C CNN
+F 3 "" H 2600 2575 30  0000 C CNN
+F 4 "External pull-up resistor." V 2600 2575 60  0001 C CNN "Opis"
+	1    2600 2575
+	-1   0    0    1   
+$EndComp
+Wire Wire Line
+	7775 3575 8500 3575
+Wire Wire Line
+	8350 3575 8350 3625
+Wire Wire Line
+	8050 3625 8050 3575
+Connection ~ 8050 3575
+Wire Wire Line
+	8350 3925 8350 4075
+Wire Wire Line
+	8050 3925 8050 3975
+Wire Wire Line
+	7925 3975 8350 3975
+Connection ~ 8350 3975
+Wire Wire Line
+	7100 5425 7100 5550
+Wire Wire Line
+	7100 5550 8000 5550
+Wire Wire Line
+	7850 5550 7850 5625
+Wire Wire Line
+	7550 5625 7550 5550
+Connection ~ 7550 5550
+Wire Wire Line
+	7225 5625 7225 5550
+Connection ~ 7225 5550
+Wire Wire Line
+	7850 5925 7850 6125
+Wire Wire Line
+	7225 5925 7225 6000
+Wire Wire Line
+	7000 6000 7850 6000
+Connection ~ 7850 6000
+Wire Wire Line
+	7550 5925 7550 6000
+Connection ~ 7550 6000
+Wire Wire Line
+	6000 2050 6000 3375
+Wire Wire Line
+	6075 2450 6000 2450
+Connection ~ 6000 2450
+Wire Wire Line
+	6075 2775 6000 2775
+Connection ~ 6000 2775
+Wire Wire Line
+	6375 2150 6525 2150
+Wire Wire Line
+	6450 2775 6375 2775
+Wire Wire Line
+	6450 2150 6450 3125
+Wire Wire Line
+	6375 2450 6450 2450
+Connection ~ 6450 2450
+Connection ~ 6000 2150
+Wire Wire Line
+	4275 4675 5500 4675
+Wire Wire Line
+	4725 4725 4725 4675
+Connection ~ 4725 4675
+Wire Wire Line
+	4725 5025 4725 5075
+Wire Wire Line
+	4725 5075 4425 5075
+Wire Wire Line
+	4425 5025 4425 5150
+Connection ~ 4425 5075
+Wire Wire Line
+	5500 4575 5300 4575
+Wire Wire Line
+	6100 3125 6100 3375
+Wire Wire Line
+	7550 3975 7950 3975
+Wire Wire Line
+	7000 5425 7000 6000
+Wire Wire Line
+	5500 4375 5375 4375
+Wire Wire Line
+	4425 3975 4450 3975
+Connection ~ 4425 4675
+Wire Wire Line
+	4250 4375 4450 4375
+Wire Wire Line
+	4750 4375 5075 4375
+Wire Wire Line
+	4750 3975 5225 3975
+Wire Wire Line
+	4925 3975 4925 4025
+Wire Wire Line
+	4925 4325 4925 4375
+Connection ~ 4925 4375
+Wire Wire Line
+	5225 3975 5225 4275
+Wire Wire Line
+	5225 4275 5500 4275
+Connection ~ 4925 3975
+Wire Wire Line
+	6000 2150 6075 2150
+Connection ~ 6450 2150
+Connection ~ 8350 3575
+Connection ~ 7850 5550
+Wire Wire Line
+	4425 4725 4425 4675
+Wire Wire Line
+	4425 4375 4425 3975
+Connection ~ 4425 4375
+Wire Wire Line
+	1775 7250 1775 7375
+Wire Wire Line
+	1400 7050 1475 7050
+Wire Wire Line
+	1775 6850 1775 6775
+Wire Wire Line
+	1775 6375 1775 6275
+Wire Wire Line
+	1775 5800 1775 5975
+Wire Wire Line
+	1100 7050 1025 7050
+Wire Wire Line
+	2600 1575 2600 2425
+Wire Wire Line
+	2600 1625 2800 1625
+Wire Wire Line
+	2500 1575 2500 2425
+Wire Wire Line
+	2500 1725 2800 1725
+Wire Wire Line
+	2400 1575 2400 2425
+Wire Wire Line
+	2400 1825 2800 1825
+Wire Wire Line
+	2300 1575 2300 2425
+Wire Wire Line
+	2300 1925 2800 1925
+Wire Wire Line
+	2200 1575 2200 2425
+Wire Wire Line
+	2200 2025 2800 2025
+Wire Wire Line
+	2100 1575 2100 2425
+Wire Wire Line
+	2100 2125 2800 2125
+Wire Wire Line
+	2000 1575 2000 2425
+Wire Wire Line
+	2000 2225 2800 2225
+Wire Wire Line
+	1900 1575 1900 2425
+Wire Wire Line
+	1900 2325 2800 2325
+Wire Wire Line
+	1100 1575 1100 2425
+Wire Wire Line
+	1100 1625 900  1625
+Wire Wire Line
+	1200 1575 1200 2425
+Wire Wire Line
+	1200 1725 900  1725
+Wire Wire Line
+	1300 1575 1300 2425
+Wire Wire Line
+	1300 1825 900  1825
+Wire Wire Line
+	1400 1575 1400 2425
+Wire Wire Line
+	1400 1925 900  1925
+Wire Wire Line
+	1500 1575 1500 2425
+Wire Wire Line
+	1500 2025 900  2025
+Wire Wire Line
+	1600 1575 1600 2425
+Wire Wire Line
+	1600 2125 900  2125
+Wire Wire Line
+	1700 1575 1700 2425
+Wire Wire Line
+	1700 2225 900  2225
+Wire Wire Line
+	1800 1575 1800 2425
+Wire Wire Line
+	1800 2325 900  2325
+Connection ~ 1100 1625
+Connection ~ 1200 1725
+Connection ~ 1300 1825
+Connection ~ 1400 1925
+Connection ~ 1500 2025
+Connection ~ 1600 2125
+Connection ~ 1700 2225
+Connection ~ 1800 2325
+Connection ~ 1900 2325
+Connection ~ 2000 2225
+Connection ~ 2100 2125
+Connection ~ 2200 2025
+Connection ~ 2300 1925
+Connection ~ 2400 1825
+Connection ~ 2500 1725
+Connection ~ 2600 1625
+Wire Wire Line
+	900  2800 2600 2800
+Wire Wire Line
+	1100 2800 1100 2725
+Wire Wire Line
+	1200 2800 1200 2725
+Connection ~ 1100 2800
+Wire Wire Line
+	1300 2800 1300 2725
+Connection ~ 1200 2800
+Wire Wire Line
+	1400 2800 1400 2725
+Connection ~ 1300 2800
+Wire Wire Line
+	1500 2800 1500 2725
+Connection ~ 1400 2800
+Wire Wire Line
+	1600 2800 1600 2725
+Connection ~ 1500 2800
+Wire Wire Line
+	1700 2800 1700 2725
+Connection ~ 1600 2800
+Wire Wire Line
+	1800 2800 1800 2725
+Connection ~ 1700 2800
+Wire Wire Line
+	1900 2800 1900 2725
+Connection ~ 1800 2800
+Wire Wire Line
+	2000 2800 2000 2725
+Connection ~ 1900 2800
+Wire Wire Line
+	2100 2800 2100 2725
+Connection ~ 2000 2800
+Wire Wire Line
+	2200 2800 2200 2725
+Connection ~ 2100 2800
+Wire Wire Line
+	2300 2800 2300 2725
+Connection ~ 2200 2800
+Wire Wire Line
+	2400 2800 2400 2725
+Connection ~ 2300 2800
+Wire Wire Line
+	2500 2800 2500 2725
+Connection ~ 2400 2800
+Wire Wire Line
+	2600 2800 2600 2725
+Connection ~ 2500 2800
+Text Label 2800 1625 0    60   ~ 0
+seg12
+Text Label 2800 1725 0    60   ~ 0
+seg11
+Text Label 2800 1825 0    60   ~ 0
+seg10
+Text Label 2800 1925 0    60   ~ 0
+seg9
+Text Label 2800 2025 0    60   ~ 0
+seg8
+Text Label 2800 2125 0    60   ~ 0
+seg7
+Text Label 2800 2225 0    60   ~ 0
+seg6
+Text Label 2800 2325 0    60   ~ 0
+seg5
+Text Label 900  2325 2    60   ~ 0
+seg4
+Text Label 900  2225 2    60   ~ 0
+seg3
+Text Label 900  2125 2    60   ~ 0
+seg2
+Text Label 900  2025 2    60   ~ 0
+seg1
+Text Label 900  1925 2    60   ~ 0
+com4
+Text Label 900  1825 2    60   ~ 0
+com3
+Text Label 900  1725 2    60   ~ 0
+com2
+Text Label 900  1625 2    60   ~ 0
+com1
+Text Notes 1575 725  0    60   ~ 0
+LCD screen
+Text Label 6700 5425 3    60   ~ 0
+com1
+Text Label 6800 5425 3    60   ~ 0
+com2
+Text Label 6900 5425 3    60   ~ 0
+com3
+Text Label 7550 4975 0    60   ~ 0
+com4
+Text Label 7550 4875 0    60   ~ 0
+seg1
+Text Label 7550 4775 0    60   ~ 0
+seg2
+Text Label 7550 4675 0    60   ~ 0
+seg3
+Text Label 7550 4575 0    60   ~ 0
+seg4
+Text Label 7550 4475 0    60   ~ 0
+seg5
+Text Label 7550 4375 0    60   ~ 0
+seg6
+Text Label 7550 4075 0    60   ~ 0
+seg7
+Text Label 7100 3375 1    60   ~ 0
+seg8
+Text Label 7000 3375 1    60   ~ 0
+seg9
+Text Label 6900 3375 1    60   ~ 0
+seg10
+Text Label 6800 3375 1    60   ~ 0
+seg11
+Text Label 6700 3375 1    60   ~ 0
+seg12
+Connection ~ 7225 6000
+Connection ~ 8050 3975
+Wire Wire Line
+	6450 3125 6100 3125
+Connection ~ 6450 2775
+$Comp
+L TSOP39538 U1
+U 1 1 5635A808
+P 1225 4200
+F 0 "U1" H 1225 4500 60  0000 C CNN
+F 1 "TSOP39538" V 1025 4200 60  0000 C CNN
+F 2 "w_pin_strip:pin_strip_3" H 1225 4200 60  0001 C CNN
+F 3 "" H 1225 4200 60  0000 C CNN
+	1    1225 4200
+	1    0    0    -1  
+$EndComp
+$Comp
+L R R13
+U 1 1 5635B357
+P 2050 4200
+F 0 "R13" V 2130 4200 50  0000 C CNN
+F 1 "100R" V 2050 4200 50  0000 C CNN
+F 2 "w_smd_resistors:r_0603" V 1980 4200 30  0001 C CNN
+F 3 "" H 2050 4200 30  0000 C CNN
+	1    2050 4200
+	0    1    1    0   
+$EndComp
+$Comp
+L C C1
+U 1 1 5635B5D7
+P 1800 4475
+F 0 "C1" H 1825 4575 50  0000 L CNN
+F 1 "C" H 1825 4375 50  0000 L CNN
+F 2 "w_smd_cap:c_0603" H 1838 4325 30  0001 C CNN
+F 3 "" H 1800 4475 60  0000 C CNN
+	1    1800 4475
+	1    0    0    -1  
+$EndComp
+$Comp
+L GND #PWR014
+U 1 1 5635C6F6
+P 1800 4750
+F 0 "#PWR014" H 1800 4500 50  0001 C CNN
+F 1 "GND" H 1800 4600 50  0000 C CNN
+F 2 "" H 1800 4750 60  0000 C CNN
+F 3 "" H 1800 4750 60  0000 C CNN
+	1    1800 4750
+	1    0    0    -1  
+$EndComp
+Text Label 1575 4100 0    60   ~ 0
+ir
+$Comp
+L +3.3V #PWR015
+U 1 1 5635C99B
+P 2300 4200
+F 0 "#PWR015" H 2300 4050 50  0001 C CNN
+F 1 "+3.3V" H 2300 4340 50  0000 C CNN
+F 2 "" H 2300 4200 60  0000 C CNN
+F 3 "" H 2300 4200 60  0000 C CNN
+	1    2300 4200
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	1575 4200 1900 4200
+Wire Wire Line
+	2200 4200 2300 4200
+Wire Wire Line
+	1800 4325 1800 4200
+Connection ~ 1800 4200
+Wire Wire Line
+	1800 4625 1800 4750
+Wire Wire Line
+	1575 4300 1650 4300
+Wire Wire Line
+	1650 4300 1650 4675
+Wire Wire Line
+	1650 4675 1800 4675
+Connection ~ 1800 4675
+Text Label 6600 5425 3    60   ~ 0
+ir
+$Sheet
+S 9925 725  1075 400 
+U 56372EC6
+F0 "Sheet56372EC5" 60
+F1 "power.sch" 60
+$EndSheet
+$Sheet
+S 9925 1400 1075 425 
+U 5637620F
+F0 "Sheet5637620E" 60
+F1 "bluetooth.sch" 60
+$EndSheet
+Wire Wire Line
+	7550 3875 7775 3875
+Wire Wire Line
+	7775 3875 7775 3575
+$Comp
+L usb-micro U4
+U 1 1 56392056
+P 9475 4550
+F 0 "U4" H 9525 4450 60  0000 C CNN
+F 1 "usb-micro" H 9525 4550 60  0000 C CNN
+F 2 "w_conn_pc:conn_usb_B_micro_smd-2" H 9525 4550 60  0001 C CNN
+F 3 "" H 9525 4550 60  0000 C CNN
+	1    9475 4550
+	1    0    0    -1  
+$EndComp
+$Comp
+L R R24
+U 1 1 5639361D
+P 8600 4600
+F 0 "R24" V 8680 4600 50  0000 C CNN
+F 1 "22R" V 8600 4600 50  0000 C CNN
+F 2 "w_smd_resistors:r_0603" V 8530 4600 30  0001 C CNN
+F 3 "" H 8600 4600 30  0000 C CNN
+F 4 "Terminacja USB" V 8600 4600 60  0001 C CNN "Opis"
+	1    8600 4600
+	0    1    1    0   
+$EndComp
+$Comp
+L R R23
+U 1 1 563937F9
+P 8375 4500
+F 0 "R23" V 8455 4500 50  0000 C CNN
+F 1 "22R" V 8375 4500 50  0000 C CNN
+F 2 "w_smd_resistors:r_0603" V 8305 4500 30  0001 C CNN
+F 3 "" H 8375 4500 30  0000 C CNN
+F 4 "Terminacja USB" V 8375 4500 60  0001 C CNN "Opis"
+	1    8375 4500
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	8875 4500 8525 4500
+Wire Wire Line
+	8875 4600 8750 4600
+Wire Wire Line
+	8225 4500 7975 4500
+Wire Wire Line
+	7975 4500 7975 4275
+Wire Wire Line
+	7975 4275 7550 4275
+Wire Wire Line
+	8450 4600 8050 4600
+Wire Wire Line
+	8050 4600 8050 4175
+Wire Wire Line
+	8050 4175 7550 4175
+$Comp
+L GND #PWR016
+U 1 1 563942BE
+P 8800 4875
+F 0 "#PWR016" H 8800 4625 50  0001 C CNN
+F 1 "GND" H 8800 4725 50  0000 C CNN
+F 2 "" H 8800 4875 60  0000 C CNN
+F 3 "" H 8800 4875 60  0000 C CNN
+	1    8800 4875
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	8875 4800 8800 4800
+Wire Wire Line
+	8800 4800 8800 4875
+NoConn ~ 8875 4700
+$Comp
+L +5V #PWR017
+U 1 1 56394835
+P 8800 4250
+F 0 "#PWR017" H 8800 4100 50  0001 C CNN
+F 1 "+5V" H 8800 4390 50  0000 C CNN
+F 2 "" H 8800 4250 60  0000 C CNN
+F 3 "" H 8800 4250 60  0000 C CNN
+	1    8800 4250
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	8800 4400 8875 4400
+Wire Wire Line
+	8800 4400 8800 4250
+$Comp
+L LED D2
+U 1 1 56397DBB
+P 3550 6600
+F 0 "D2" H 3550 6700 50  0000 C CNN
+F 1 "LED" H 3550 6500 50  0000 C CNN
+F 2 "w_indicators:led_3mm_red" H 3550 6600 60  0001 C CNN
+F 3 "" H 3550 6600 60  0000 C CNN
+	1    3550 6600
+	0    -1   -1   0   
+$EndComp
+$Comp
+L R R21
+U 1 1 5639808C
+P 3550 6150
+F 0 "R21" V 3630 6150 50  0000 C CNN
+F 1 "560R" V 3550 6150 50  0000 C CNN
+F 2 "w_smd_resistors:r_0603" V 3480 6150 30  0001 C CNN
+F 3 "" H 3550 6150 30  0000 C CNN
+	1    3550 6150
+	-1   0    0    1   
+$EndComp
+$Comp
+L Q_NPN_BCE Q2
+U 1 1 56398A82
+P 3450 7100
+F 0 "Q2" H 3750 7150 50  0000 R CNN
+F 1 "Q_NPN_BCE" H 4050 7050 50  0000 R CNN
+F 2 "w_smd_trans:sot23" H 3650 7200 29  0001 C CNN
+F 3 "" H 3450 7100 60  0000 C CNN
+	1    3450 7100
+	1    0    0    -1  
+$EndComp
+$Comp
+L +3.3V #PWR018
+U 1 1 56398CB1
+P 3550 5825
+F 0 "#PWR018" H 3550 5675 50  0001 C CNN
+F 1 "+3.3V" H 3550 5965 50  0000 C CNN
+F 2 "" H 3550 5825 60  0000 C CNN
+F 3 "" H 3550 5825 60  0000 C CNN
+	1    3550 5825
+	1    0    0    -1  
+$EndComp
+$Comp
+L R R20
+U 1 1 56399310
+P 2975 7100
+F 0 "R20" V 3055 7100 50  0000 C CNN
+F 1 "1k" V 2975 7100 50  0000 C CNN
+F 2 "w_smd_resistors:r_0603" V 2905 7100 30  0001 C CNN
+F 3 "" H 2975 7100 30  0000 C CNN
+	1    2975 7100
+	0    -1   -1   0   
+$EndComp
+Wire Wire Line
+	2825 7100 2750 7100
+Wire Wire Line
+	3125 7100 3250 7100
+$Comp
+L GND #PWR019
+U 1 1 56399ACD
+P 3550 7375
+F 0 "#PWR019" H 3550 7125 50  0001 C CNN
+F 1 "GND" H 3550 7225 50  0000 C CNN
+F 2 "" H 3550 7375 60  0000 C CNN
+F 3 "" H 3550 7375 60  0000 C CNN
+	1    3550 7375
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	3550 7300 3550 7375
+Wire Wire Line
+	3550 6900 3550 6800
+Wire Wire Line
+	3550 6400 3550 6300
+Wire Wire Line
+	3550 6000 3550 5825
+Text Label 2750 7100 2    60   ~ 0
+indicator
+Text Notes 3800 6775 1    60   ~ 0
+Indicator
+Text GLabel 6100 5625 3    40   Input ~ 0
+ble_reqn
+Text GLabel 6200 5625 3    40   Input ~ 0
+ble_sck
+Text GLabel 6300 5625 3    40   Input ~ 0
+ble_miso
+Text GLabel 6400 5625 3    40   Input ~ 0
+ble_mosi
+Text GLabel 6500 5625 3    40   Input ~ 0
+ble_rdyn
+Text GLabel 6000 5625 3    40   Input ~ 0
+ble_reset
+Text GLabel 5400 4975 0    40   Input ~ 0
+ble_active
+Wire Wire Line
+	5400 4975 5500 4975
+Wire Wire Line
+	6000 5425 6000 5625
+Wire Wire Line
+	6100 5625 6100 5425
+Wire Wire Line
+	6200 5625 6200 5425
+Wire Wire Line
+	6300 5425 6300 5625
+Wire Wire Line
+	6400 5625 6400 5425
+Wire Wire Line
+	6500 5425 6500 5625
+Text Label 5500 4875 2    60   ~ 0
+backlight
+Text Label 5500 4775 2    60   ~ 0
+indicator
+$Comp
+L SW_PUSH SW1
+U 1 1 563A18C5
+P 8375 2475
+F 0 "SW1" H 8525 2585 50  0000 C CNN
+F 1 "SW_PUSH" H 8375 2395 50  0000 C CNN
+F 2 "w_switch:PCB_PUSH" H 8375 2475 60  0001 C CNN
+F 3 "" H 8375 2475 60  0000 C CNN
+	1    8375 2475
+	1    0    0    -1  
+$EndComp
+$Comp
+L GND #PWR020
+U 1 1 563A1C3D
+P 8775 2775
+F 0 "#PWR020" H 8775 2525 50  0001 C CNN
+F 1 "GND" H 8775 2625 50  0000 C CNN
+F 2 "" H 8775 2775 60  0000 C CNN
+F 3 "" H 8775 2775 60  0000 C CNN
+	1    8775 2775
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	8675 2475 8775 2475
+Wire Wire Line
+	8775 2475 8775 2775
+Wire Wire Line
+	6850 2475 8075 2475
+Wire Wire Line
+	6850 2475 6850 3050
+Wire Wire Line
+	6850 3050 6600 3050
+Wire Wire Line
+	6600 3050 6600 3375
+$Comp
+L C C12
+U 1 1 563A524D
+P 7900 2700
+F 0 "C12" H 7925 2800 50  0000 L CNN
+F 1 "100nF" H 7925 2600 50  0000 L CNN
+F 2 "w_smd_cap:c_0603" H 7938 2550 30  0001 C CNN
+F 3 "" H 7900 2700 60  0000 C CNN
+F 4 "Decoupling capacitor" H 7900 2700 60  0001 C CNN "Opis"
+	1    7900 2700
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	7900 2550 7900 2475
+Connection ~ 7900 2475
+$Comp
+L GND #PWR021
+U 1 1 563A5573
+P 7900 2900
+F 0 "#PWR021" H 7900 2650 50  0001 C CNN
+F 1 "GND" H 7900 2750 50  0000 C CNN
+F 2 "" H 7900 2900 60  0000 C CNN
+F 3 "" H 7900 2900 60  0000 C CNN
+	1    7900 2900
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	7900 2900 7900 2850
+$EndSCHEMATC

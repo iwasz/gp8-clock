@@ -1,3 +1,4 @@
+#if 0
 /*
  * 7segmentLed.c
  *
@@ -478,3 +479,4 @@ void segment7SetDigit (uint8_t displayNo, uint8_t i)
 {
         segment7Set (displayNo, font[i]);
 }
+#endif
