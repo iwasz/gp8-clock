@@ -1,0 +1,856 @@
+EESchema Schematic File Version 2
+LIBS:iwasz-kicad
+LIBS:power
+LIBS:device
+LIBS:transistors
+LIBS:conn
+LIBS:linear
+LIBS:regul
+LIBS:74xx
+LIBS:cmos4000
+LIBS:adc-dac
+LIBS:memory
+LIBS:xilinx
+LIBS:microcontrollers
+LIBS:dsp
+LIBS:microchip
+LIBS:analog_switches
+LIBS:motorola
+LIBS:texas
+LIBS:intel
+LIBS:audio
+LIBS:interface
+LIBS:digital-audio
+LIBS:philips
+LIBS:display
+LIBS:cypress
+LIBS:siliconi
+LIBS:opto
+LIBS:atmel
+LIBS:contrib
+LIBS:valves
+LIBS:transmitter-cache
+EELAYER 25 0
+EELAYER END
+$Descr A4 11693 8268
+encoding utf-8
+Sheet 1 1
+Title ""
+Date ""
+Rev ""
+Comp ""
+Comment1 ""
+Comment2 ""
+Comment3 ""
+Comment4 ""
+$EndDescr
+$Comp
+L MCP73833 U2
+U 1 1 564286AB
+P 3850 1325
+F 0 "U2" H 3900 1425 60  0000 C CNN
+F 1 "MCP73833" V 3800 1325 60  0000 C CNN
+F 2 "ref-packages:MSOP10" H 3900 1375 60  0001 C CNN
+F 3 "http://pl.farnell.com/microchip/mcp73833-fci-un/ic-charge-control-li-ion-1a-msop/dp/1605576" H 3900 1375 60  0001 C CNN
+	1    3850 1325
+	1    0    0    -1  
+$EndComp
+$Comp
+L LED D3
+U 1 1 564286AD
+P 2725 1350
+F 0 "D3" H 2725 1450 50  0000 C CNN
+F 1 "LED" H 2725 1250 50  0000 C CNN
+F 2 "w_indicators:led_3mm_red" H 2725 1350 60  0001 C CNN
+F 3 "" H 2725 1350 60  0000 C CNN
+	1    2725 1350
+	0    -1   -1   0   
+$EndComp
+$Comp
+L LED D2
+U 1 1 564286AE
+P 2450 1350
+F 0 "D2" H 2450 1450 50  0000 C CNN
+F 1 "LED" H 2450 1250 50  0000 C CNN
+F 2 "w_indicators:led_3mm_green" H 2450 1350 60  0001 C CNN
+F 3 "" H 2450 1350 60  0000 C CNN
+	1    2450 1350
+	0    -1   -1   0   
+$EndComp
+$Comp
+L LED D1
+U 1 1 564286AF
+P 2175 1350
+F 0 "D1" H 2175 1450 50  0000 C CNN
+F 1 "LED" H 2175 1250 50  0000 C CNN
+F 2 "w_indicators:led_3mm_yellow" H 2175 1350 60  0001 C CNN
+F 3 "" H 2175 1350 60  0000 C CNN
+	1    2175 1350
+	0    -1   -1   0   
+$EndComp
+Wire Wire Line
+	1625 1125 3250 1125
+Wire Wire Line
+	2175 1125 2175 1150
+Wire Wire Line
+	2450 1150 2450 1125
+Connection ~ 2450 1125
+Wire Wire Line
+	2725 1150 2725 1125
+Connection ~ 2725 1125
+$Comp
+L CP C1
+U 1 1 564286B0
+P 1800 1400
+F 0 "C1" H 1825 1500 50  0000 L CNN
+F 1 "10µF" H 1825 1300 50  0000 L CNN
+F 2 "w_smd_cap:c_tant_A" H 1838 1250 30  0001 C CNN
+F 3 "" H 1800 1400 60  0000 C CNN
+	1    1800 1400
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	1800 1125 1800 1250
+Connection ~ 2175 1125
+Connection ~ 1800 1125
+$Comp
+L GND #PWR01
+U 1 1 564286B2
+P 1800 1625
+F 0 "#PWR01" H 1800 1375 50  0001 C CNN
+F 1 "GND" H 1800 1475 50  0000 C CNN
+F 2 "" H 1800 1625 60  0000 C CNN
+F 3 "" H 1800 1625 60  0000 C CNN
+	1    1800 1625
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	1800 1550 1800 1625
+Wire Wire Line
+	3250 1225 3075 1225
+Wire Wire Line
+	3075 1225 3075 1125
+Connection ~ 3075 1125
+$Comp
+L R R3
+U 1 1 564286B3
+P 2725 1825
+F 0 "R3" V 2805 1825 50  0000 C CNN
+F 1 "730R" V 2725 1825 50  0000 C CNN
+F 2 "w_smd_resistors:r_0603" V 2655 1825 30  0001 C CNN
+F 3 "" H 2725 1825 30  0000 C CNN
+	1    2725 1825
+	1    0    0    -1  
+$EndComp
+$Comp
+L R R2
+U 1 1 564286B4
+P 2450 1825
+F 0 "R2" V 2530 1825 50  0000 C CNN
+F 1 "730R" V 2450 1825 50  0000 C CNN
+F 2 "w_smd_resistors:r_0603" V 2380 1825 30  0001 C CNN
+F 3 "" H 2450 1825 30  0000 C CNN
+	1    2450 1825
+	1    0    0    -1  
+$EndComp
+$Comp
+L R R1
+U 1 1 564286B5
+P 2175 1825
+F 0 "R1" V 2255 1825 50  0000 C CNN
+F 1 "730R" V 2175 1825 50  0000 C CNN
+F 2 "w_smd_resistors:r_0603" V 2105 1825 30  0001 C CNN
+F 3 "" H 2175 1825 30  0000 C CNN
+	1    2175 1825
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	2175 1550 2175 1675
+Wire Wire Line
+	2450 1550 2450 1675
+Wire Wire Line
+	2725 1550 2725 1675
+Wire Wire Line
+	2725 1975 2725 2075
+Wire Wire Line
+	2725 2075 2925 2075
+Wire Wire Line
+	2925 2075 2925 1325
+Wire Wire Line
+	2925 1325 3250 1325
+Wire Wire Line
+	2450 1975 2450 2175
+Wire Wire Line
+	2450 2175 3050 2175
+Wire Wire Line
+	3050 2175 3050 1425
+Wire Wire Line
+	3050 1425 3250 1425
+$Comp
+L GND #PWR02
+U 1 1 564286B6
+P 3175 1925
+F 0 "#PWR02" H 3175 1675 50  0001 C CNN
+F 1 "GND" H 3175 1775 50  0000 C CNN
+F 2 "" H 3175 1925 60  0000 C CNN
+F 3 "" H 3175 1925 60  0000 C CNN
+	1    3175 1925
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	3250 1525 3175 1525
+Wire Wire Line
+	3175 1525 3175 1925
+Wire Wire Line
+	2175 1975 2175 2300
+Wire Wire Line
+	2175 2300 3200 2300
+Wire Wire Line
+	3200 2300 3200 2150
+Wire Wire Line
+	3200 2150 4575 2150
+Wire Wire Line
+	4575 2150 4575 1425
+Wire Wire Line
+	4575 1425 4400 1425
+$Comp
+L R R4
+U 1 1 564286B9
+P 3850 1750
+F 0 "R4" V 3930 1750 50  0000 C CNN
+F 1 "3k3" V 3850 1750 50  0000 C CNN
+F 2 "w_smd_resistors:r_0603" V 3780 1750 30  0001 C CNN
+F 3 "" H 3850 1750 30  0000 C CNN
+	1    3850 1750
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	4400 1525 4450 1525
+Wire Wire Line
+	4450 1525 4450 1750
+Wire Wire Line
+	4450 1750 4000 1750
+Wire Wire Line
+	3175 1750 3700 1750
+Connection ~ 3175 1750
+Text Notes 3700 1950 0    60   ~ 0
+300mA
+$Comp
+L CONN_01X03 P1
+U 1 1 564286BA
+P 5275 1225
+F 0 "P1" H 5275 1425 50  0000 C CNN
+F 1 "CONN_01X03" V 5375 1225 50  0000 C CNN
+F 2 "w_conn_df13:df13-3p-125dsa" H 5275 1225 60  0001 C CNN
+F 3 "" H 5275 1225 60  0000 C CNN
+	1    5275 1225
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	4400 1125 5075 1125
+Wire Wire Line
+	4525 1225 4400 1225
+Wire Wire Line
+	4525 925  4525 1225
+Connection ~ 4525 1125
+$Comp
+L GND #PWR03
+U 1 1 564286BB
+P 4950 1225
+F 0 "#PWR03" H 4950 975 50  0001 C CNN
+F 1 "GND" H 4950 1075 50  0000 C CNN
+F 2 "" H 4950 1225 60  0000 C CNN
+F 3 "" H 4950 1225 60  0000 C CNN
+	1    4950 1225
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	4400 1325 5075 1325
+Wire Wire Line
+	4950 1225 5075 1225
+$Comp
+L SPST SW1
+U 1 1 564286BC
+P 5100 925
+F 0 "SW1" H 5100 1025 50  0000 C CNN
+F 1 "power" H 5100 1100 50  0000 C CNN
+F 2 "w_pin_strip:pin_socket_2" H 5100 925 60  0001 C CNN
+F 3 "http://lispol.pl/product,2183,wylacznik_kolyskowy_mini_czarny.html" H 5100 925 60  0001 C CNN
+F 4 "Kołyskowy włącznik zasilania." H 5100 925 60  0001 C CNN "Opis"
+	1    5100 925 
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	4525 925  4600 925 
+$Comp
+L Q_NPN_EBC Q1
+U 1 1 564296EA
+P 9550 3950
+F 0 "Q1" H 9850 4000 50  0000 R CNN
+F 1 "2N3904" H 10150 3900 50  0000 R CNN
+F 2 "w_to:to92_3_flat" H 9750 4050 29  0001 C CNN
+F 3 "http://pl.farnell.com/fairchild-semiconductor/2n3904bu/transistor-npn-40v-200ma-to-92/dp/1700648" H 9550 3950 60  0001 C CNN
+	1    9550 3950
+	1    0    0    -1  
+$EndComp
+$Comp
+L Q_NPN_EBC Q2
+U 1 1 564299AB
+P 9750 4425
+F 0 "Q2" H 10050 4475 50  0000 R CNN
+F 1 "2N3904" H 10350 4375 50  0000 R CNN
+F 2 "w_to:to92_3_flat" H 9950 4525 29  0001 C CNN
+F 3 "http://pl.farnell.com/fairchild-semiconductor/2n3904bu/transistor-npn-40v-200ma-to-92/dp/1700648" H 9750 4425 60  0001 C CNN
+	1    9750 4425
+	-1   0    0    -1  
+$EndComp
+$Comp
+L POT RV3
+U 1 1 5642A02E
+P 9650 4950
+F 0 "RV3" H 9650 4850 50  0000 C CNN
+F 1 "2R" H 9650 4950 50  0000 C CNN
+F 2 "Potentiometers:Potentiometer_Bourns_3296W_3-8Zoll_Inline_ScrewUp" H 9650 4950 60  0001 C CNN
+F 3 "" H 9650 4950 60  0000 C CNN
+	1    9650 4950
+	0    1    1    0   
+$EndComp
+$Comp
+L LED D4
+U 1 1 5642AB44
+P 9650 3475
+F 0 "D4" H 9650 3575 50  0000 C CNN
+F 1 "VISHAY TSAL6200" H 9675 3350 50  0000 C CNN
+F 2 "LEDs:LED-5MM" H 9650 3475 60  0001 C CNN
+F 3 "http://pl.farnell.com/vishay/tsal6200/ir-emitter-940nm-5mm-through-hole/dp/3152856?CMP=i-ddd7-00001003" H 9650 3475 60  0001 C CNN
+	1    9650 3475
+	0    -1   -1   0   
+$EndComp
+$Comp
+L R R7
+U 1 1 5642B573
+P 10375 3750
+F 0 "R7" V 10455 3750 50  0000 C CNN
+F 1 "1k" V 10375 3750 50  0000 C CNN
+F 2 "w_smd_resistors:r_0603" V 10305 3750 30  0001 C CNN
+F 3 "" H 10375 3750 30  0000 C CNN
+	1    10375 3750
+	1    0    0    -1  
+$EndComp
+$Comp
+L D D5
+U 1 1 5642B61C
+P 10375 4675
+F 0 "D5" H 10375 4775 50  0000 C CNN
+F 1 "D" H 10375 4575 50  0000 C CNN
+F 2 "ref-packages-longpad:SOD80" H 10375 4675 60  0001 C CNN
+F 3 "" H 10375 4675 60  0000 C CNN
+	1    10375 4675
+	0    -1   -1   0   
+$EndComp
+$Comp
+L D D6
+U 1 1 5642B929
+P 10375 5025
+F 0 "D6" H 10375 5125 50  0000 C CNN
+F 1 "D" H 10375 4925 50  0000 C CNN
+F 2 "ref-packages-longpad:SOD80" H 10375 5025 60  0001 C CNN
+F 3 "" H 10375 5025 60  0000 C CNN
+	1    10375 5025
+	0    -1   -1   0   
+$EndComp
+$Comp
+L +BATT #PWR04
+U 1 1 5642C222
+P 5675 925
+F 0 "#PWR04" H 5675 775 50  0001 C CNN
+F 1 "+BATT" H 5675 1065 50  0000 C CNN
+F 2 "" H 5675 925 60  0000 C CNN
+F 3 "" H 5675 925 60  0000 C CNN
+	1    5675 925 
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	5600 925  5675 925 
+Wire Wire Line
+	9650 3675 9650 3750
+Wire Wire Line
+	9650 4225 9650 4150
+Wire Wire Line
+	9650 4625 9650 4700
+Wire Wire Line
+	9650 5200 9650 5275
+Wire Wire Line
+	9350 5275 10650 5275
+Wire Wire Line
+	10375 5175 10375 5475
+Wire Wire Line
+	9800 4950 9800 5275
+Connection ~ 9800 5275
+Wire Wire Line
+	10375 4875 10375 4825
+Wire Wire Line
+	10375 3900 10375 4525
+Wire Wire Line
+	9650 3275 9650 3200
+Wire Wire Line
+	9400 3200 10650 3200
+Wire Wire Line
+	10375 3075 10375 3600
+Wire Wire Line
+	9950 4425 10375 4425
+Connection ~ 10375 4425
+$Comp
+L R R6
+U 1 1 5642DDC4
+P 9125 3950
+F 0 "R6" V 9205 3950 50  0000 C CNN
+F 1 "1k" V 9125 3950 50  0000 C CNN
+F 2 "w_smd_resistors:r_0603" V 9055 3950 30  0001 C CNN
+F 3 "" H 9125 3950 30  0000 C CNN
+	1    9125 3950
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	9275 3950 9350 3950
+$Comp
+L GND #PWR05
+U 1 1 5642E340
+P 10375 5475
+F 0 "#PWR05" H 10375 5225 50  0001 C CNN
+F 1 "GND" H 10375 5325 50  0000 C CNN
+F 2 "" H 10375 5475 60  0000 C CNN
+F 3 "" H 10375 5475 60  0000 C CNN
+	1    10375 5475
+	1    0    0    -1  
+$EndComp
+Connection ~ 10375 5275
+$Comp
+L usb-micro U1
+U 1 1 5642F35D
+P 1025 975
+F 0 "U1" H 1075 875 60  0000 C CNN
+F 1 "usb-micro" H 1075 975 60  0000 C CNN
+F 2 "w_conn_pc:conn_usb_B_micro_smd-2" H 1075 975 60  0001 C CNN
+F 3 "" H 1075 975 60  0000 C CNN
+	1    1025 975 
+	-1   0    0    1   
+$EndComp
+NoConn ~ 1625 1025
+NoConn ~ 1625 925 
+NoConn ~ 1625 825 
+$Comp
+L GND #PWR06
+U 1 1 56430901
+P 1775 725
+F 0 "#PWR06" H 1775 475 50  0001 C CNN
+F 1 "GND" H 1775 575 50  0000 C CNN
+F 2 "" H 1775 725 60  0000 C CNN
+F 3 "" H 1775 725 60  0000 C CNN
+	1    1775 725 
+	0    -1   -1   0   
+$EndComp
+Wire Wire Line
+	1625 725  1775 725 
+$Comp
+L CD4047 U3
+U 1 1 5643208F
+P 4475 3800
+F 0 "U3" H 4475 4050 60  0000 C CNN
+F 1 "CD4047" V 4475 3600 60  0000 C CNN
+F 2 "w_smd_dil:soic-14" H 4475 3800 60  0001 C CNN
+F 3 "http://pl.farnell.com/texas-instruments/cd4047bm96/ic-mono-astbl-multvibrtr-125ns/dp/2342523" H 4475 3800 60  0001 C CNN
+	1    4475 3800
+	1    0    0    -1  
+$EndComp
+$Comp
+L POT RV1
+U 1 1 564338A3
+P 3350 3575
+F 0 "RV1" H 3350 3475 50  0000 C CNN
+F 1 "20k" H 3350 3575 50  0000 C CNN
+F 2 "Potentiometers:Potentiometer_Bourns_3296W_3-8Zoll_Inline_ScrewUp" H 3350 3575 60  0001 C CNN
+F 3 "" H 3350 3575 60  0000 C CNN
+	1    3350 3575
+	1    0    0    -1  
+$EndComp
+$Comp
+L C C2
+U 1 1 56428D62
+P 3350 3175
+F 0 "C2" H 3375 3275 50  0000 L CNN
+F 1 "47nF" H 3375 3075 50  0000 L CNN
+F 2 "w_smd_cap:c_0603" H 3388 3025 30  0001 C CNN
+F 3 "" H 3350 3175 60  0000 C CNN
+	1    3350 3175
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	3675 3550 3675 3475
+Wire Wire Line
+	3575 3475 3575 3175
+Wire Wire Line
+	3575 3175 3500 3175
+Wire Wire Line
+	3200 3175 3025 3175
+Wire Wire Line
+	3025 3175 3025 3750
+Wire Wire Line
+	3025 3575 3100 3575
+Wire Wire Line
+	3025 3750 3675 3750
+Connection ~ 3025 3575
+Wire Wire Line
+	3675 3850 3600 3850
+Wire Wire Line
+	3600 3850 3600 4050
+Wire Wire Line
+	2900 3950 3675 3950
+Wire Wire Line
+	3600 4050 3675 4050
+Connection ~ 3600 3950
+$Comp
+L +BATT #PWR07
+U 1 1 5642B6EA
+P 2900 3950
+F 0 "#PWR07" H 2900 3800 50  0001 C CNN
+F 1 "+BATT" H 2900 4090 50  0000 C CNN
+F 2 "" H 2900 3950 60  0000 C CNN
+F 3 "" H 2900 3950 60  0000 C CNN
+	1    2900 3950
+	0    -1   -1   0   
+$EndComp
+$Comp
+L GND #PWR08
+U 1 1 5642BCB4
+P 3675 4250
+F 0 "#PWR08" H 3675 4000 50  0001 C CNN
+F 1 "GND" H 3675 4100 50  0000 C CNN
+F 2 "" H 3675 4250 60  0000 C CNN
+F 3 "" H 3675 4250 60  0000 C CNN
+	1    3675 4250
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	3675 4150 3675 4250
+Wire Wire Line
+	3350 3425 3025 3425
+Connection ~ 3025 3425
+Wire Wire Line
+	3675 3475 3575 3475
+Wire Wire Line
+	3600 3575 3600 3650
+Wire Wire Line
+	3600 3650 3675 3650
+$Comp
+L +BATT #PWR09
+U 1 1 5642DA91
+P 5350 3550
+F 0 "#PWR09" H 5350 3400 50  0001 C CNN
+F 1 "+BATT" H 5350 3690 50  0000 C CNN
+F 2 "" H 5350 3550 60  0000 C CNN
+F 3 "" H 5350 3550 60  0000 C CNN
+	1    5350 3550
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	5275 3550 5350 3550
+Wire Wire Line
+	5275 3750 5350 3750
+Wire Wire Line
+	5350 3750 5350 4250
+Wire Wire Line
+	5350 4050 5275 4050
+Wire Wire Line
+	5350 4150 5275 4150
+Connection ~ 5350 4050
+NoConn ~ 5275 3850
+NoConn ~ 5275 3650
+$Comp
+L GND #PWR010
+U 1 1 5642EAB6
+P 5350 4250
+F 0 "#PWR010" H 5350 4000 50  0001 C CNN
+F 1 "GND" H 5350 4100 50  0000 C CNN
+F 2 "" H 5350 4250 60  0000 C CNN
+F 3 "" H 5350 4250 60  0000 C CNN
+	1    5350 4250
+	1    0    0    -1  
+$EndComp
+Connection ~ 5350 4150
+$Comp
+L CD4047 U4
+U 1 1 5642FF31
+P 7800 3800
+F 0 "U4" H 7800 4050 60  0000 C CNN
+F 1 "CD4047" V 7800 3600 60  0000 C CNN
+F 2 "w_smd_dil:soic-14" H 7800 3800 60  0001 C CNN
+F 3 "http://pl.farnell.com/texas-instruments/cd4047bm96/ic-mono-astbl-multvibrtr-125ns/dp/2342523" H 7800 3800 60  0001 C CNN
+	1    7800 3800
+	1    0    0    -1  
+$EndComp
+$Comp
+L POT RV2
+U 1 1 5642FF37
+P 6675 3575
+F 0 "RV2" H 6675 3475 50  0000 C CNN
+F 1 "47k" H 6675 3575 50  0000 C CNN
+F 2 "Potentiometers:Potentiometer_Bourns_3296W_3-8Zoll_Inline_ScrewUp" H 6675 3575 60  0001 C CNN
+F 3 "" H 6675 3575 60  0000 C CNN
+	1    6675 3575
+	1    0    0    -1  
+$EndComp
+$Comp
+L C C4
+U 1 1 5642FF3D
+P 6675 3175
+F 0 "C4" H 6700 3275 50  0000 L CNN
+F 1 "100pF" H 6700 3075 50  0000 L CNN
+F 2 "w_smd_cap:c_0603" H 6713 3025 30  0001 C CNN
+F 3 "" H 6675 3175 60  0000 C CNN
+	1    6675 3175
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	7000 3550 7000 3475
+Wire Wire Line
+	6900 3475 6900 3175
+Wire Wire Line
+	6900 3175 6825 3175
+Wire Wire Line
+	5900 3175 6525 3175
+Wire Wire Line
+	6275 3575 6425 3575
+Wire Wire Line
+	5900 3750 7000 3750
+Connection ~ 6350 3575
+Wire Wire Line
+	6675 3850 6675 4250
+$Comp
+L +BATT #PWR011
+U 1 1 5642FF50
+P 6675 4250
+F 0 "#PWR011" H 6675 4100 50  0001 C CNN
+F 1 "+BATT" H 6675 4390 50  0000 C CNN
+F 2 "" H 6675 4250 60  0000 C CNN
+F 3 "" H 6675 4250 60  0000 C CNN
+	1    6675 4250
+	-1   0    0    1   
+$EndComp
+$Comp
+L GND #PWR012
+U 1 1 5642FF56
+P 7000 4250
+F 0 "#PWR012" H 7000 4000 50  0001 C CNN
+F 1 "GND" H 7000 4100 50  0000 C CNN
+F 2 "" H 7000 4250 60  0000 C CNN
+F 3 "" H 7000 4250 60  0000 C CNN
+	1    7000 4250
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	7000 4150 7000 4250
+Wire Wire Line
+	6675 3425 6350 3425
+Wire Wire Line
+	7000 3475 6900 3475
+Wire Wire Line
+	6925 3575 6925 3650
+Wire Wire Line
+	6925 3650 7000 3650
+$Comp
+L +BATT #PWR013
+U 1 1 5642FF62
+P 8675 3550
+F 0 "#PWR013" H 8675 3400 50  0001 C CNN
+F 1 "+BATT" H 8675 3690 50  0000 C CNN
+F 2 "" H 8675 3550 60  0000 C CNN
+F 3 "" H 8675 3550 60  0000 C CNN
+	1    8675 3550
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	8600 3550 8675 3550
+Wire Wire Line
+	8600 3750 8675 3750
+Wire Wire Line
+	8675 3750 8675 4250
+Wire Wire Line
+	8675 4050 8600 4050
+Wire Wire Line
+	8675 4150 8600 4150
+Connection ~ 8675 4050
+NoConn ~ 8600 3850
+NoConn ~ 8600 3650
+$Comp
+L GND #PWR014
+U 1 1 5642FF70
+P 8675 4250
+F 0 "#PWR014" H 8675 4000 50  0001 C CNN
+F 1 "GND" H 8675 4100 50  0000 C CNN
+F 2 "" H 8675 4250 60  0000 C CNN
+F 3 "" H 8675 4250 60  0000 C CNN
+	1    8675 4250
+	1    0    0    -1  
+$EndComp
+Connection ~ 8675 4150
+$Comp
+L C C3
+U 1 1 56430513
+P 5875 3950
+F 0 "C3" H 5900 4050 50  0000 L CNN
+F 1 "47nF" H 5900 3850 50  0000 L CNN
+F 2 "w_smd_cap:c_0603" H 5913 3800 30  0001 C CNN
+F 3 "" H 5875 3950 60  0000 C CNN
+	1    5875 3950
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	5275 3950 5725 3950
+Wire Wire Line
+	6025 3950 7000 3950
+$Comp
+L R R5
+U 1 1 56434DD1
+P 6125 3575
+F 0 "R5" V 6205 3575 50  0000 C CNN
+F 1 "33k" V 6125 3575 50  0000 C CNN
+F 2 "w_smd_resistors:r_0603" V 6055 3575 30  0001 C CNN
+F 3 "" H 6125 3575 30  0000 C CNN
+	1    6125 3575
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	5900 3175 5900 3750
+Wire Wire Line
+	5900 3575 5975 3575
+Wire Wire Line
+	6350 3425 6350 3575
+Connection ~ 5900 3575
+Wire Wire Line
+	8600 3950 8975 3950
+Wire Wire Line
+	6675 4050 7000 4050
+Wire Wire Line
+	7000 3850 6675 3850
+Connection ~ 6675 4050
+$Comp
+L +BATT #PWR015
+U 1 1 5643E337
+P 10375 3075
+F 0 "#PWR015" H 10375 2925 50  0001 C CNN
+F 1 "+BATT" H 10375 3215 50  0000 C CNN
+F 2 "" H 10375 3075 60  0000 C CNN
+F 3 "" H 10375 3075 60  0000 C CNN
+	1    10375 3075
+	1    0    0    -1  
+$EndComp
+Connection ~ 10375 3200
+$Comp
+L R R8
+U 1 1 56439A92
+P 9350 4950
+F 0 "R8" V 9430 4950 50  0000 C CNN
+F 1 "1k" V 9350 4950 50  0000 C CNN
+F 2 "w_smd_resistors:r_1210" V 9280 4950 30  0001 C CNN
+F 3 "" H 9350 4950 30  0000 C CNN
+	1    9350 4950
+	-1   0    0    1   
+$EndComp
+Wire Wire Line
+	9350 4800 9350 4675
+Wire Wire Line
+	9350 4675 9650 4675
+Connection ~ 9650 4675
+Wire Wire Line
+	9350 5100 9350 5275
+Connection ~ 9650 5275
+$Comp
+L LED D7
+U 1 1 5643D200
+P 9400 3475
+F 0 "D7" H 9400 3575 50  0000 C CNN
+F 1 "VISHAY TSAL6200" H 9425 3650 50  0000 C CNN
+F 2 "LEDs:LED-5MM" H 9400 3475 60  0001 C CNN
+F 3 "http://pl.farnell.com/vishay/tsal6200/ir-emitter-940nm-5mm-through-hole/dp/3152856?CMP=i-ddd7-00001003" H 9400 3475 60  0001 C CNN
+	1    9400 3475
+	0    -1   -1   0   
+$EndComp
+Wire Wire Line
+	9400 3275 9400 3200
+Connection ~ 9650 3200
+Wire Wire Line
+	9400 3675 9400 3725
+Wire Wire Line
+	9400 3725 9650 3725
+Connection ~ 9650 3725
+$Comp
+L C C5
+U 1 1 56441557
+P 5300 3275
+F 0 "C5" H 5325 3375 50  0000 L CNN
+F 1 "100nF" H 5325 3175 50  0000 L CNN
+F 2 "w_smd_cap:c_0603" H 5338 3125 30  0001 C CNN
+F 3 "" H 5300 3275 60  0000 C CNN
+	1    5300 3275
+	-1   0    0    1   
+$EndComp
+$Comp
+L GND #PWR016
+U 1 1 564425F7
+P 5300 3025
+F 0 "#PWR016" H 5300 2775 50  0001 C CNN
+F 1 "GND" H 5300 2875 50  0000 C CNN
+F 2 "" H 5300 3025 60  0000 C CNN
+F 3 "" H 5300 3025 60  0000 C CNN
+	1    5300 3025
+	-1   0    0    1   
+$EndComp
+Wire Wire Line
+	5300 3025 5300 3125
+Wire Wire Line
+	5300 3425 5300 3550
+Connection ~ 5300 3550
+$Comp
+L C C6
+U 1 1 564445C8
+P 8625 3275
+F 0 "C6" H 8650 3375 50  0000 L CNN
+F 1 "100nF" H 8650 3175 50  0000 L CNN
+F 2 "w_smd_cap:c_0603" H 8663 3125 30  0001 C CNN
+F 3 "" H 8625 3275 60  0000 C CNN
+	1    8625 3275
+	-1   0    0    1   
+$EndComp
+$Comp
+L GND #PWR017
+U 1 1 564445CE
+P 8625 3025
+F 0 "#PWR017" H 8625 2775 50  0001 C CNN
+F 1 "GND" H 8625 2875 50  0000 C CNN
+F 2 "" H 8625 3025 60  0000 C CNN
+F 3 "" H 8625 3025 60  0000 C CNN
+	1    8625 3025
+	-1   0    0    1   
+$EndComp
+Wire Wire Line
+	8625 3025 8625 3125
+Wire Wire Line
+	8625 3425 8625 3550
+Connection ~ 8625 3550
+$Comp
+L CP C7
+U 1 1 56445A00
+P 10650 4350
+F 0 "C7" H 10675 4450 50  0000 L CNN
+F 1 "10µF" H 10675 4250 50  0000 L CNN
+F 2 "w_smd_cap:c_tant_A" H 10688 4200 30  0001 C CNN
+F 3 "" H 10650 4350 60  0000 C CNN
+	1    10650 4350
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	10650 3200 10650 4200
+Wire Wire Line
+	10650 5275 10650 4500
+$EndSCHEMATC

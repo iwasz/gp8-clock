@@ -359,8 +359,9 @@ U 1 1 563D0B61
 P 6700 3125
 F 0 "SW2" H 6700 3225 50  0000 C CNN
 F 1 "power" H 6700 3300 50  0000 C CNN
-F 2 "w_switch:PCB_PUSH" H 6700 3125 60  0001 C CNN
-F 3 "" H 6700 3125 60  0000 C CNN
+F 2 "w_pin_strip:pin_socket_2" H 6700 3125 60  0001 C CNN
+F 3 "http://lispol.pl/product,2183,wylacznik_kolyskowy_mini_czarny.html" H 6700 3125 60  0001 C CNN
+F 4 "Włącznik zasilania, kołyskowy." H 6700 3125 60  0001 C CNN "Opis"
 	1    6700 3125
 	1    0    0    -1  
 $EndComp

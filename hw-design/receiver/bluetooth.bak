@@ -77,7 +77,7 @@ U 1 1 56376524
 P 4400 3575
 F 0 "Y2" H 4400 3725 50  0000 C CNN
 F 1 "32kHz" H 4400 3425 50  0000 C CNN
-F 2 "iwasz:crystal_3.2_1.5" H 4400 3575 60  0001 C CNN
+F 2 "Crystals:Crystal_Round_Vertical_3mm" H 4400 3575 60  0001 C CNN
 F 3 "http://pl.farnell.com/abracon/abs07-120-32-768khz-t/crystal-32-768khz-6pf-3-2-x-1/dp/2467864" H 4400 3575 60  0001 C CNN
 F 4 "Kryształ 32kHz do timingu do nRF8001" H 4400 3575 60  0001 C CNN "Opis"
 	1    4400 3575
@@ -331,7 +331,7 @@ U 1 1 56376534
 P 5925 2125
 F 0 "Y3" H 5925 2275 50  0000 C CNN
 F 1 "16MHz" H 5925 1975 50  0000 C CNN
-F 2 "Crystals_Oscillators_SMD:crystal_FA238-TSX3225" H 5925 2125 60  0001 C CNN
+F 2 "w_crystal:hc-49_smd" H 5925 2125 60  0001 C CNN
 F 3 "http://pl.farnell.com/abracon/abm8-16-000mhz-10-1-u-t/crystal-16mhz-10pf-3-2-x-2-5mm/dp/2467830" H 5925 2125 60  0001 C CNN
 F 4 "Kryształ 16MHz do radia do nRF8001" H 5925 2125 60  0001 C CNN "Opis"
 	1    5925 2125
