@@ -1,0 +1,19 @@
+EESchema-LIBRARY Version 2.3
+#encoding utf-8
+#
+# test-double-RESCUE-transmitter
+#
+DEF ~test-double-RESCUE-transmitter P 0 40 N N 1 F N
+F0 "P" 0 0 60 H V C CNN
+F1 "test-double-RESCUE-transmitter" 0 -50 60 H I C CNN
+F2 "" 0 0 60 H V C CNN
+F3 "" 0 0 60 H V C CNN
+DRAW
+T 0 150 150 60 0 0 0 t  Normal 0 C C
+C 150 150 50 0 1 0 N
+X T 1 -100 150 200 R 50 50 1 1 I N
+X T 1 -100 150 200 R 50 50 1 1 I
+ENDDRAW
+ENDDEF
+#
+#End Library

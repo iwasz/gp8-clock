@@ -36,15 +36,15 @@ static uint16_t plate[PLATES_NUM] = { 0xffff, 0xffff, 0xffff, 0xffff };
 
 static GPIO_TypeDef *platePort[PLATES_NUM] = { GPIOB, GPIOB, GPIOB, GPIOB };
 
-static uint16_t platePin[PLATES_NUM] = { GPIO_PIN_4, GPIO_PIN_5, GPIO_PIN_6, GPIO_PIN_7 };
+static uint16_t platePin[PLATES_NUM] = { GPIO_PIN_2, GPIO_PIN_10, GPIO_PIN_11, GPIO_PIN_12 };
 
-static GPIO_TypeDef *segmentPort[SEGMENTS_PER_PLATE_NUM] = { GPIOB, GPIOB, GPIOA, GPIOA,
-                                                             GPIOB, GPIOB, GPIOB, GPIOB,
-                                                             GPIOA, GPIOA, GPIOA, GPIOA };
+static GPIO_TypeDef *segmentPort[SEGMENTS_PER_PLATE_NUM] = { GPIOB, GPIOB, GPIOB, GPIOA,
+                                                             GPIOA, GPIOA, GPIOA, GPIOA,
+                                                             GPIOA, GPIOB, GPIOB, GPIOB };
 
-static uint16_t segmentPin[SEGMENTS_PER_PLATE_NUM] = { GPIO_PIN_3, GPIO_PIN_2, GPIO_PIN_15, GPIO_PIN_14,
-                                                       GPIO_PIN_12, GPIO_PIN_13, GPIO_PIN_14, GPIO_PIN_15,
-                                                       GPIO_PIN_8, GPIO_PIN_9, GPIO_PIN_10, GPIO_PIN_12 };
+static uint16_t segmentPin[SEGMENTS_PER_PLATE_NUM] = { GPIO_PIN_13, GPIO_PIN_14, GPIO_PIN_15, GPIO_PIN_8,
+                                                       GPIO_PIN_9, GPIO_PIN_10, GPIO_PIN_13, GPIO_PIN_14,
+                                                       GPIO_PIN_15, GPIO_PIN_3, GPIO_PIN_4, GPIO_PIN_5 };
 
 /*****************************************************************************/
 
