@@ -3,7 +3,7 @@
   (general
     (links 219)
     (no_connects 0)
-    (area 101.445438 77.051933 203.850001 128.100211)
+    (area 87.000001 76.946 205.400001 137.300001)
     (thickness 1.6)
     (drawings 220)
     (tracks 1564)
@@ -14,8 +14,8 @@
 
   (page A4)
   (layers
-    (0 F.Cu signal hide)
-    (31 B.Cu signal hide)
+    (0 F.Cu signal)
+    (31 B.Cu signal)
     (32 B.Adhes user)
     (33 F.Adhes user)
     (34 B.Paste user)
@@ -66,7 +66,7 @@
     (aux_axis_origin 0 0)
     (visible_elements FFFFFF7F)
     (pcbplotparams
-      (layerselection 0x010f0_80000001)
+      (layerselection 0x010f0_ffffffff)
       (usegerberextensions false)
       (usegerberattributes true)
       (excludeedgelayer true)

@@ -376,10 +376,10 @@ $Comp
 L POT RV2
 U 1 1 5642FF37
 P 5625 3575
-F 0 "RV2" H 5625 3475 50  0000 C CNN
-F 1 "47k" H 5625 3575 50  0000 C CNN
+F 0 "RV2" H 5625 3446 50  0000 C CNN
+F 1 "47k" H 5625 3354 50  0000 C CNN
 F 2 "Potentiometers:Potentiometer_Bourns_3006P_Angular_ScrewFront" H 5625 3575 60  0001 C CNN
-F 3 "" H 5625 3575 60  0000 C CNN
+F 3 "http://pl.farnell.com/vishay-sfernice/t18503kt10/trimmer-18-turn-50k/dp/1141464" H 5625 3255 60  0001 C CNN
 	1    5625 3575
 	1    0    0    -1  
 $EndComp

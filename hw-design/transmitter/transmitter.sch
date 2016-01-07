@@ -997,7 +997,6 @@ Wire Wire Line
 Connection ~ 9650 4675
 Connection ~ 2050 3950
 Connection ~ 9650 3725
-Connection ~ 11725 3225
 Wire Wire Line
 	4400 1325 4750 1325
 Wire Wire Line
