@@ -6,6 +6,7 @@
 #include "config.h"
 #include "7segmentLed.h"
 #include "weight_scale_lcd.h"
+#include <stdbool.h>
 
 static void SystemClock_Config (void);
 //USBD_HandleTypeDef USBD_Device;
@@ -25,7 +26,7 @@ uint32_t timeFromLastEvent = EVENT_TRESHOLD + 1;
  * that light path is cut.
  */
 #define UPDATE_EVENT_TRESHOLD 50
-
+bool beep = false;
 /*****************************************************************************/
 
 int main (void)
@@ -42,6 +43,14 @@ int main (void)
         gpioInitStruct.Speed = GPIO_SPEED_LOW;
         HAL_GPIO_Init (GPIOA, &gpioInitStruct);
         HAL_GPIO_WritePin (GPIOA, GPIO_PIN_1, 0);
+
+        __HAL_RCC_GPIOC_CLK_ENABLE ();
+        RCC->BDCR &= ~RCC_BDCR_LSEON;
+        gpioInitStruct.Pin = GPIO_PIN_15;
+        gpioInitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+        gpioInitStruct.Pull = GPIO_NOPULL;
+        HAL_GPIO_Init (GPIOC, &gpioInitStruct);
+        HAL_GPIO_WritePin (GPIOC, GPIO_PIN_15, 0);
 
         //        gpioInitStruct.Pin = GPIO_PIN_5;
         //        HAL_GPIO_Init (GPIOB, &gpioInitStruct);
@@ -117,6 +126,14 @@ int main (void)
         //        printf ("init OK\n");
 
         while (1) {
+                if (beep) {
+                        beep = false;
+                        GPIOA->BSRR |= GPIO_PIN_1;
+                        GPIOC->BSRR |= GPIO_PIN_15;
+                        HAL_Delay (100);
+                        GPIOA->BSRR |= GPIO_PIN_1 << 16;
+                        GPIOC->BSRR |= GPIO_PIN_15 << 16;
+                }
         }
 }
 
@@ -156,6 +173,7 @@ void TIM14_IRQHandler (void)
 
         if (timeFromLastEvent > EVENT_TRESHOLD && noOfUpdateEventsSinceLastRise >= UPDATE_EVENT_TRESHOLD) {
                 timeFromLastEvent = 0;
+                beep = true;
 
                 if (state == WATCH_RUNNING) {
                         state = WATCH_STOPPED;
@@ -173,8 +191,6 @@ void SystemClock_Config (void)
 {
 
         RCC_OscInitTypeDef RCC_OscInitStruct;
-        RCC_ClkInitTypeDef RCC_ClkInitStruct;
-
         RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE;
         RCC_OscInitStruct.HSEState = RCC_HSE_ON;
         RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
@@ -183,6 +199,7 @@ void SystemClock_Config (void)
         RCC_OscInitStruct.PLL.PREDIV = RCC_PREDIV_DIV1;
         HAL_RCC_OscConfig (&RCC_OscInitStruct);
 
+        RCC_ClkInitTypeDef RCC_ClkInitStruct;
         RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_SYSCLK;
         RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
         RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
@@ -190,7 +207,6 @@ void SystemClock_Config (void)
         HAL_RCC_ClockConfig (&RCC_ClkInitStruct, FLASH_LATENCY_1);
 
         HAL_SYSTICK_Config (HAL_RCC_GetHCLKFreq () / 1000);
-
         HAL_SYSTICK_CLKSourceConfig (SYSTICK_CLKSOURCE_HCLK);
 }
 
