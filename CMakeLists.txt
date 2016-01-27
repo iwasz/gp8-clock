@@ -7,7 +7,17 @@ include (stm32.cmake)
 SET(USB_LIB "" CACHE STRING "")
 
 INCLUDE_DIRECTORIES("src/")
-AUX_SOURCE_DIRECTORY ("src/" APP_SOURCES)
+LIST (APPEND APP_SOURCES "src/main.c")
+LIST (APPEND APP_SOURCES "src/7segmentLed.c")
+LIST (APPEND APP_SOURCES "src/7segmentLed.h")
+LIST (APPEND APP_SOURCES "src/stm32f4xx_it.c")
+LIST (APPEND APP_SOURCES "src/syscalls.c")
+LIST (APPEND APP_SOURCES "src/system_stm32f0xx.c")
+LIST (APPEND APP_SOURCES "src/weight_scale_lcd.h")
+LIST (APPEND APP_SOURCES "src/weight_scale_lcd.c")
+LIST (APPEND APP_SOURCES "src/config.h")
+LIST (APPEND APP_SOURCES "src/config-proto0.h")
+
 AUX_SOURCE_DIRECTORY ("${CUBE_ROOT}/Drivers/STM32F0xx_HAL_Driver/Src/" APP_SOURCES)
 LIST (APPEND APP_SOURCES "${STARTUP_CODE}")
 
