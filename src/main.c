@@ -13,9 +13,11 @@ static void SystemClock_Config (void);
 extern uint32_t noOfUpdateEventsSinceLastRise;
 static TIM_HandleTypeDef stopWatchTimHandle;
 
-typedef enum { WATCH_STOPPED,
+typedef enum { WATCH_INIT,
+               WATCH_STOPPED,
                WATCH_RUNNING } WatchState;
-uint8_t state = WATCH_STOPPED;
+
+uint8_t state = WATCH_INIT;
 
 #define EVENT_TRESHOLD 300
 // Delay between events
@@ -23,7 +25,7 @@ uint32_t timeFromLastEvent = EVENT_TRESHOLD + 1;
 
 /**
  * How much update events since last rise (noOfUpdateEventsSinceLastRise) indicates
- * that light path is cut.
+ * that light path is cut. Roughly proportional to ms.
  */
 #define UPDATE_EVENT_TRESHOLD 50
 bool beep = false;
@@ -52,42 +54,7 @@ int main (void)
         HAL_GPIO_Init (GPIOC, &gpioInitStruct);
         HAL_GPIO_WritePin (GPIOC, GPIO_PIN_15, 0);
 
-        //        gpioInitStruct.Pin = GPIO_PIN_5;
-        //        HAL_GPIO_Init (GPIOB, &gpioInitStruct);
-        //        gpioInitStruct.Pin = GPIO_PIN_4;
-        //        HAL_GPIO_Init (GPIOB, &gpioInitStruct);
-        //        GPIOB->BSRR = GPIO_PIN_4 | GPIO_PIN_5 | GPIO_PIN_6 | GPIO_PIN_7; // Set
-
-        //        while (1) {
-        //                GPIOB->BSRR = GPIO_PIN_4; // Set = floating
-        //                GPIOB->PUPDR = 2 << (4 * 2); // Pull down on pin 4
-
-        //                HAL_Delay (1);
-
-        //                GPIOB->BSRR = GPIO_PIN_4; // Set = floating
-        //                GPIOB->PUPDR = 0; // No pull up / pull down on entire GPIOB
-
-        //                HAL_Delay (1);
-
-        //                GPIOB->BSRR = GPIO_PIN_4; // Set = floating
-        //                GPIOB->PUPDR = 2 << (4 * 2); // Pull down on pin 4
-
-        //                HAL_Delay (1);
-
-        //                GPIOB->BSRR = GPIO_PIN_4 << 16; // Reset = 0
-        //                HAL_Delay (1);
-        //        }
-
-        //        gpioInitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-        //        gpioInitStruct.Pull = GPIO_NOPULL;
-        //        gpioInitStruct.Pin = GPIO_PIN_3;
-        //        HAL_GPIO_Init (GPIOB, &gpioInitStruct);
-        //        gpioInitStruct.Pin = GPIO_PIN_2;
-        //        HAL_GPIO_Init (GPIOB, &gpioInitStruct);
-        //        gpioInitStruct.Pin = GPIO_PIN_1;
-        //        HAL_GPIO_Init (GPIOB, &gpioInitStruct);
-        //        gpioInitStruct.Pin = GPIO_PIN_0;
-        //        HAL_GPIO_Init (GPIOB, &gpioInitStruct);
+        /*---------------------------------------------------------------------------*/
 
         // Stop-watch
         stopWatchTimHandle.Instance = TIM14;
@@ -128,11 +95,11 @@ int main (void)
         while (1) {
                 if (beep) {
                         beep = false;
-                        GPIOA->BSRR |= GPIO_PIN_1;
+                        //                        GPIOA->BSRR |= GPIO_PIN_1;
                         GPIOC->BSRR |= GPIO_PIN_15;
                         HAL_Delay (100);
                         GPIOA->BSRR |= GPIO_PIN_1 << 16;
-                        GPIOC->BSRR |= GPIO_PIN_15 << 16;
+                        //                        GPIOC->BSRR |= GPIO_PIN_15 << 16;
                 }
         }
 }
@@ -164,6 +131,15 @@ void TIM14_IRQHandler (void)
 
         // One digit of miniutes
         wslcdSetDigit (0, cntTmp % 10);
+
+        switch (state) {
+        case WATCH_INIT:
+                break;
+
+
+        }
+
+
 
         if (state == WATCH_RUNNING) {
                 ++cnt;

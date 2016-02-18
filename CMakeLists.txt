@@ -8,8 +8,6 @@ SET(USB_LIB "" CACHE STRING "")
 
 INCLUDE_DIRECTORIES("src/")
 LIST (APPEND APP_SOURCES "src/main.c")
-LIST (APPEND APP_SOURCES "src/7segmentLed.c")
-LIST (APPEND APP_SOURCES "src/7segmentLed.h")
 LIST (APPEND APP_SOURCES "src/stm32f4xx_it.c")
 LIST (APPEND APP_SOURCES "src/syscalls.c")
 LIST (APPEND APP_SOURCES "src/system_stm32f0xx.c")
