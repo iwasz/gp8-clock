@@ -37,6 +37,7 @@ int main (void)
         SystemClock_Config ();
         wslcdInit ();
 
+#if 0
         // Backlight
         GPIO_InitTypeDef gpioInitStruct;
         gpioInitStruct.Pin = GPIO_PIN_1;
@@ -102,8 +103,13 @@ int main (void)
                         //                        GPIOC->BSRR |= GPIO_PIN_15 << 16;
                 }
         }
+#endif
+
+        while (1)
+                ;
 }
 
+#if 0
 /**
  * Stop-watch ISR.
  * Here the value displayed is updated. 100Hz
@@ -160,20 +166,24 @@ void TIM14_IRQHandler (void)
                 }
         }
 }
-
+#endif
 /*****************************************************************************/
 
 void SystemClock_Config (void)
 {
 
         RCC_OscInitTypeDef RCC_OscInitStruct;
-        RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE;
-        RCC_OscInitStruct.HSEState = RCC_HSE_ON;
+        /* Select HSI48 Oscillator as PLL source */
+        RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI48;
+        RCC_OscInitStruct.HSI48State = RCC_HSI48_ON;
         RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
-        RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
-        RCC_OscInitStruct.PLL.PLLMUL = RCC_PLL_MUL6;
-        RCC_OscInitStruct.PLL.PREDIV = RCC_PREDIV_DIV1;
-        HAL_RCC_OscConfig (&RCC_OscInitStruct);
+        RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSI48;
+        RCC_OscInitStruct.PLL.PREDIV = RCC_PREDIV_DIV2;
+        RCC_OscInitStruct.PLL.PLLMUL = RCC_PLL_MUL2;
+
+        if (HAL_RCC_OscConfig (&RCC_OscInitStruct) != HAL_OK) {
+                Error_Handler ();
+        }
 
         RCC_ClkInitTypeDef RCC_ClkInitStruct;
         RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_SYSCLK;

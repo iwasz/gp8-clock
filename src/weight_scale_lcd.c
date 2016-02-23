@@ -27,10 +27,9 @@ static uint16_t digit[10][PLATES_NUM] = {
         { 0x000c, 0x000c, 0x0008, 0x0004 },
 };
 
-static GPIO_TypeDef *platePort[PLATES_NUM] = { GPIOB, GPIOB, GPIOB, GPIOB };
+static GPIO_TypeDef *platePort[PLATES_NUM] = { GPIOC, GPIOC, GPIOC, GPIOC };
 
-//static uint16_t platePin[PLATES_NUM] = { GPIO_PIN_2, GPIO_PIN_10, GPIO_PIN_11, GPIO_PIN_12 };
-static uint16_t platePin[PLATES_NUM] = { GPIO_PIN_12, GPIO_PIN_11, GPIO_PIN_10, GPIO_PIN_2 };
+static uint16_t platePin[PLATES_NUM] = { GPIO_PIN_0, GPIO_PIN_1, GPIO_PIN_3, GPIO_PIN_4 };
 
 static GPIO_TypeDef *segmentPort[SEGMENTS_PER_PLATE_NUM] = { GPIOB, GPIOB, GPIOB, GPIOA,
                                                              GPIOA, GPIOA, GPIOA, GPIOB,
@@ -75,10 +74,11 @@ static void wslcdInitLcdPins ()
 {
         __HAL_RCC_GPIOB_CLK_ENABLE (); // Włączenie zegara.
         __HAL_RCC_GPIOA_CLK_ENABLE (); // Włączenie zegara.
+        __HAL_RCC_GPIOC_CLK_ENABLE (); // Włączenie zegara.
         GPIO_InitTypeDef gpioInitStruct;
-        gpioInitStruct.Mode = GPIO_MODE_OUTPUT_OD;
+        gpioInitStruct.Mode = GPIO_MODE_OUTPUT_PP;
         gpioInitStruct.Pull = GPIO_NOPULL;
-        gpioInitStruct.Speed = GPIO_SPEED_LOW;
+        gpioInitStruct.Speed = GPIO_SPEED_MEDIUM;
 
         for (int i = 0; i < PLATES_NUM; ++i) {
                 gpioInitStruct.Pin = platePin[i];
@@ -98,7 +98,7 @@ static void wslcdInitRefreshTimer ()
         // Timer for multiplexing displays
         timHandle.Instance = TIM3;
 
-        timHandle.Init.Period = (uint32_t) (HAL_RCC_GetHCLKFreq () / 10000) - 1;
+        timHandle.Init.Period = (uint32_t) (HAL_RCC_GetHCLKFreq () / 100000) - 1;
         timHandle.Init.Prescaler = 0;
         timHandle.Init.ClockDivision = 0;
         timHandle.Init.CounterMode = TIM_COUNTERMODE_UP;
@@ -118,25 +118,25 @@ static void wslcdInitRefreshTimer ()
         /*---------------------------------------------------------------------------*/
 
         // Konfigureacja kanału. Input Capture. Wejście.
-        __HAL_RCC_GPIOB_CLK_ENABLE ();
-        GPIO_InitTypeDef gpioInitStruct;
-        gpioInitStruct.Pin = GPIO_PIN_1;
-        gpioInitStruct.Mode = GPIO_MODE_AF_PP;
-        gpioInitStruct.Pull = GPIO_PULLUP;
-        gpioInitStruct.Alternate = GPIO_AF1_TIM3;
-        gpioInitStruct.Speed = GPIO_SPEED_HIGH;
-        HAL_GPIO_Init (GPIOB, &gpioInitStruct);
+        //        __HAL_RCC_GPIOB_CLK_ENABLE ();
+        //        GPIO_InitTypeDef gpioInitStruct;
+        //        gpioInitStruct.Pin = GPIO_PIN_1;
+        //        gpioInitStruct.Mode = GPIO_MODE_AF_PP;
+        //        gpioInitStruct.Pull = GPIO_PULLUP;
+        //        gpioInitStruct.Alternate = GPIO_AF1_TIM3;
+        //        gpioInitStruct.Speed = GPIO_SPEED_HIGH;
+        //        HAL_GPIO_Init (GPIOB, &gpioInitStruct);
 
-        // Dotycząca timera
-        TIM_IC_InitTypeDef sICConfig;
-        sICConfig.ICPolarity = TIM_ICPOLARITY_RISING;
-        sICConfig.ICSelection = TIM_ICSELECTION_DIRECTTI;
-        sICConfig.ICFilter = 0;
-        sICConfig.ICPrescaler = TIM_ICPSC_DIV1;
+        //        // Dotycząca timera
+        //        TIM_IC_InitTypeDef sICConfig;
+        //        sICConfig.ICPolarity = TIM_ICPOLARITY_RISING;
+        //        sICConfig.ICSelection = TIM_ICSELECTION_DIRECTTI;
+        //        sICConfig.ICFilter = 0;
+        //        sICConfig.ICPrescaler = TIM_ICPSC_DIV1;
 
-        if (HAL_TIM_IC_ConfigChannel (&timHandle, &sICConfig, TIM_CHANNEL_4) != HAL_OK) {
-                Error_Handler ();
-        }
+        //        if (HAL_TIM_IC_ConfigChannel (&timHandle, &sICConfig, TIM_CHANNEL_4) != HAL_OK) {
+        //                Error_Handler ();
+        //        }
 
         if (HAL_TIM_IC_Start_IT (&timHandle, TIM_CHANNEL_4) != HAL_OK) {
                 Error_Handler ();
@@ -183,58 +183,27 @@ void TIM3_IRQHandler (void)
 
         //        }
 
-        static uint8_t stage = 7;
-        static uint8_t prescale = 0;
+        static uint8_t cnt = 0;
+        //        static uint8_t cnt2 = 0;
 
         if (__HAL_TIM_GET_FLAG (&timHandle, TIM_FLAG_UPDATE) && __HAL_TIM_GET_IT_SOURCE (&timHandle, TIM_IT_UPDATE)) {
                 __HAL_TIM_CLEAR_IT (&timHandle, TIM_IT_UPDATE);
 
-                // 10kHz
-                ++noOfUpdateEventsSinceLastRise;
-                if (++prescale < 10) {
-                        return;
-                }
-                prescale = 0;
+                switch (cnt % 3) {
+                case 0:
+                        GPIOC->BSRR = GPIO_PIN_0;
+                        GPIOC->BSRR = GPIO_PIN_1;
+                        break;
 
-                uint8_t p = stage % 4;
+                case 1:
+                        GPIOC->BSRR = GPIO_PIN_0 << 16;
+                        break;
+                case 2:
+                        GPIOC->BSRR = GPIO_PIN_1 << 16;
+                        break;
+                };
 
-                // Middle
-                platePort[p]->BSRR = platePin[p]; // Set = floating
-                platePort[p]->PUPDR |= ((platePin[p] * platePin[p]) << 1);
-
-                if (++stage >= 8) {
-                        stage = 0;
-                }
-
-                p = stage % 4;
-
-                if (stage < 4) {
-                        // High
-                        platePort[p]->BSRR = platePin[p];                           // Set = floating
-                        platePort[p]->PUPDR &= ~((platePin[p] * platePin[p]) << 1); // No pull up / pull down on entire GPIOB
-
-                        for (int i = 0; i < SEGMENTS_PER_PLATE_NUM; ++i) {
-                                if (plate[p] & (1 << i)) { // Segment i should be DARK i.e. visible
-                                        segmentPort[i]->BSRR = segmentPin[i] << 16;
-                                }
-                                else { // Segment i should be invisible
-                                        segmentPort[i]->BSRR = segmentPin[i];
-                                }
-                        }
-                }
-                else {
-                        // Low
-                        platePort[p]->BSRR = platePin[p] << 16; // Reset common
-
-                        for (int i = 0; i < SEGMENTS_PER_PLATE_NUM; ++i) {
-                                if (plate[p] & (1 << i)) { // Segment i should be DARK i.e. visible
-                                        segmentPort[i]->BSRR = segmentPin[i];
-                                }
-                                else { // Segment i should be invisible
-                                        segmentPort[i]->BSRR = segmentPin[i] << 16;
-                                }
-                        }
-                }
+                ++cnt;
         }
 }
 
