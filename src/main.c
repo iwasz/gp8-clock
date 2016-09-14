@@ -11,7 +11,7 @@
 static void SystemClock_Config (void);
 //USBD_HandleTypeDef USBD_Device;
 extern uint32_t noOfUpdateEventsSinceLastRise;
-static TIM_HandleTypeDef stopWatchTimHandle;
+//static TIM_HandleTypeDef stopWatchTimHandle;
 
 typedef enum { WATCH_INIT,
                WATCH_STOPPED,
@@ -29,13 +29,84 @@ uint32_t timeFromLastEvent = EVENT_TRESHOLD + 1;
  */
 #define UPDATE_EVENT_TRESHOLD 50
 bool beep = false;
+
+I2C_HandleTypeDef i2cHandle;
+
 /*****************************************************************************/
 
 int main (void)
 {
         HAL_Init ();
         SystemClock_Config ();
-        wslcdInit ();
+
+        /*---------------------------------------------------------------------------*/
+
+        GPIO_InitTypeDef gpioInitStruct;
+        __HAL_RCC_GPIOB_CLK_ENABLE ();
+
+        /* I2C TX GPIO pin configuration  */
+        gpioInitStruct.Pin = GPIO_PIN_6;
+        gpioInitStruct.Mode = GPIO_MODE_AF_OD;
+        gpioInitStruct.Pull = GPIO_PULLUP;
+        gpioInitStruct.Speed = GPIO_SPEED_HIGH;
+        gpioInitStruct.Alternate = GPIO_AF1_I2C1;
+
+        HAL_GPIO_Init (GPIOB, &gpioInitStruct);
+
+        gpioInitStruct.Pin = GPIO_PIN_7;
+        gpioInitStruct.Alternate = GPIO_AF1_I2C1;
+
+        HAL_GPIO_Init (GPIOB, &gpioInitStruct);
+
+        /*---------------------------------------------------------------------------*/
+
+        __HAL_RCC_I2C1_CLK_ENABLE ();
+
+        i2cHandle.Instance = I2C1;
+        i2cHandle.Init.DualAddressMode = I2C_DUALADDRESS_DISABLE;
+        i2cHandle.Init.OwnAddress1 = 0x00;
+        i2cHandle.Init.AddressingMode = I2C_ADDRESSINGMODE_7BIT;
+        i2cHandle.Init.OwnAddress2 = 0x00;
+        i2cHandle.Init.GeneralCallMode = I2C_GENERALCALL_DISABLE;
+        i2cHandle.Init.NoStretchMode = I2C_NOSTRETCH_DISABLE;
+        i2cHandle.Init.Timing = 0x00E0D3FF;
+
+        if (HAL_I2C_Init (&i2cHandle) != HAL_OK) {
+                /* Initialization Error */
+                Error_Handler ();
+        }
+
+        /*---------------------------------------------------------------------------*/
+#define DOT_TRIANGLE 1
+        uint8_t txBuffer[] = {
+                // 0xc8, 0x00, 0x00, 0xbe | DOT_TRIANGLE,  0x06, 0x7c, 0x5e, 0xc6,
+                0xc8, 0x00, 0x00, 0xda | DOT_TRIANGLE,  0xfa, 0x0e, 0xfe, 0xde,
+        };
+
+#define ADDRESS_WRITE 0x70
+
+        while (HAL_I2C_Master_Transmit (&i2cHandle, (uint8_t)ADDRESS_WRITE, (uint8_t *)txBuffer, sizeof (txBuffer), 10000) != HAL_OK) {
+                /* Error_Handler() function is called when Timeout error occurs.
+                 When Acknowledge failure occurs (Slave don't acknowledge it's address)
+                 Master restarts communication */
+                if (HAL_I2C_GetError (&i2cHandle) != HAL_I2C_ERROR_AF) {
+                        Error_Handler ();
+                }
+        }
+
+//        uint8_t txBuffer2[] = {
+//                //0x80, 0x77, 0x77, 0x77, 0x77, 0x77, 0x77, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+//                0x80, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+//        };
+
+//        while (HAL_I2C_Master_Transmit (&i2cHandle, (uint8_t)ADDRESS_WRITE, (uint8_t *)txBuffer2, sizeof (txBuffer2), 10000) != HAL_OK) {
+//                /* Error_Handler() function is called when Timeout error occurs.
+//                 When Acknowledge failure occurs (Slave don't acknowledge it's address)
+//                 Master restarts communication */
+//                if (HAL_I2C_GetError (&i2cHandle) != HAL_I2C_ERROR_AF) {
+//                        Error_Handler ();
+//                }
+//        }
 
 #if 0
         // Backlight
