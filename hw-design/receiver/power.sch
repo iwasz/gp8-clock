@@ -34,7 +34,7 @@ EELAYER 26 0
 EELAYER END
 $Descr A4 11693 8268
 encoding utf-8
-Sheet 2 2
+Sheet 2 3
 Title ""
 Date ""
 Rev ""
@@ -71,10 +71,10 @@ $EndComp
 Wire Wire Line
 	2425 3600 2425 3725
 $Comp
-L +5V #PWR028
+L +5V #PWR27
 U 1 1 56375D1B
 P 2250 3600
-F 0 "#PWR028" H 2250 3450 50  0001 C CNN
+F 0 "#PWR27" H 2250 3450 50  0001 C CNN
 F 1 "+5V" H 2250 3740 50  0000 C CNN
 F 2 "" H 2250 3600 60  0000 C CNN
 F 3 "" H 2250 3600 60  0000 C CNN
@@ -83,10 +83,10 @@ F 3 "" H 2250 3600 60  0000 C CNN
 $EndComp
 Connection ~ 2425 3600
 $Comp
-L GND #PWR029
+L GND #PWR28
 U 1 1 56375D22
 P 2425 4100
-F 0 "#PWR029" H 2425 3850 50  0001 C CNN
+F 0 "#PWR28" H 2425 3850 50  0001 C CNN
 F 1 "GND" H 2425 3950 50  0000 C CNN
 F 2 "" H 2425 4100 60  0000 C CNN
 F 3 "" H 2425 4100 60  0000 C CNN
@@ -101,14 +101,14 @@ Wire Wire Line
 	3700 3700 3700 3600
 Connection ~ 3700 3600
 Wire Wire Line
-	3200 3800 3875 3800
+	3300 3800 3875 3800
 Wire Wire Line
-	3200 3900 3875 3900
+	3300 3900 3875 3900
 $Comp
-L GND #PWR030
+L GND #PWR29
 U 1 1 56375D4C
 P 3800 4400
-F 0 "#PWR030" H 3800 4150 50  0001 C CNN
+F 0 "#PWR29" H 3800 4150 50  0001 C CNN
 F 1 "GND" H 3800 4250 50  0000 C CNN
 F 2 "" H 3800 4400 60  0000 C CNN
 F 3 "" H 3800 4400 60  0000 C CNN
@@ -156,10 +156,10 @@ Wire Wire Line
 	5150 3700 5025 3700
 Connection ~ 5150 3600
 $Comp
-L GND #PWR033
+L GND #PWR31
 U 1 1 56375D84
 P 5550 3650
-F 0 "#PWR033" H 5550 3400 50  0001 C CNN
+F 0 "#PWR31" H 5550 3400 50  0001 C CNN
 F 1 "GND" H 5644 3613 50  0000 L CNN
 F 2 "" H 5550 3650 60  0000 C CNN
 F 3 "" H 5550 3650 60  0000 C CNN
@@ -167,7 +167,7 @@ F 3 "" H 5550 3650 60  0000 C CNN
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
-	5450 3800 5025 3800
+	5025 3800 5450 3800
 $Comp
 L SPST SW2
 U 1 1 563D0B61
@@ -180,10 +180,6 @@ F 4 "Włącznik zasilania, kołyskowy." H 6200 3125 60  0001 C CNN "Opis"
 	1    6200 3125
 	1    0    0    -1  
 $EndComp
-Text GLabel 3200 3800 0    40   Input ~ 0
-progress
-Text GLabel 3200 3900 0    40   Input ~ 0
-complete
 $Comp
 L test-double P4
 U 1 1 56855A2D
@@ -215,16 +211,16 @@ Connection ~ 3550 3900
 Wire Wire Line
 	5150 3125 5150 3700
 Wire Wire Line
-	5450 3600 5450 3800
+	5450 3800 5450 3600
 Wire Wire Line
 	5025 3600 5350 3600
 Wire Wire Line
 	5550 3650 5550 3600
 $Comp
-L TLV70012DDC U?
+L TLV70012DDC U6
 U 1 1 58BD09B0
 P 7850 3825
-F 0 "U?" H 7850 4233 50  0000 C CNN
+F 0 "U6" H 7850 4233 50  0000 C CNN
 F 1 "MIC5504" H 7850 4142 50  0000 C CNN
 F 2 "w_smd_trans:sot23-5" H 7850 4051 50  0000 C CIN
 F 3 "http://pl.farnell.com/microchip/mic5504-3-3ym5-tr/ldo-volt-reg-0-3a-3-3v-sot-23/dp/2510377" H 7850 3825 50  0001 C CNN
@@ -234,10 +230,10 @@ F 5 "0.32" H 7850 3825 60  0001 C CNN "price2"
 	1    0    0    -1  
 $EndComp
 $Comp
-L GND #PWR?
+L GND #PWR34
 U 1 1 58BD09B4
 P 7850 4275
-F 0 "#PWR?" H 7850 4025 50  0001 C CNN
+F 0 "#PWR34" H 7850 4025 50  0001 C CNN
 F 1 "GND" H 7855 4102 50  0000 C CNN
 F 2 "" H 7850 4275 50  0000 C CNN
 F 3 "" H 7850 4275 50  0000 C CNN
@@ -260,10 +256,10 @@ Connection ~ 8350 3775
 Wire Wire Line
 	7300 4275 8350 4275
 $Comp
-L C C?
+L C C16
 U 1 1 58BD09B7
 P 7300 4125
-F 0 "C?" H 7415 4171 50  0000 L CNN
+F 0 "C16" H 7415 4171 50  0000 L CNN
 F 1 "1µF, X5R, X7R, 25V" H 7415 4080 50  0000 L CNN
 F 2 "w_smd_cap:c_0603" H 7338 3975 50  0001 C CNN
 F 3 "http://pl.farnell.com/walsin/0603x105k250ct/cap-mlcc-x5r-1uf-25v-0603-reel/dp/2495417" H 7300 4125 50  0001 C CNN
@@ -273,10 +269,10 @@ F 5 "0.04" H 7300 4125 60  0001 C CNN "price2"
 	1    0    0    -1  
 $EndComp
 $Comp
-L C C?
+L C C17
 U 1 1 58BD09B8
 P 8350 4125
-F 0 "C?" H 8465 4171 50  0000 L CNN
+F 0 "C17" H 8465 4171 50  0000 L CNN
 F 1 "1µF, X5R, X7R, 25V" H 8465 4080 50  0000 L CNN
 F 2 "w_smd_cap:c_0603" H 8388 3975 50  0001 C CNN
 F 3 "http://pl.farnell.com/walsin/0603x105k250ct/cap-mlcc-x5r-1uf-25v-0603-reel/dp/2495417" H 8350 4125 50  0001 C CNN
@@ -286,10 +282,10 @@ F 5 "0.02" H 8350 4125 60  0001 C CNN "price2"
 	1    0    0    -1  
 $EndComp
 $Comp
-L +3.3V #PWR?
+L +3.3V #PWR35
 U 1 1 58BD09B9
 P 8475 3775
-F 0 "#PWR?" H 8475 3625 50  0001 C CNN
+F 0 "#PWR35" H 8475 3625 50  0001 C CNN
 F 1 "+3.3V" V 8490 3903 50  0000 L CNN
 F 2 "" H 8475 3775 50  0000 C CNN
 F 3 "" H 8475 3775 50  0000 C CNN
@@ -300,21 +296,21 @@ Connection ~ 7850 4275
 Text Notes 3800 2450 0    60   ~ 0
 1. Kiedy jest ładowanie baterii, a włącznik będzie WYłączony, to nie będzie żadnego feedbaku (migającej diody etc). \n2. Kiedy będzie WŁĄczony, i podłączone ładowanie, to program będzie pokazywał na diodzie stan ładowania.\n3. Kiedy będzie WŁĄczony i nie będzie podłączone ładowanie, to mamy normalne działanie.\nPomysł z diodą schottky między +5V a +BATT miał tę wadę, że gdy włącznik byłby WŁĄczony, to ok. 5V szło by bezpośrednio do baterii.
 $Comp
-L R R?
+L R R2
 U 1 1 58BD3A3D
 P 5275 4400
-F 0 "R?" V 5355 4400 50  0000 C CNN
+F 0 "R2" V 5355 4400 50  0000 C CNN
 F 1 "10k" V 5275 4400 50  0000 C CNN
-F 2 "w_smd_resistors:r_0402" V 5205 4400 30  0001 C CNN
+F 2 "w_smd_resistors:r_0603" V 5205 4400 30  0001 C CNN
 F 3 "" H 5275 4400 30  0000 C CNN
 	1    5275 4400
 	-1   0    0    1   
 $EndComp
 $Comp
-L GND #PWR?
+L GND #PWR30
 U 1 1 58BD4121
 P 5275 4625
-F 0 "#PWR?" H 5275 4375 50  0001 C CNN
+F 0 "#PWR30" H 5275 4375 50  0001 C CNN
 F 1 "GND" H 5369 4588 50  0000 L CNN
 F 2 "" H 5275 4625 60  0000 C CNN
 F 3 "" H 5275 4625 60  0000 C CNN
@@ -330,9 +326,69 @@ Text Notes 5500 4475 1    160  ~ 0
 *
 NoConn ~ 5025 3900
 Wire Wire Line
-	5150 3125 5700 3125
+	6875 3125 6700 3125
 Wire Wire Line
-	6700 3125 6700 3775
+	6700 3025 6700 3775
 Wire Wire Line
 	7300 3775 7300 3975
+Text HLabel 3300 3800 0    60   Output ~ 0
+progress
+Text HLabel 3300 3900 0    60   Output ~ 0
+complete
+$Comp
+L R R4
+U 1 1 58C05AB7
+P 7025 3125
+F 0 "R4" V 7105 3125 50  0000 C CNN
+F 1 "5k6" V 7025 3125 50  0000 C CNN
+F 2 "w_smd_resistors:r_0603" V 6955 3125 30  0001 C CNN
+F 3 "" H 7025 3125 30  0000 C CNN
+	1    7025 3125
+	0    1    1    0   
+$EndComp
+$Comp
+L R R5
+U 1 1 58C05C11
+P 7450 3125
+F 0 "R5" V 7530 3125 50  0000 C CNN
+F 1 "5k6" V 7450 3125 50  0000 C CNN
+F 2 "w_smd_resistors:r_0603" V 7380 3125 30  0001 C CNN
+F 3 "" H 7450 3125 30  0000 C CNN
+	1    7450 3125
+	0    1    1    0   
+$EndComp
+$Comp
+L GND #PWR33
+U 1 1 58C05C80
+P 7725 3125
+F 0 "#PWR33" H 7725 2875 50  0001 C CNN
+F 1 "GND" H 7819 3088 50  0000 L CNN
+F 2 "" H 7725 3125 60  0000 C CNN
+F 3 "" H 7725 3125 60  0000 C CNN
+	1    7725 3125
+	0    -1   -1   0   
+$EndComp
+Wire Wire Line
+	7725 3125 7600 3125
+Wire Wire Line
+	7300 3125 7175 3125
+$Comp
+L +BATT #PWR32
+U 1 1 58C06D4A
+P 6700 3025
+F 0 "#PWR32" H 6700 2875 50  0001 C CNN
+F 1 "+BATT" H 6700 3165 50  0000 C CNN
+F 2 "" H 6700 3025 60  0000 C CNN
+F 3 "" H 6700 3025 60  0000 C CNN
+	1    6700 3025
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	5150 3125 5700 3125
+Connection ~ 6700 3125
+Text HLabel 7250 3000 1    60   Output ~ 0
+sense
+Wire Wire Line
+	7250 3125 7250 3000
+Connection ~ 7250 3125
 $EndSCHEMATC
