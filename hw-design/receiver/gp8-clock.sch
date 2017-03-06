@@ -30,11 +30,11 @@ LIBS:atmel
 LIBS:contrib
 LIBS:valves
 LIBS:gp8-clock-cache
-EELAYER 25 0
+EELAYER 26 0
 EELAYER END
 $Descr A4 11693 8268
 encoding utf-8
-Sheet 1 3
+Sheet 1 2
 Title ""
 Date ""
 Rev ""
@@ -248,7 +248,7 @@ L R R22
 U 1 1 563308C8
 P 5225 4375
 F 0 "R22" V 5305 4375 50  0000 C CNN
-F 1 "R" V 5225 4375 50  0000 C CNN
+F 1 "220R" V 5225 4375 50  0000 C CNN
 F 2 "w_smd_resistors:r_0603" V 5155 4375 30  0001 C CNN
 F 3 "" H 5225 4375 30  0000 C CNN
 	1    5225 4375
@@ -281,12 +281,12 @@ $EndComp
 $Comp
 L weight-scale-lcd U2
 U 1 1 56331F12
-P 1850 1225
-F 0 "U2" H 1850 1325 60  0000 C CNN
-F 1 "weight-scale-lcd" H 1850 1225 60  0000 C CNN
-F 2 "iwasz:weight-scale-lcd" H 1850 1225 60  0001 C CNN
-F 3 "" H 1850 1225 60  0000 C CNN
-	1    1850 1225
+P -3475 1225
+F 0 "U2" H -3475 1325 60  0000 C CNN
+F 1 "weight-scale-lcd" H -3475 1225 60  0000 C CNN
+F 2 "iwasz:weight-scale-lcd" H -3475 1225 60  0001 C CNN
+F 3 "" H -3475 1225 60  0000 C CNN
+	1    -3475 1225
 	1    0    0    -1  
 $EndComp
 $Comp
@@ -403,198 +403,6 @@ F 3 "" H 1250 7050 30  0000 C CNN
 $EndComp
 Text Label 1025 7050 2    60   ~ 0
 backlight
-$Comp
-L R R1
-U 1 1 5633EC5A
-P 1100 2575
-F 0 "R1" V 1150 2425 50  0000 C CNN
-F 1 "33k" V 1100 2575 50  0000 C CNN
-F 2 "w_smd_resistors:r_0603" V 1030 2575 30  0001 C CNN
-F 3 "" H 1100 2575 30  0000 C CNN
-F 4 "External pull-up resistor." V 1100 2575 60  0001 C CNN "Opis"
-	1    1100 2575
-	-1   0    0    1   
-$EndComp
-$Comp
-L R R2
-U 1 1 56343EBC
-P 1200 2575
-F 0 "R2" V 1250 2425 50  0000 C CNN
-F 1 "33k" V 1200 2575 50  0000 C CNN
-F 2 "w_smd_resistors:r_0603" V 1130 2575 30  0001 C CNN
-F 3 "" H 1200 2575 30  0000 C CNN
-F 4 "External pull-up resistor." V 1200 2575 60  0001 C CNN "Opis"
-	1    1200 2575
-	-1   0    0    1   
-$EndComp
-$Comp
-L R R4
-U 1 1 56343F18
-P 1300 2575
-F 0 "R4" V 1350 2425 50  0000 C CNN
-F 1 "33k" V 1300 2575 50  0000 C CNN
-F 2 "w_smd_resistors:r_0603" V 1230 2575 30  0001 C CNN
-F 3 "" H 1300 2575 30  0000 C CNN
-F 4 "External pull-up resistor." V 1300 2575 60  0001 C CNN "Opis"
-	1    1300 2575
-	-1   0    0    1   
-$EndComp
-$Comp
-L R R5
-U 1 1 56343F71
-P 1400 2575
-F 0 "R5" V 1450 2425 50  0000 C CNN
-F 1 "33k" V 1400 2575 50  0000 C CNN
-F 2 "w_smd_resistors:r_0603" V 1330 2575 30  0001 C CNN
-F 3 "" H 1400 2575 30  0000 C CNN
-F 4 "External pull-up resistor." V 1400 2575 60  0001 C CNN "Opis"
-	1    1400 2575
-	-1   0    0    1   
-$EndComp
-$Comp
-L R R6
-U 1 1 56344974
-P 1500 2575
-F 0 "R6" V 1550 2425 50  0000 C CNN
-F 1 "33k" V 1500 2575 50  0000 C CNN
-F 2 "w_smd_resistors:r_0603" V 1430 2575 30  0001 C CNN
-F 3 "" H 1500 2575 30  0000 C CNN
-F 4 "External pull-up resistor." V 1500 2575 60  0001 C CNN "Opis"
-	1    1500 2575
-	-1   0    0    1   
-$EndComp
-$Comp
-L R R7
-U 1 1 563449D5
-P 1600 2575
-F 0 "R7" V 1650 2425 50  0000 C CNN
-F 1 "33k" V 1600 2575 50  0000 C CNN
-F 2 "w_smd_resistors:r_0603" V 1530 2575 30  0001 C CNN
-F 3 "" H 1600 2575 30  0000 C CNN
-F 4 "External pull-up resistor." V 1600 2575 60  0001 C CNN "Opis"
-	1    1600 2575
-	-1   0    0    1   
-$EndComp
-$Comp
-L R R8
-U 1 1 56344A39
-P 1700 2575
-F 0 "R8" V 1750 2425 50  0000 C CNN
-F 1 "33k" V 1700 2575 50  0000 C CNN
-F 2 "w_smd_resistors:r_0603" V 1630 2575 30  0001 C CNN
-F 3 "" H 1700 2575 30  0000 C CNN
-F 4 "External pull-up resistor." V 1700 2575 60  0001 C CNN "Opis"
-	1    1700 2575
-	-1   0    0    1   
-$EndComp
-$Comp
-L R R10
-U 1 1 56344AA0
-P 1800 2575
-F 0 "R10" V 1850 2425 50  0000 C CNN
-F 1 "33k" V 1800 2575 50  0000 C CNN
-F 2 "w_smd_resistors:r_0603" V 1730 2575 30  0001 C CNN
-F 3 "" H 1800 2575 30  0000 C CNN
-F 4 "External pull-up resistor." V 1800 2575 60  0001 C CNN "Opis"
-	1    1800 2575
-	-1   0    0    1   
-$EndComp
-$Comp
-L R R11
-U 1 1 56344B0A
-P 1900 2575
-F 0 "R11" V 1950 2425 50  0000 C CNN
-F 1 "33k" V 1900 2575 50  0000 C CNN
-F 2 "w_smd_resistors:r_0603" V 1830 2575 30  0001 C CNN
-F 3 "" H 1900 2575 30  0000 C CNN
-F 4 "External pull-up resistor." V 1900 2575 60  0001 C CNN "Opis"
-	1    1900 2575
-	-1   0    0    1   
-$EndComp
-$Comp
-L R R12
-U 1 1 56344B77
-P 2000 2575
-F 0 "R12" V 2050 2425 50  0000 C CNN
-F 1 "33k" V 2000 2575 50  0000 C CNN
-F 2 "w_smd_resistors:r_0603" V 1930 2575 30  0001 C CNN
-F 3 "" H 2000 2575 30  0000 C CNN
-F 4 "External pull-up resistor." V 2000 2575 60  0001 C CNN "Opis"
-	1    2000 2575
-	-1   0    0    1   
-$EndComp
-$Comp
-L R R14
-U 1 1 56344BE7
-P 2100 2575
-F 0 "R14" V 2150 2425 50  0000 C CNN
-F 1 "33k" V 2100 2575 50  0000 C CNN
-F 2 "w_smd_resistors:r_0603" V 2030 2575 30  0001 C CNN
-F 3 "" H 2100 2575 30  0000 C CNN
-F 4 "External pull-up resistor." V 2100 2575 60  0001 C CNN "Opis"
-	1    2100 2575
-	-1   0    0    1   
-$EndComp
-$Comp
-L R R15
-U 1 1 56344C5A
-P 2200 2575
-F 0 "R15" V 2250 2425 50  0000 C CNN
-F 1 "33k" V 2200 2575 50  0000 C CNN
-F 2 "w_smd_resistors:r_0603" V 2130 2575 30  0001 C CNN
-F 3 "" H 2200 2575 30  0000 C CNN
-F 4 "External pull-up resistor." V 2200 2575 60  0001 C CNN "Opis"
-	1    2200 2575
-	-1   0    0    1   
-$EndComp
-$Comp
-L R R16
-U 1 1 56344CD0
-P 2300 2575
-F 0 "R16" V 2350 2425 50  0000 C CNN
-F 1 "33k" V 2300 2575 50  0000 C CNN
-F 2 "w_smd_resistors:r_0603" V 2230 2575 30  0001 C CNN
-F 3 "" H 2300 2575 30  0000 C CNN
-F 4 "External pull-up resistor." V 2300 2575 60  0001 C CNN "Opis"
-	1    2300 2575
-	-1   0    0    1   
-$EndComp
-$Comp
-L R R17
-U 1 1 56344D49
-P 2400 2575
-F 0 "R17" V 2450 2425 50  0000 C CNN
-F 1 "33k" V 2400 2575 50  0000 C CNN
-F 2 "w_smd_resistors:r_0603" V 2330 2575 30  0001 C CNN
-F 3 "" H 2400 2575 30  0000 C CNN
-F 4 "External pull-up resistor." V 2400 2575 60  0001 C CNN "Opis"
-	1    2400 2575
-	-1   0    0    1   
-$EndComp
-$Comp
-L R R18
-U 1 1 56344DC5
-P 2500 2575
-F 0 "R18" V 2550 2425 50  0000 C CNN
-F 1 "33k" V 2500 2575 50  0000 C CNN
-F 2 "w_smd_resistors:r_0603" V 2430 2575 30  0001 C CNN
-F 3 "" H 2500 2575 30  0000 C CNN
-F 4 "External pull-up resistor." V 2500 2575 60  0001 C CNN "Opis"
-	1    2500 2575
-	-1   0    0    1   
-$EndComp
-$Comp
-L R R19
-U 1 1 56344E48
-P 2600 2575
-F 0 "R19" V 2650 2425 50  0000 C CNN
-F 1 "33k" V 2600 2575 50  0000 C CNN
-F 2 "w_smd_resistors:r_0603" V 2530 2575 30  0001 C CNN
-F 3 "" H 2600 2575 30  0000 C CNN
-F 4 "External pull-up resistor." V 2600 2575 60  0001 C CNN "Opis"
-	1    2600 2575
-	-1   0    0    1   
-$EndComp
 Wire Wire Line
 	7775 3575 8500 3575
 Wire Wire Line
@@ -703,175 +511,14 @@ Wire Wire Line
 Wire Wire Line
 	1400 7050 1475 7050
 Wire Wire Line
-	1775 6850 1775 6775
+	1775 6725 1775 6850
 Wire Wire Line
-	1775 6375 1775 6275
+	1775 6275 1775 6425
 Wire Wire Line
 	1775 5800 1775 5975
 Wire Wire Line
 	1100 7050 1025 7050
-Wire Wire Line
-	2600 1575 2600 2425
-Wire Wire Line
-	2600 1625 2800 1625
-Wire Wire Line
-	2500 1575 2500 2425
-Wire Wire Line
-	2500 1725 2800 1725
-Wire Wire Line
-	2400 1575 2400 2425
-Wire Wire Line
-	2400 1825 2800 1825
-Wire Wire Line
-	2300 1575 2300 2425
-Wire Wire Line
-	2300 1925 2800 1925
-Wire Wire Line
-	2200 1575 2200 2425
-Wire Wire Line
-	2200 2025 2800 2025
-Wire Wire Line
-	2100 1575 2100 2425
-Wire Wire Line
-	2100 2125 2800 2125
-Wire Wire Line
-	2000 1575 2000 2425
-Wire Wire Line
-	2000 2225 2800 2225
-Wire Wire Line
-	1900 1575 1900 2425
-Wire Wire Line
-	1900 2325 2800 2325
-Wire Wire Line
-	1100 1575 1100 2425
-Wire Wire Line
-	1100 1625 900  1625
-Wire Wire Line
-	1200 1575 1200 2425
-Wire Wire Line
-	1200 1725 900  1725
-Wire Wire Line
-	1300 1575 1300 2425
-Wire Wire Line
-	1300 1825 900  1825
-Wire Wire Line
-	1400 1575 1400 2425
-Wire Wire Line
-	1400 1925 900  1925
-Wire Wire Line
-	1500 1575 1500 2425
-Wire Wire Line
-	1500 2025 900  2025
-Wire Wire Line
-	1600 1575 1600 2425
-Wire Wire Line
-	1600 2125 900  2125
-Wire Wire Line
-	1700 1575 1700 2425
-Wire Wire Line
-	1700 2225 900  2225
-Wire Wire Line
-	1800 1575 1800 2425
-Wire Wire Line
-	1800 2325 900  2325
-Connection ~ 1100 1625
-Connection ~ 1200 1725
-Connection ~ 1300 1825
-Connection ~ 1400 1925
-Connection ~ 1500 2025
-Connection ~ 1600 2125
-Connection ~ 1700 2225
-Connection ~ 1800 2325
-Connection ~ 1900 2325
-Connection ~ 2000 2225
-Connection ~ 2100 2125
-Connection ~ 2200 2025
-Connection ~ 2300 1925
-Connection ~ 2400 1825
-Connection ~ 2500 1725
-Connection ~ 2600 1625
-Wire Wire Line
-	900  2800 2600 2800
-Wire Wire Line
-	1100 2800 1100 2725
-Wire Wire Line
-	1200 2800 1200 2725
-Connection ~ 1100 2800
-Wire Wire Line
-	1300 2800 1300 2725
-Connection ~ 1200 2800
-Wire Wire Line
-	1400 2800 1400 2725
-Connection ~ 1300 2800
-Wire Wire Line
-	1500 2800 1500 2725
-Connection ~ 1400 2800
-Wire Wire Line
-	1600 2800 1600 2725
-Connection ~ 1500 2800
-Wire Wire Line
-	1700 2800 1700 2725
-Connection ~ 1600 2800
-Wire Wire Line
-	1800 2800 1800 2725
-Connection ~ 1700 2800
-Wire Wire Line
-	1900 2800 1900 2725
-Connection ~ 1800 2800
-Wire Wire Line
-	2000 2800 2000 2725
-Connection ~ 1900 2800
-Wire Wire Line
-	2100 2800 2100 2725
-Connection ~ 2000 2800
-Wire Wire Line
-	2200 2800 2200 2725
-Connection ~ 2100 2800
-Wire Wire Line
-	2300 2800 2300 2725
-Connection ~ 2200 2800
-Wire Wire Line
-	2400 2800 2400 2725
-Connection ~ 2300 2800
-Wire Wire Line
-	2500 2800 2500 2725
-Connection ~ 2400 2800
-Wire Wire Line
-	2600 2800 2600 2725
-Connection ~ 2500 2800
-Text Label 2800 1625 0    60   ~ 0
-seg12
-Text Label 2800 1725 0    60   ~ 0
-seg11
-Text Label 2800 1825 0    60   ~ 0
-seg10
-Text Label 2800 1925 0    60   ~ 0
-seg9
-Text Label 2800 2025 0    60   ~ 0
-seg8
-Text Label 2800 2125 0    60   ~ 0
-seg7
-Text Label 2800 2225 0    60   ~ 0
-seg6
-Text Label 2800 2325 0    60   ~ 0
-seg5
-Text Label 900  2325 2    60   ~ 0
-seg4
-Text Label 900  2225 2    60   ~ 0
-seg3
-Text Label 900  2125 2    60   ~ 0
-seg2
-Text Label 900  2025 2    60   ~ 0
-seg1
-Text Label 900  1925 2    60   ~ 0
-com4
-Text Label 900  1825 2    60   ~ 0
-com3
-Text Label 900  1725 2    60   ~ 0
-com2
-Text Label 900  1625 2    60   ~ 0
-com1
-Text Notes 1575 725  0    60   ~ 0
+Text Notes -3625 775  0    60   ~ 0
 LCD screen
 Text Label 6700 5425 3    60   ~ 0
 com1
@@ -990,12 +637,6 @@ S 9925 725  1075 400
 U 56372EC6
 F0 "Sheet56372EC5" 60
 F1 "power.sch" 60
-$EndSheet
-$Sheet
-S 9925 1400 1075 425 
-U 5637620F
-F0 "Sheet5637620E" 60
-F1 "bluetooth.sch" 60
 $EndSheet
 Wire Wire Line
 	7550 3875 7775 3875
@@ -1145,43 +786,19 @@ $EndComp
 Wire Wire Line
 	3550 7300 3550 7375
 Wire Wire Line
-	3550 6900 3550 6800
+	3550 6750 3550 6900
 Wire Wire Line
-	3550 6400 3550 6300
+	3550 6300 3550 6450
 Wire Wire Line
 	3550 6000 3550 5825
 Text Label 2750 7100 2    60   ~ 0
 indicator
 Text Notes 3800 6775 1    60   ~ 0
 Indicator
-Text GLabel 6100 5625 3    40   Input ~ 0
-ble_reqn
-Text GLabel 6200 5625 3    40   Input ~ 0
-ble_sck
-Text GLabel 6300 5625 3    40   Input ~ 0
-ble_miso
-Text GLabel 6400 5625 3    40   Input ~ 0
-ble_mosi
-Text GLabel 6500 5625 3    40   Input ~ 0
-ble_rdyn
-Text GLabel 6000 5625 3    40   Input ~ 0
-ble_reset
 Text GLabel 5400 4975 0    40   Input ~ 0
 ble_active
 Wire Wire Line
 	5400 4975 5500 4975
-Wire Wire Line
-	6000 5425 6000 5625
-Wire Wire Line
-	6100 5625 6100 5425
-Wire Wire Line
-	6200 5625 6200 5425
-Wire Wire Line
-	6300 5425 6300 5625
-Wire Wire Line
-	6400 5625 6400 5425
-Wire Wire Line
-	6500 5425 6500 5625
 Text Label 5500 4875 2    60   ~ 0
 backlight
 Text Label 5500 4775 2    60   ~ 0
@@ -1493,17 +1110,147 @@ F 3 "" H 5375 5875 60  0000 C CNN
 	1    5375 5875
 	1    0    0    -1  
 $EndComp
-Text Notes 700  3100 0    60   ~ 0
-TODO. Może mniejsze napięcie.
 $Comp
-L +3.3V #PWR?
-U 1 1 56AA410F
-P 900 2800
-F 0 "#PWR?" H 900 2650 50  0001 C CNN
-F 1 "+3.3V" H 900 2940 50  0000 C CNN
-F 2 "" H 900 2800 60  0000 C CNN
-F 3 "" H 900 2800 60  0000 C CNN
-	1    900  2800
+L PCF85176T U?
+U 1 1 58BD9399
+P -1675 3450
+F 0 "U?" H -1675 4987 60  0000 C CNN
+F 1 "PCF85176T" H -1675 4881 60  0000 C CNN
+F 2 "" H -6900 1300 60  0001 C CNN
+F 3 "" H -6900 1300 60  0001 C CNN
+	1    -1675 3450
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	-975 2200 -975 1625
+Wire Wire Line
+	-975 1625 -4225 1625
+Wire Wire Line
+	-4225 1625 -4225 1575
+Wire Wire Line
+	-4125 1575 -4125 2300
+Wire Wire Line
+	-4125 2300 -2375 2300
+Wire Wire Line
+	-4025 1575 -4025 2200
+Wire Wire Line
+	-4025 2200 -2375 2200
+Wire Wire Line
+	-3925 1575 -3925 2400
+Wire Wire Line
+	-3925 2400 -2375 2400
+Wire Wire Line
+	-3825 1575 -3825 2500
+Wire Wire Line
+	-3825 2500 -2375 2500
+Wire Wire Line
+	-3725 1575 -3725 2600
+Wire Wire Line
+	-3725 2600 -2375 2600
+Wire Wire Line
+	-3625 1575 -3625 2700
+Wire Wire Line
+	-3625 2700 -2375 2700
+Wire Wire Line
+	-3525 1575 -3525 2800
+Wire Wire Line
+	-3525 2800 -2375 2800
+Wire Wire Line
+	-3425 1575 -3425 2900
+Wire Wire Line
+	-3425 2900 -2375 2900
+Wire Wire Line
+	-3325 1575 -3325 3000
+Wire Wire Line
+	-3325 3000 -2375 3000
+Wire Wire Line
+	-3225 1575 -3225 3100
+Wire Wire Line
+	-3225 3100 -2375 3100
+Wire Wire Line
+	-3125 1575 -3125 3200
+Wire Wire Line
+	-3125 3200 -2375 3200
+Wire Wire Line
+	-3025 1575 -3025 3300
+Wire Wire Line
+	-3025 3300 -2375 3300
+Wire Wire Line
+	-2925 1575 -2925 3400
+Wire Wire Line
+	-2925 3400 -2375 3400
+Wire Wire Line
+	-2825 1575 -2825 3500
+Wire Wire Line
+	-2825 3500 -2375 3500
+Wire Wire Line
+	-2725 1575 -2725 3600
+Wire Wire Line
+	-2725 3600 -2375 3600
+NoConn ~ -2375 3700
+NoConn ~ -2375 3800
+NoConn ~ -2375 3900
+NoConn ~ -2375 4000
+NoConn ~ -2375 4100
+NoConn ~ -2375 4200
+NoConn ~ -2375 4300
+NoConn ~ -2375 4400
+NoConn ~ -2375 4500
+NoConn ~ -2375 4600
+NoConn ~ -2375 4700
+NoConn ~ -2375 4800
+NoConn ~ -2375 4900
+NoConn ~ -975 4900
+NoConn ~ -975 4800
+NoConn ~ -975 4700
+NoConn ~ -975 4600
+NoConn ~ -975 4500
+NoConn ~ -975 4400
+NoConn ~ -975 4300
+NoConn ~ -975 4200
+NoConn ~ -975 4100
+NoConn ~ -975 4000
+NoConn ~ -975 3900
+NoConn ~ -975 3800
+NoConn ~ -975 3700
+NoConn ~ -975 3600
+NoConn ~ -975 3500
+$Comp
+L GND #PWR?
+U 1 1 58BE04E7
+P -800 2400
+F 0 "#PWR?" H -800 2150 50  0001 C CNN
+F 1 "GND" H -800 2250 50  0000 C CNN
+F 2 "" H -800 2400 60  0000 C CNN
+F 3 "" H -800 2400 60  0000 C CNN
+	1    -800 2400
 	0    -1   -1   0   
 $EndComp
+Wire Wire Line
+	-975 2400 -800 2400
+Wire Wire Line
+	-975 2500 -875 2500
+Wire Wire Line
+	-875 2400 -875 2900
+Connection ~ -875 2400
+Wire Wire Line
+	-875 2600 -975 2600
+Connection ~ -875 2500
+Wire Wire Line
+	-875 2700 -975 2700
+Connection ~ -875 2600
+Wire Wire Line
+	-875 2800 -975 2800
+Connection ~ -875 2700
+Wire Wire Line
+	-875 2900 -975 2900
+Connection ~ -875 2800
+NoConn ~ -975 3200
+NoConn ~ -975 3100
+NoConn ~ 6000 5425
+NoConn ~ 6100 5425
+NoConn ~ 6200 5425
+NoConn ~ 6300 5425
+NoConn ~ 6400 5425
+NoConn ~ 6500 5425
 $EndSCHEMATC
