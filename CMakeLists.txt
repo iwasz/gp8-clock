@@ -10,17 +10,13 @@ INCLUDE_DIRECTORIES("src/")
 # | My code         |
 # +-----------------+
 SET (APP_SOURCES
-        "src/main.c"
+        "src/main.cc"
         "src/stm32f4xx_it.c"
         "src/syscalls.c"
         "src/system_stm32f0xx.c"
         "src/stm32f0xx_hal_conf.h"
         "src/config-proto0.h"
         "src/config.h"
-#        "src/7segmentLed.c"
-#        "src/7segmentLed.h"
-        "src/weight_scale_lcd.h"
-        "src/weight_scale_lcd.c"
 
 # +--------------+
 # | STM Cube     |
