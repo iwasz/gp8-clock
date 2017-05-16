@@ -11,6 +11,17 @@ INCLUDE_DIRECTORIES("src/")
 # +-----------------+
 SET (APP_SOURCES
         "src/main.cc"
+        "src/I2CLcdDataLink.cc"
+        "src/I2CLcdDataLink.h"
+        "src/utils.cc"
+        "src/utils.h"
+        "src/IDisplay.h"
+        "src/ILcdDataLink.h"
+        "src/ILcdDdriver.h"
+        "src/PCF85176Driver.cc"
+        "src/PCF85176Driver.h"
+        "src/T145003.cc"
+        "src/T145003.h"
         "src/stm32f4xx_it.c"
         "src/syscalls.c"
         "src/system_stm32f0xx.c"
