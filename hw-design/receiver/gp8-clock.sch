@@ -1247,4 +1247,6 @@ NoConn ~ 950  2825
 NoConn ~ 950  2975
 NoConn ~ 950  3125
 NoConn ~ 950  3275
+Text Notes 800  5375 0    60   ~ 0
+Uwaga na pinout, bo każdy receiver ma inny!!\nMontaż po stronie komponentów (nie ekranu).\nDobre : TSOP39138\nZłe : TSOP39538
 $EndSCHEMATC

@@ -11,10 +11,11 @@ static void SystemClock_Config (void);
 // USBD_HandleTypeDef USBD_Device;
 uint32_t noOfUpdateEventsSinceLastRise;
 static TIM_HandleTypeDef stopWatchTimHandle;
+static TIM_HandleTypeDef timHandle;
 
 typedef enum { WATCH_INIT, WATCH_STOPPED, WATCH_RUNNING } WatchState;
 
-uint8_t state = WATCH_RUNNING;
+uint8_t state = WATCH_STOPPED;
 
 #define EVENT_TRESHOLD 300
 // Delay between events
@@ -66,12 +67,10 @@ void I2CLcdDataLink::init ()
         gpioInitStruct.Pull = GPIO_PULLUP;
         gpioInitStruct.Speed = GPIO_SPEED_HIGH;
         gpioInitStruct.Alternate = GPIO_AF1_I2C1;
-
         HAL_GPIO_Init (GPIOB, &gpioInitStruct);
 
         gpioInitStruct.Pin = GPIO_PIN_7;
         gpioInitStruct.Alternate = GPIO_AF1_I2C1;
-
         HAL_GPIO_Init (GPIOB, &gpioInitStruct);
 
         /*---------------------------------------------------------------------------*/
@@ -343,7 +342,9 @@ int main (void)
         HAL_Init ();
         SystemClock_Config ();
 
-        /*---------------------------------------------------------------------------*/
+        /*+-------------------------------------------------------------------------+*/
+        /*| Screen                                                                  |*/
+        /*+-------------------------------------------------------------------------+*/
 
         I2CLcdDataLink *link = I2CLcdDataLink::singleton ();
         link->init ();
@@ -354,17 +355,13 @@ int main (void)
 
         T145003 *screen = T145003::singleton ();
         screen->setLcdDriver (lcdd);
-        //        screen->setDigit (4, 0x0f);
-        //        screen->setDigit (3, 0x0d);
-        //        screen->setDigit (2, 0x0c);
-        //        screen->setDigit (1, 0x0b);
-        //        screen->setDigit (0, 0x0a);
         screen->setDots (T145003::DOT5 | T145003::DOT3);
         screen->setBatteryLevel (5);
-//        screen->setTriangles (T145003::BOTTOM_LEFT);
 
-#if 1
-        // Backlight
+        /*+-------------------------------------------------------------------------+*/
+        /*| Backlight, beeper                                                       |*/
+        /*+-------------------------------------------------------------------------+*/
+
         GPIO_InitTypeDef gpioInitStruct;
         gpioInitStruct.Pin = GPIO_PIN_1;
         gpioInitStruct.Mode = GPIO_MODE_OUTPUT_PP;
@@ -381,9 +378,10 @@ int main (void)
         HAL_GPIO_Init (GPIOC, &gpioInitStruct);
         HAL_GPIO_WritePin (GPIOC, GPIO_PIN_15, GPIO_PIN_RESET);
 
-        /*---------------------------------------------------------------------------*/
+        /*+-------------------------------------------------------------------------+*/
+        /*| Stopwatch timer 100Hz                                                   |*/
+        /*+-------------------------------------------------------------------------+*/
 
-        // Stop-watch
         stopWatchTimHandle.Instance = TIM14;
         stopWatchTimHandle.Init.Period = 100; // 100Hz
         stopWatchTimHandle.Init.Prescaler = (uint32_t) (HAL_RCC_GetHCLKFreq () / 10000) - 1;
@@ -404,6 +402,61 @@ int main (void)
                 Error_Handler ();
         }
 
+/*+-------------------------------------------------------------------------+*/
+/*| IR detection timer 10kHz                                                |*/
+/*+-------------------------------------------------------------------------+*/
+#if 1
+        timHandle.Instance = TIM3;
+
+        // 10kHz
+        timHandle.Init.Period = (uint32_t) ((HAL_RCC_GetHCLKFreq () / 2) / 10000) - 1; // 8399
+        timHandle.Init.Prescaler = 0;
+
+        // timHandle.Init.Prescaler = (uint32_t)((HAL_RCC_GetHCLKFreq () / 2) / 840000) - 1; // 1 tick = 84MHz/100 = 840kHz
+        // timHandle.Init.Period = 8400 - 1;                                                 // Update event every 10ms = 100Hz
+        timHandle.Init.ClockDivision = 0;
+        timHandle.Init.CounterMode = TIM_COUNTERMODE_UP;
+
+        __HAL_RCC_TIM3_CLK_ENABLE ();
+        HAL_NVIC_SetPriority (TIM3_IRQn, 3, 0);
+        HAL_NVIC_EnableIRQ (TIM3_IRQn);
+
+        if (HAL_TIM_Base_Init (&timHandle) != HAL_OK) {
+                Error_Handler ();
+        }
+
+        if (HAL_TIM_Base_Start_IT (&timHandle) != HAL_OK) {
+                Error_Handler ();
+        }
+
+        // Konfigureacja kanału. Input Capture. Wejście.
+        __HAL_RCC_GPIOB_CLK_ENABLE ();
+        gpioInitStruct.Pin = GPIO_PIN_1;
+        gpioInitStruct.Mode = GPIO_MODE_AF_PP;
+        gpioInitStruct.Pull = GPIO_PULLUP;
+        gpioInitStruct.Alternate = GPIO_AF1_TIM3;
+        gpioInitStruct.Speed = GPIO_SPEED_HIGH;
+        HAL_GPIO_Init (GPIOB, &gpioInitStruct);
+
+        // Dotycząca timera
+        TIM_IC_InitTypeDef sICConfig;
+        sICConfig.ICPolarity = TIM_ICPOLARITY_RISING;
+        sICConfig.ICSelection = TIM_ICSELECTION_DIRECTTI;
+        sICConfig.ICFilter = 0;
+        sICConfig.ICPrescaler = TIM_ICPSC_DIV1;
+
+        if (HAL_TIM_IC_ConfigChannel (&timHandle, &sICConfig, TIM_CHANNEL_4) != HAL_OK) {
+                Error_Handler ();
+        }
+
+        if (HAL_TIM_IC_Start_IT (&timHandle, TIM_CHANNEL_4) != HAL_OK) {
+                Error_Handler ();
+        }
+#endif
+        /*+-------------------------------------------------------------------------+*/
+        /*| USB                                                                     |*/
+        /*+-------------------------------------------------------------------------+*/
+
         //        /* Init Device Library */
         //        USBD_Init (&USBD_Device, &VCP_Desc, 0);
         //
@@ -420,19 +473,13 @@ int main (void)
         while (1) {
                 if (beep) {
                         beep = false;
-                        //                        GPIOA->BSRR |= GPIO_PIN_1;
                         GPIOC->BSRR |= GPIO_PIN_15;
                         HAL_Delay (100);
-                        GPIOA->BSRR |= GPIO_PIN_1 << 16;
-                        //                        GPIOC->BSRR |= GPIO_PIN_15 << 16;
+                        GPIOC->BSRR |= GPIO_PIN_15 << 16;
                 }
 
                 screen->refresh ();
         }
-#endif
-
-        //        while (1)
-        //                ;
 }
 
 #if 1
@@ -493,34 +540,80 @@ extern "C" void TIM14_IRQHandler (void)
 
 /*****************************************************************************/
 
-#if 0
-void SystemClock_Config (void)
+extern "C" void TIM3_IRQHandler ()
 {
+        /*
+         * I.C. ~1kHz
+         * Uwaga! Makro __HAL_TIM_GET_IT_SOURCE ma mylną nazwę, bo ono sprawdza rejestr DIER, czyli
+         * sprawdza, czy dane przerwanie jest WŁĄCZONE czy nie. Jeśli by nie było włączone, to byśmy
+         * nigdy się nie znaleźli w ISR z powodu tego konkretnego przerwania.
+         */
+        if (__HAL_TIM_GET_FLAG (&timHandle, TIM_FLAG_CC4) /*&& __HAL_TIM_GET_IT_SOURCE (&timHandle, TIM_IT_CC1)*/) {
+                __HAL_TIM_CLEAR_IT (&timHandle, TIM_IT_CC4);
+                //                 static int i = 0;
+                //                 static int32_t prevVal = -1;
+                //
+                //                 int32_t val = HAL_TIM_ReadCapturedValue (&timHandle, TIM_CHANNEL_4);
+                //
+                //
+                //                 if (!(++i % 1000)) {
+                //                         //inputCapture = (uint16_t)((val > prevVal) ? (val - prevVal) : (prevVal - val));
+                //                         inputCapture = noOfUpdateEventsSinceLastRise;
+                //                 }
+                //
+                //
+                //                 prevVal = val;
+                noOfUpdateEventsSinceLastRise = 0;
+                return;
 
-        RCC_OscInitTypeDef RCC_OscInitStruct;
-        /* Select HSI48 Oscillator as PLL source */
-        RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI48;
-        RCC_OscInitStruct.HSI48State = RCC_HSI48_ON;
-        RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
-        RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSI48;
-        RCC_OscInitStruct.PLL.PREDIV = RCC_PREDIV_DIV2;
-        RCC_OscInitStruct.PLL.PLLMUL = RCC_PLL_MUL2;
-
-        if (HAL_RCC_OscConfig (&RCC_OscInitStruct) != HAL_OK) {
-                Error_Handler ();
+                //                static int i = 0;
+                //                segment7SetDisplayOn (0, ++i % 2);
+                //                segment7SetSegmentsOn (0xff);
         }
 
-        RCC_ClkInitTypeDef RCC_ClkInitStruct;
-        RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_SYSCLK;
-        RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
-        RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
-        RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV1;
-        HAL_RCC_ClockConfig (&RCC_ClkInitStruct, FLASH_LATENCY_1);
+        //        if (__HAL_TIM_GET_FLAG (&timHandle, TIM_FLAG_CC2) && __HAL_TIM_GET_IT_SOURCE (&timHandle, TIM_azsZZSSQIT_CC2)) {
+        //                __HAL_TIM_CLEAR_FLAG (&timHandle, TIM_FLAG_CC2);
 
-        HAL_SYSTICK_Config (HAL_RCC_GetHCLKFreq () / 1000);
-        HAL_SYSTICK_CLKSourceConfig (SYSTICK_CLKSOURCE_HCLK);
+        //        }
+
+        // 10kHz
+        if (__HAL_TIM_GET_FLAG (&timHandle, TIM_FLAG_UPDATE) && __HAL_TIM_GET_IT_SOURCE (&timHandle, TIM_IT_UPDATE)) {
+                __HAL_TIM_CLEAR_IT (&timHandle, TIM_IT_UPDATE);
+                ++noOfUpdateEventsSinceLastRise;
+
+                //                // From 0 to 49 (example value when DISPLAYS_NO == 5 and CYCLES_NO == 10).
+                //                static uint8_t cnt = 0;
+                //                // Which segment to lit up. From 0 to 4.
+                //                uint8_t segmentNo = cnt / CYCLES_NO;
+                //                // Previous value for determining if there was a change or not. There's no point in doing anything if nothing changed.
+                //                static int8_t prevSegmentNo = -1;
+
+                //                // From 0 to 9. For brightnes control.
+                //                uint8_t cycleNo = cnt % CYCLES_NO;
+                //                // Duty cycle. Or conpletely off if displayOn is false.
+                //                bool cycleOn = (cycleNo < brightness) && displayOn;
+                //                static bool prevCycleOn = false;
+
+                //                // If nothing happened, skip this tick.
+                //                if (cycleOn != prevCycleOn || segmentNo != prevSegmentNo) {
+
+                //                        if (segmentNo != prevSegmentNo) {
+                //                                segment7SetDisplayOn (prevSegmentNo, false);
+                //                        }
+
+                //                        // Set individual segments to segment[segmentNo]
+                //                        segment7SetSegmentsOn (segment[segmentNo]);
+                //                        // Turn apropriate display on or off.
+                //                        segment7SetDisplayOn (segmentNo, cycleOn);
+                //                }
+
+                //                cnt = (cnt + 1) % (DISPLAYS_NO * CYCLES_NO);
+                //                prevSegmentNo = segmentNo;
+                //                prevCycleOn = cycleOn;
+        }
 }
-#endif
+
+/*****************************************************************************/
 
 void SystemClock_Config (void)
 {

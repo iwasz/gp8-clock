@@ -519,7 +519,7 @@ P 1225 4200
 F 0 "U1" H 1225 4500 60  0000 C CNN
 F 1 "TSOP39538" V 1025 4200 60  0000 C CNN
 F 2 "w_pin_strip:pin_strip_3" H 1225 4200 60  0001 C CNN
-F 3 "" H 1225 4200 60  0000 C CNN
+F 3 "http://pl.farnell.com/vishay/tsop39538/ir-receiver-minicast-agc5-38khz/dp/2251377?ost=TSOP39538&anyFilterApplied=false&searchView=table&iscrfnonsku=false&ddkey=http%3Apl-PL%2FElement14_Poland%2Fsearch" H 1225 4200 60  0001 C CNN
 	1    1225 4200
 	1    0    0    -1  
 $EndComp
