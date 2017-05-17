@@ -2,13 +2,13 @@
   ******************************************************************************
   * @file    system_stm32f0xx.c
   * @author  MCD Application Team
-  * @version V2.2.2
-  * @date    26-June-2015
+  * @version V1.7.0
+  * @date    04-November-2016
   * @brief   CMSIS Cortex-M0 Device Peripheral Access Layer System Source File.
   *
   * 1. This file provides two functions and one global variable to be called from
   *    user application:
-  *      - SystemInit(): This function is called at startup just after reset and
+  *      - SystemInit(): This function is called at startup just after reset and 
   *                      before branch to main program. This call is made inside
   *                      the "startup_stm32f0xx.s" file.
   *
@@ -42,7 +42,7 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2015 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT(c) 2016 STMicroelectronics</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -82,7 +82,6 @@
   */
 
 #include "stm32f0xx.h"
-#include "stm32f0xx_hal.h"
 
 /**
   * @}
@@ -99,7 +98,7 @@
 /** @addtogroup STM32F0xx_System_Private_Defines
   * @{
   */
-#if !defined  (HSE_VALUE)
+#if !defined  (HSE_VALUE) 
   #define HSE_VALUE    ((uint32_t)8000000) /*!< Default value of the External oscillator in Hz.
                                                 This value can be provided and adapted by the user application. */
 #endif /* HSE_VALUE */
@@ -108,6 +107,11 @@
   #define HSI_VALUE    ((uint32_t)8000000) /*!< Default value of the Internal oscillator in Hz.
                                                 This value can be provided and adapted by the user application. */
 #endif /* HSI_VALUE */
+
+#if !defined (HSI48_VALUE)
+#define HSI48_VALUE    ((uint32_t)48000000) /*!< Default value of the HSI48 Internal oscillator in Hz.
+                                                 This value can be provided and adapted by the user application. */
+#endif /* HSI48_VALUE */
 /**
   * @}
   */
@@ -128,12 +132,13 @@
       2) by calling HAL API function HAL_RCC_GetHCLKFreq()
       3) each time HAL_RCC_ClockConfig() is called to configure the system clock frequency
          Note: If you use this function to configure the system clock there is no need to
-               call the 2 first functions listed above, since SystemCoreClock variable is
+               call the 2 first functions listed above, since SystemCoreClock variable is 
                updated automatically.
   */
 uint32_t SystemCoreClock = 8000000;
 
 const uint8_t AHBPrescTable[16] = {0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 3, 4, 6, 7, 8, 9};
+const uint8_t APBPrescTable[8]  = {0, 0, 0, 0, 1, 2, 3, 4};
 
 /**
   * @}
@@ -161,60 +166,60 @@ void SystemInit(void)
 {
   /* Reset the RCC clock configuration to the default reset state ------------*/
   /* Set HSION bit */
-  RCC->CR |= (uint32_t)0x00000001;
+  RCC->CR |= (uint32_t)0x00000001U;
 
 #if defined (STM32F051x8) || defined (STM32F058x8)
   /* Reset SW[1:0], HPRE[3:0], PPRE[2:0], ADCPRE and MCOSEL[2:0] bits */
-  RCC->CFGR &= (uint32_t)0xF8FFB80C;
+  RCC->CFGR &= (uint32_t)0xF8FFB80CU;
 #else
   /* Reset SW[1:0], HPRE[3:0], PPRE[2:0], ADCPRE, MCOSEL[2:0], MCOPRE[2:0] and PLLNODIV bits */
-  RCC->CFGR &= (uint32_t)0x08FFB80C;
+  RCC->CFGR &= (uint32_t)0x08FFB80CU;
 #endif /* STM32F051x8 or STM32F058x8 */
-
+  
   /* Reset HSEON, CSSON and PLLON bits */
-  RCC->CR &= (uint32_t)0xFEF6FFFF;
+  RCC->CR &= (uint32_t)0xFEF6FFFFU;
 
   /* Reset HSEBYP bit */
-  RCC->CR &= (uint32_t)0xFFFBFFFF;
+  RCC->CR &= (uint32_t)0xFFFBFFFFU;
 
   /* Reset PLLSRC, PLLXTPRE and PLLMUL[3:0] bits */
-  RCC->CFGR &= (uint32_t)0xFFC0FFFF;
+  RCC->CFGR &= (uint32_t)0xFFC0FFFFU;
 
   /* Reset PREDIV[3:0] bits */
-  RCC->CFGR2 &= (uint32_t)0xFFFFFFF0;
+  RCC->CFGR2 &= (uint32_t)0xFFFFFFF0U;
 
 #if defined (STM32F072xB) || defined (STM32F078xx)
   /* Reset USART2SW[1:0], USART1SW[1:0], I2C1SW, CECSW, USBSW and ADCSW bits */
-  RCC->CFGR3 &= (uint32_t)0xFFFCFE2C;
+  RCC->CFGR3 &= (uint32_t)0xFFFCFE2CU;
 #elif defined (STM32F071xB)
   /* Reset USART2SW[1:0], USART1SW[1:0], I2C1SW, CECSW and ADCSW bits */
-  RCC->CFGR3 &= (uint32_t)0xFFFFCEAC;
+  RCC->CFGR3 &= (uint32_t)0xFFFFCEACU;
 #elif defined (STM32F091xC) || defined (STM32F098xx)
   /* Reset USART3SW[1:0], USART2SW[1:0], USART1SW[1:0], I2C1SW, CECSW and ADCSW bits */
-  RCC->CFGR3 &= (uint32_t)0xFFF0FEAC;
+  RCC->CFGR3 &= (uint32_t)0xFFF0FEACU;
 #elif defined (STM32F030x6) || defined (STM32F030x8) || defined (STM32F031x6) || defined (STM32F038xx) || defined (STM32F030xC)
   /* Reset USART1SW[1:0], I2C1SW and ADCSW bits */
-  RCC->CFGR3 &= (uint32_t)0xFFFFFEEC;
+  RCC->CFGR3 &= (uint32_t)0xFFFFFEECU;
 #elif defined (STM32F051x8) || defined (STM32F058xx)
   /* Reset USART1SW[1:0], I2C1SW, CECSW and ADCSW bits */
-  RCC->CFGR3 &= (uint32_t)0xFFFFFEAC;
+  RCC->CFGR3 &= (uint32_t)0xFFFFFEACU;
 #elif defined (STM32F042x6) || defined (STM32F048xx)
   /* Reset USART1SW[1:0], I2C1SW, CECSW, USBSW and ADCSW bits */
-  RCC->CFGR3 &= (uint32_t)0xFFFFFE2C;
+  RCC->CFGR3 &= (uint32_t)0xFFFFFE2CU;
 #elif defined (STM32F070x6) || defined (STM32F070xB)
   /* Reset USART1SW[1:0], I2C1SW, USBSW and ADCSW bits */
-  RCC->CFGR3 &= (uint32_t)0xFFFFFE6C;
+  RCC->CFGR3 &= (uint32_t)0xFFFFFE6CU;
   /* Set default USB clock to PLLCLK, since there is no HSI48 */
-  RCC->CFGR3 |= (uint32_t)0x00000080;
+  RCC->CFGR3 |= (uint32_t)0x00000080U;  
 #else
  #warning "No target selected"
 #endif
 
   /* Reset HSI14 bit */
-  RCC->CR2 &= (uint32_t)0xFFFFFFFE;
+  RCC->CR2 &= (uint32_t)0xFFFFFFFEU;
 
   /* Disable all interrupts */
-  RCC->CIR = 0x00000000;
+  RCC->CIR = 0x00000000U;
 
 }
 
@@ -298,7 +303,7 @@ void SystemCoreClockUpdate (void)
 #else
         /* HSI used as PLL clock source : SystemCoreClock = HSI/2 * PLLMUL */
         SystemCoreClock = (HSI_VALUE >> 1) * pllmull;
-#endif /* STM32F042x6 || STM32F048xx || STM32F070x6 ||
+#endif /* STM32F042x6 || STM32F048xx || STM32F070x6 || 
           STM32F071xB || STM32F072xB || STM32F078xx || STM32F070xB ||
           STM32F091xC || STM32F098xx || STM32F030xC */
       }

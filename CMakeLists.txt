@@ -19,6 +19,8 @@ SET (APP_SOURCES
         "src/Timer.h"
         "src/Buzzer.cc"
         "src/Buzzer.h"
+        "src/Debug.cc"
+        "src/Debug.h"
         "src/StopWatch.cc"
         "src/StopWatch.h"
         "src/InfraRedBeam.cc"

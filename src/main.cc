@@ -4,6 +4,7 @@
 //#include "usbd_cdc.h"
 //#include "usbd_cdc_interface.h"
 #include "Buzzer.h"
+#include "Debug.h"
 #include "FastStateMachine.h"
 #include "I2CLcdDataLink.h"
 #include "InfraRedBeam.h"
@@ -18,9 +19,79 @@
 static void SystemClock_Config (void);
 // USBD_HandleTypeDef USBD_Device;
 
-typedef enum { WATCH_INIT, WATCH_STOPPED, WATCH_RUNNING } WatchState;
+/*****************************************************************************/
 
-uint8_t state = WATCH_STOPPED;
+class VoltMeter {
+public:
+        static VoltMeter *instance () { return new VoltMeter; }
+        void init ();
+        uint32_t getVoltage () const;
+
+private:
+        mutable ADC_HandleTypeDef hadc;
+};
+
+/*****************************************************************************/
+
+void VoltMeter::init ()
+{
+        __HAL_RCC_GPIOA_CLK_ENABLE ();
+        __HAL_RCC_ADC1_CLK_ENABLE ();
+        GPIO_InitTypeDef gpioInitStruct;
+        gpioInitStruct.Pin = GPIO_PIN_3;
+        gpioInitStruct.Mode = GPIO_MODE_ANALOG;
+        gpioInitStruct.Pull = GPIO_NOPULL;
+        HAL_GPIO_Init (GPIOA, &gpioInitStruct);
+
+        hadc.Instance = ADC1;
+        if (HAL_ADC_DeInit (&hadc) != HAL_OK) {
+                Error_Handler ();
+        }
+
+        hadc.Init.ClockPrescaler = ADC_CLOCK_ASYNC_DIV1;
+        hadc.Init.Resolution = ADC_RESOLUTION_8B;
+        hadc.Init.DataAlign = ADC_DATAALIGN_RIGHT;
+        hadc.Init.ScanConvMode = ADC_SCAN_DIRECTION_FORWARD;
+        hadc.Init.EOCSelection = ADC_EOC_SINGLE_CONV;
+        hadc.Init.LowPowerAutoWait = DISABLE;
+        hadc.Init.LowPowerAutoPowerOff = DISABLE;
+        hadc.Init.ContinuousConvMode = DISABLE;
+        hadc.Init.DiscontinuousConvMode = DISABLE;
+        hadc.Init.ExternalTrigConv = ADC_SOFTWARE_START;
+        hadc.Init.ExternalTrigConvEdge = ADC_EXTERNALTRIGCONVEDGE_NONE;
+        hadc.Init.DMAContinuousRequests = DISABLE;
+        hadc.Init.Overrun = ADC_OVR_DATA_PRESERVED;
+
+        if (HAL_ADC_Init (&hadc) != HAL_OK) {
+                Error_Handler ();
+        }
+
+        /*##-2- Configure ADC regular channel ######################################*/
+
+        ADC_ChannelConfTypeDef sConfig;
+        sConfig.Channel = ADC_CHANNEL_3;
+        sConfig.Rank = ADC_RANK_CHANNEL_NUMBER;
+        sConfig.SamplingTime = ADC_SAMPLETIME_1CYCLE_5;
+
+        if (HAL_ADC_ConfigChannel (&hadc, &sConfig) != HAL_OK) {
+                Error_Handler ();
+        }
+}
+
+/*****************************************************************************/
+
+uint32_t VoltMeter::getVoltage () const
+{
+        if (HAL_ADC_Start (&hadc) != HAL_OK) {
+                Error_Handler ();
+        }
+
+        if (HAL_ADC_PollForConversion (&hadc, 10) != HAL_OK) {
+                Error_Handler ();
+        }
+
+        return HAL_ADC_GetValue (&hadc);
+}
 
 /*****************************************************************************/
 
@@ -60,10 +131,15 @@ int main (void)
         HAL_GPIO_Init (GPIOA, &gpioInitStruct);
         HAL_GPIO_WritePin (GPIOA, GPIO_PIN_1, GPIO_PIN_RESET);
 
-        /*+-------------------------------------------------------------------------+*/
-        /*| StopWatch, machine and IR                                               |*/
-        /*+-------------------------------------------------------------------------+*/
+        Debug *debug = Debug::singleton ();
+        debug->init (115200);
+        debug->print ("gp8 stopwatch ready\n");
 
+/*+-------------------------------------------------------------------------+*/
+/*| StopWatch, machine and IR                                               |*/
+/*+-------------------------------------------------------------------------+*/
+
+#if 0
         StopWatch *stopWatch = StopWatch::singleton ();
         stopWatch->setDisplay (screen);
         FastStateMachine *fStateMachine = FastStateMachine::singleton ();
@@ -76,6 +152,7 @@ int main (void)
 
         beam->init ();
         stopWatch->init ();
+#endif
 
         /*+-------------------------------------------------------------------------+*/
         /*| USB                                                                     |*/
@@ -94,9 +171,18 @@ int main (void)
         //        USBD_Start (&USBD_Device);
         //        printf ("init OK\n");
 
+        VoltMeter *v1 = VoltMeter::instance ();
+        v1->init ();
+
         while (1) {
                 screen->refresh ();
-                buzzer->run ();
+                //                buzzer->run ();
+
+                //                uint32_t v = v1->getVoltage ();
+                //                //                screen->setDigit (0, v >> 4);
+                //                //                screen->setDigit (1, v & 0x0f);
+                //                debug->print (v);
+                //                debug->print ("\n");
         }
 }
 
