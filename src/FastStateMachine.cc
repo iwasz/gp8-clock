@@ -39,7 +39,7 @@ void FastStateMachine::run ()
                 break;
 
         case RUNNING:
-                if (ir->isBeamInterrupted () && startTimeout.isExpired ()) {
+                if (ir->isBeamPresent () && ir->isBeamInterrupted () && startTimeout.isExpired ()) {
                         state = STOP;
                         stopWatch->stop ();
                         startTimeout.start (BEAM_INTERRUPTION_EVENT);
