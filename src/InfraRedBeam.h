@@ -19,7 +19,7 @@ extern "C" void TIM3_IRQHandler ();
  * that light path is cut. Roughly proportional to ms (???)
  * TODO Is 50 not to much?
  */
-#define UPDATE_EVENT_TRESHOLD 50
+#define UPDATE_EVENT_TRESHOLD 20
 #define BEAM_GONE 25000
 
 class InfraRedBeam {

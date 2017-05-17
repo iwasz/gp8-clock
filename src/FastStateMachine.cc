@@ -7,6 +7,7 @@
  ****************************************************************************/
 
 #include "FastStateMachine.h"
+#include "Buzzer.h"
 #include "InfraRedBeam.h"
 #include "StopWatch.h"
 #include "T145003.h"
@@ -34,6 +35,7 @@ void FastStateMachine::run ()
                         state = RUNNING;
                         stopWatch->reset ();
                         stopWatch->start ();
+                        buzzer->beep (100, 0, 1);
                         startTimeout.start (BEAM_INTERRUPTION_EVENT);
                 }
                 break;
@@ -42,6 +44,7 @@ void FastStateMachine::run ()
                 if (ir->isBeamPresent () && ir->isBeamInterrupted () && startTimeout.isExpired ()) {
                         state = STOP;
                         stopWatch->stop ();
+                        buzzer->beep (70, 50, 3);
                         startTimeout.start (BEAM_INTERRUPTION_EVENT);
                 }
 
@@ -52,6 +55,7 @@ void FastStateMachine::run ()
                         state = RUNNING;
                         stopWatch->reset ();
                         stopWatch->start ();
+                        buzzer->beep (100, 0, 1);
                         startTimeout.start (BEAM_INTERRUPTION_EVENT);
                 }
                 break;

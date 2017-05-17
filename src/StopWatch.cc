@@ -22,7 +22,7 @@ void StopWatch::init ()
         /*+-------------------------------------------------------------------------+*/
 
         stopWatchTimHandle.Instance = TIM14;
-        stopWatchTimHandle.Init.Period = 100; // 100Hz
+        stopWatchTimHandle.Init.Period = 100 - 1; // 100Hz
         stopWatchTimHandle.Init.Prescaler = (uint32_t) (HAL_RCC_GetHCLKFreq () / 10000) - 1;
         stopWatchTimHandle.Init.ClockDivision = 0;
         stopWatchTimHandle.Init.CounterMode = TIM_COUNTERMODE_UP;
@@ -51,6 +51,8 @@ extern "C" void TIM14_IRQHandler ()
         __HAL_TIM_CLEAR_IT (&StopWatch::singleton ()->stopWatchTimHandle, TIM_IT_UPDATE);
         StopWatch::singleton ()->onInterrupt ();
 }
+
+/*****************************************************************************/
 
 void StopWatch::onInterrupt ()
 {

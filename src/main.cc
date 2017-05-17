@@ -3,6 +3,7 @@
 //#include "usbd_desc.h"
 //#include "usbd_cdc.h"
 //#include "usbd_cdc_interface.h"
+#include "Buzzer.h"
 #include "FastStateMachine.h"
 #include "I2CLcdDataLink.h"
 #include "InfraRedBeam.h"
@@ -20,12 +21,6 @@ static void SystemClock_Config (void);
 typedef enum { WATCH_INIT, WATCH_STOPPED, WATCH_RUNNING } WatchState;
 
 uint8_t state = WATCH_STOPPED;
-
-#define EVENT_TRESHOLD 300
-// Delay between events
-uint32_t timeFromLastEvent = EVENT_TRESHOLD + 1;
-
-bool beep = false;
 
 /*****************************************************************************/
 
@@ -51,6 +46,21 @@ int main (void)
         screen->setBatteryLevel (5);
 
         /*+-------------------------------------------------------------------------+*/
+        /*| Backlight, beeper                                                       |*/
+        /*+-------------------------------------------------------------------------+*/
+
+        Buzzer *buzzer = Buzzer::singleton ();
+        buzzer->init ();
+
+        GPIO_InitTypeDef gpioInitStruct;
+        gpioInitStruct.Pin = GPIO_PIN_1;
+        gpioInitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+        gpioInitStruct.Pull = GPIO_PULLDOWN;
+        gpioInitStruct.Speed = GPIO_SPEED_LOW;
+        HAL_GPIO_Init (GPIOA, &gpioInitStruct);
+        HAL_GPIO_WritePin (GPIOA, GPIO_PIN_1, GPIO_PIN_RESET);
+
+        /*+-------------------------------------------------------------------------+*/
         /*| StopWatch, machine and IR                                               |*/
         /*+-------------------------------------------------------------------------+*/
 
@@ -62,29 +72,10 @@ int main (void)
         InfraRedBeam *beam = InfraRedBeam::singleton ();
         fStateMachine->setIr (beam);
         fStateMachine->setDisplay (screen);
+        fStateMachine->setBuzzer (buzzer);
 
         beam->init ();
         stopWatch->init ();
-
-        /*+-------------------------------------------------------------------------+*/
-        /*| Backlight, beeper                                                       |*/
-        /*+-------------------------------------------------------------------------+*/
-
-        GPIO_InitTypeDef gpioInitStruct;
-        gpioInitStruct.Pin = GPIO_PIN_1;
-        gpioInitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-        gpioInitStruct.Pull = GPIO_PULLDOWN;
-        gpioInitStruct.Speed = GPIO_SPEED_LOW;
-        HAL_GPIO_Init (GPIOA, &gpioInitStruct);
-        HAL_GPIO_WritePin (GPIOA, GPIO_PIN_1, GPIO_PIN_RESET);
-
-        __HAL_RCC_GPIOC_CLK_ENABLE ();
-        RCC->BDCR &= ~RCC_BDCR_LSEON;
-        gpioInitStruct.Pin = GPIO_PIN_15;
-        gpioInitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-        gpioInitStruct.Pull = GPIO_NOPULL;
-        HAL_GPIO_Init (GPIOC, &gpioInitStruct);
-        HAL_GPIO_WritePin (GPIOC, GPIO_PIN_15, GPIO_PIN_RESET);
 
         /*+-------------------------------------------------------------------------+*/
         /*| USB                                                                     |*/
@@ -104,14 +95,8 @@ int main (void)
         //        printf ("init OK\n");
 
         while (1) {
-                if (beep) {
-                        beep = false;
-                        GPIOC->BSRR |= GPIO_PIN_15;
-                        HAL_Delay (100);
-                        GPIOC->BSRR |= GPIO_PIN_15 << 16;
-                }
-
                 screen->refresh ();
+                buzzer->run ();
         }
 }
 
