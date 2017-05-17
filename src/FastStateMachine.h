@@ -13,6 +13,7 @@
 
 class InfraRedBeam;
 class StopWatch;
+struct IDisplay;
 
 #define BEAM_INTERRUPTION_EVENT 3000
 
@@ -30,12 +31,14 @@ public:
 
         void setIr (InfraRedBeam *i) { this->ir = i; }
         void setStopWatch (StopWatch *s) { this->stopWatch = s; }
+        void setDisplay (IDisplay *d) { this->display = d; }
 
 private:
         State state = INIT;
         InfraRedBeam *ir = nullptr;
         StopWatch *stopWatch = nullptr;
         Timer startTimeout;
+        IDisplay *display = nullptr;
 };
 
 #endif // FASTSTATEMACHINE_H

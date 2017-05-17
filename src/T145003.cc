@@ -26,9 +26,9 @@ void T145003::setDots (uint8_t bitmask)
         needsRefresh = true;
 }
 
-void T145003::setTriangles (uint8_t bitmask)
+void T145003::setIcons (uint8_t bitmask)
 {
-        triangles = bitmask;
+        icons = bitmask;
         needsRefresh = true;
 }
 
@@ -69,19 +69,19 @@ void T145003::refresh ()
 
         /*---------------------------------------------------------------------------*/
 
-        if (triangles & TOP_RIGHT) {
+        if (icons & TOP_RIGHT_AROW) {
                 buffer[0] |= 0x40;
         }
 
-        if (triangles & MINUS) {
+        if (icons & MINUS_SIGN) {
                 buffer[0] |= 0x20;
         }
 
-        if (triangles & TOP_LEFT) {
+        if (icons & TOP_LEFT_ARROW) {
                 buffer[0] = 0x10;
         }
 
-        if (triangles & BOTTOM_LEFT) {
+        if (icons & BOTTOM_LEFT_ARROW) {
                 buffer[1] |= 0x08;
         }
 

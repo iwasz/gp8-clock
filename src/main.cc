@@ -61,6 +61,7 @@ int main (void)
         stopWatch->setStateMachine (fStateMachine);
         InfraRedBeam *beam = InfraRedBeam::singleton ();
         fStateMachine->setIr (beam);
+        fStateMachine->setDisplay (screen);
 
         beam->init ();
         stopWatch->init ();

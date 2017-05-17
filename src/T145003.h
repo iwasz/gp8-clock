@@ -18,7 +18,7 @@
 class T145003 : public IDisplay {
 public:
         enum Dots { DOT5 = 0x01, DOT4 = 0x02, DOT3 = 0x04, DOT2 = 0x08 };
-        enum Triangles { BOTTOM_LEFT = 0x01, TOP_LEFT = 0x02, TOP_RIGHT = 0x04, MINUS = 0x08 };
+        enum Icons { BOTTOM_LEFT_ARROW = 0x01, TOP_LEFT_ARROW = 0x02, TOP_RIGHT_AROW = 0x04, MINUS_SIGN = 0x08 };
         enum Batery { FRAME = 0x01, BAR0 = 0x02, BAR1 = 0x04, BAR2 = 0x08, BAR3 = 0x10 };
 
         virtual ~T145003 () {}
@@ -30,8 +30,12 @@ public:
          * @param digit A digit.
          */
         void setDigit (uint8_t position, uint8_t setDigit);
+
         void setDots (uint8_t bitmask);
-        void setTriangles (uint8_t bitmask);
+        uint8_t getDots () const { return dots; }
+
+        void setIcons (uint8_t bitmask);
+        uint8_t getIcons () const { return icons; }
 
         /**
          * @brief batteryLevel 0 : blinking frame, 1 : frame, 2 : frame & 1 bar, 3 : frame & 2 bars
@@ -47,7 +51,7 @@ private:
         uint8_t buffer[6];
         uint8_t digits[5] = { 0, 0, 0, 0, 0 };
         uint8_t dots = 0;
-        uint8_t triangles = 0;
+        uint8_t icons = 0;
         uint8_t batteryLevel = 0;
         bool needsRefresh = true;
 

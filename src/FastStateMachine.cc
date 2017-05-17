@@ -9,9 +9,19 @@
 #include "FastStateMachine.h"
 #include "InfraRedBeam.h"
 #include "StopWatch.h"
+#include "T145003.h"
 
 void FastStateMachine::run ()
 {
+        uint8_t i = display->getIcons ();
+
+        if (!ir->isBeamPresent ()) {
+                display->setIcons (i | T145003::MINUS_SIGN);
+        }
+        else {
+                display->setIcons (i & ~T145003::MINUS_SIGN);
+        }
+
         switch (state) {
         case INIT:
                 if (ir->isBeamPresent ()) {
