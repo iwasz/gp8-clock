@@ -131,9 +131,11 @@ int main (void)
         HAL_GPIO_Init (GPIOA, &gpioInitStruct);
         HAL_GPIO_WritePin (GPIOA, GPIO_PIN_1, GPIO_PIN_RESET);
 
+#if 1
         Debug *debug = Debug::singleton ();
         debug->init (115200);
         debug->print ("gp8 stopwatch ready\n");
+#endif
 
 /*+-------------------------------------------------------------------------+*/
 /*| StopWatch, machine and IR                                               |*/
@@ -174,15 +176,37 @@ int main (void)
         VoltMeter *v1 = VoltMeter::instance ();
         v1->init ();
 
+        Timer batteryTimer;
+
         while (1) {
                 screen->refresh ();
                 //                buzzer->run ();
 
-                //                uint32_t v = v1->getVoltage ();
-                //                //                screen->setDigit (0, v >> 4);
-                //                //                screen->setDigit (1, v & 0x0f);
-                //                debug->print (v);
-                //                debug->print ("\n");
+                if (batteryTimer.isExpired ()) {
+                        batteryTimer.start (1000);
+                        uint8_t v = v1->getVoltage ();
+
+#if 1
+                        debug->print (v);
+                        debug->print ("\n");
+#endif
+
+                        if (v <= 125) {
+                                screen->setBatteryLevel (1);
+                        }
+                        else if (v <= 130) {
+                                screen->setBatteryLevel (2);
+                        }
+                        else if (v <= 140) {
+                                screen->setBatteryLevel (3);
+                        }
+                        else if (v <= 148) {
+                                screen->setBatteryLevel (4);
+                        }
+                        else {
+                                screen->setBatteryLevel (5);
+                        }
+                }
         }
 }
 
