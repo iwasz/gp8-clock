@@ -24,6 +24,8 @@ public:
         virtual ~T145003 () {}
         static T145003 *singleton ();
 
+        virtual void init ();
+
         /**
          * @brief digit Displays a digit
          * @param position 0-4. 0 means least significant digit, 4 means most.
@@ -46,6 +48,9 @@ public:
         void refresh ();
 
         void setLcdDriver (ILcdDriver *d) { driver = d; }
+        void setBacklight (bool b);
+        bool getBacklight () const;
+
 private:
         ILcdDriver *driver = nullptr;
         uint8_t buffer[6];

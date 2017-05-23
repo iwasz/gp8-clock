@@ -24,52 +24,61 @@ static void SystemClock_Config (void);
 class VoltMeter {
 public:
         static VoltMeter *instance () { return new VoltMeter; }
-        void init ();
+        void init (uint32_t channel, GPIO_TypeDef *gpio, uint32_t pin);
         uint32_t getVoltage () const;
 
 private:
-        mutable ADC_HandleTypeDef hadc;
+        static ADC_HandleTypeDef hadc;
+        static bool adcInited;
 };
+
+bool VoltMeter::adcInited = false;
+ADC_HandleTypeDef VoltMeter::hadc;
 
 /*****************************************************************************/
 
-void VoltMeter::init ()
+void VoltMeter::init (uint32_t channel, GPIO_TypeDef *gpio, uint32_t pin)
+
 {
         __HAL_RCC_GPIOA_CLK_ENABLE ();
         __HAL_RCC_ADC1_CLK_ENABLE ();
         GPIO_InitTypeDef gpioInitStruct;
-        gpioInitStruct.Pin = GPIO_PIN_3;
+        gpioInitStruct.Pin = pin;
         gpioInitStruct.Mode = GPIO_MODE_ANALOG;
         gpioInitStruct.Pull = GPIO_NOPULL;
-        HAL_GPIO_Init (GPIOA, &gpioInitStruct);
+        HAL_GPIO_Init (gpio, &gpioInitStruct);
 
-        hadc.Instance = ADC1;
-        if (HAL_ADC_DeInit (&hadc) != HAL_OK) {
-                Error_Handler ();
-        }
+        if (!adcInited) {
+                hadc.Instance = ADC1;
+                if (HAL_ADC_DeInit (&hadc) != HAL_OK) {
+                        Error_Handler ();
+                }
 
-        hadc.Init.ClockPrescaler = ADC_CLOCK_ASYNC_DIV1;
-        hadc.Init.Resolution = ADC_RESOLUTION_8B;
-        hadc.Init.DataAlign = ADC_DATAALIGN_RIGHT;
-        hadc.Init.ScanConvMode = ADC_SCAN_DIRECTION_FORWARD;
-        hadc.Init.EOCSelection = ADC_EOC_SINGLE_CONV;
-        hadc.Init.LowPowerAutoWait = DISABLE;
-        hadc.Init.LowPowerAutoPowerOff = DISABLE;
-        hadc.Init.ContinuousConvMode = DISABLE;
-        hadc.Init.DiscontinuousConvMode = DISABLE;
-        hadc.Init.ExternalTrigConv = ADC_SOFTWARE_START;
-        hadc.Init.ExternalTrigConvEdge = ADC_EXTERNALTRIGCONVEDGE_NONE;
-        hadc.Init.DMAContinuousRequests = DISABLE;
-        hadc.Init.Overrun = ADC_OVR_DATA_PRESERVED;
+                hadc.Init.ClockPrescaler = ADC_CLOCK_ASYNC_DIV1;
+                hadc.Init.Resolution = ADC_RESOLUTION_8B;
+                hadc.Init.DataAlign = ADC_DATAALIGN_RIGHT;
+                hadc.Init.ScanConvMode = ADC_SCAN_DIRECTION_FORWARD;
+                hadc.Init.EOCSelection = ADC_EOC_SINGLE_CONV;
+                hadc.Init.LowPowerAutoWait = DISABLE;
+                hadc.Init.LowPowerAutoPowerOff = DISABLE;
+                hadc.Init.ContinuousConvMode = DISABLE;
+                hadc.Init.DiscontinuousConvMode = DISABLE;
+                hadc.Init.ExternalTrigConv = ADC_SOFTWARE_START;
+                hadc.Init.ExternalTrigConvEdge = ADC_EXTERNALTRIGCONVEDGE_NONE;
+                hadc.Init.DMAContinuousRequests = DISABLE;
+                hadc.Init.Overrun = ADC_OVR_DATA_PRESERVED;
 
-        if (HAL_ADC_Init (&hadc) != HAL_OK) {
-                Error_Handler ();
+                if (HAL_ADC_Init (&hadc) != HAL_OK) {
+                        Error_Handler ();
+                }
+
+                adcInited = true;
         }
 
         /*##-2- Configure ADC regular channel ######################################*/
 
         ADC_ChannelConfTypeDef sConfig;
-        sConfig.Channel = ADC_CHANNEL_3;
+        sConfig.Channel = channel;
         sConfig.Rank = ADC_RANK_CHANNEL_NUMBER;
         sConfig.SamplingTime = ADC_SAMPLETIME_1CYCLE_5;
 
@@ -115,6 +124,7 @@ int main (void)
         screen->setLcdDriver (lcdd);
         screen->setDots (T145003::DOT5 | T145003::DOT3);
         screen->setBatteryLevel (5);
+        screen->init ();
 
         /*+-------------------------------------------------------------------------+*/
         /*| Backlight, beeper                                                       |*/
@@ -123,25 +133,16 @@ int main (void)
         Buzzer *buzzer = Buzzer::singleton ();
         buzzer->init ();
 
-        GPIO_InitTypeDef gpioInitStruct;
-        gpioInitStruct.Pin = GPIO_PIN_1;
-        gpioInitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-        gpioInitStruct.Pull = GPIO_PULLDOWN;
-        gpioInitStruct.Speed = GPIO_SPEED_LOW;
-        HAL_GPIO_Init (GPIOA, &gpioInitStruct);
-        HAL_GPIO_WritePin (GPIOA, GPIO_PIN_1, GPIO_PIN_RESET);
-
 #if 1
         Debug *debug = Debug::singleton ();
         debug->init (115200);
         debug->print ("gp8 stopwatch ready\n");
 #endif
 
-/*+-------------------------------------------------------------------------+*/
-/*| StopWatch, machine and IR                                               |*/
-/*+-------------------------------------------------------------------------+*/
+        /*+-------------------------------------------------------------------------+*/
+        /*| StopWatch, machine and IR                                               |*/
+        /*+-------------------------------------------------------------------------+*/
 
-#if 0
         StopWatch *stopWatch = StopWatch::singleton ();
         stopWatch->setDisplay (screen);
         FastStateMachine *fStateMachine = FastStateMachine::singleton ();
@@ -154,7 +155,17 @@ int main (void)
 
         beam->init ();
         stopWatch->init ();
-#endif
+
+        /*+-------------------------------------------------------------------------+*/
+        /*| Battery, light sensor                                                   |*/
+        /*+-------------------------------------------------------------------------+*/
+
+        VoltMeter *batteryVoltMeter = VoltMeter::instance ();
+        batteryVoltMeter->init (ADC_CHANNEL_3, GPIOA, GPIO_PIN_3);
+        Timer batteryTimer;
+
+        VoltMeter *ambientLightVoltMeter = VoltMeter::instance ();
+        ambientLightVoltMeter->init (ADC_CHANNEL_2, GPIOA, GPIO_PIN_2);
 
         /*+-------------------------------------------------------------------------+*/
         /*| USB                                                                     |*/
@@ -173,39 +184,44 @@ int main (void)
         //        USBD_Start (&USBD_Device);
         //        printf ("init OK\n");
 
-        VoltMeter *v1 = VoltMeter::instance ();
-        v1->init ();
-
-        Timer batteryTimer;
-
         while (1) {
                 screen->refresh ();
-                //                buzzer->run ();
+                buzzer->run ();
 
                 if (batteryTimer.isExpired ()) {
                         batteryTimer.start (1000);
-                        uint8_t v = v1->getVoltage ();
+                        uint8_t batteryVoltage = batteryVoltMeter->getVoltage ();
 
-#if 1
-                        debug->print (v);
-                        debug->print ("\n");
-#endif
-
-                        if (v <= 125) {
+                        if (batteryVoltage <= 125) {
                                 screen->setBatteryLevel (1);
                         }
-                        else if (v <= 130) {
+                        else if (batteryVoltage <= 130) {
                                 screen->setBatteryLevel (2);
                         }
-                        else if (v <= 140) {
+                        else if (batteryVoltage <= 140) {
                                 screen->setBatteryLevel (3);
                         }
-                        else if (v <= 148) {
+                        else if (batteryVoltage <= 148) {
                                 screen->setBatteryLevel (4);
                         }
                         else {
                                 screen->setBatteryLevel (5);
                         }
+
+                        uint8_t ambientLightVoltage = ambientLightVoltMeter->getVoltage ();
+
+                        if (!screen->getBacklight () && ambientLightVoltage < 50) {
+                                screen->setBacklight (true);
+                        }
+                        else if (screen->getBacklight () && ambientLightVoltage > 80) {
+                                screen->setBacklight (false);
+                        }
+
+
+#if 1
+                        debug->print (ambientLightVoltage);
+                        debug->print ("\n");
+#endif
                 }
         }
 }

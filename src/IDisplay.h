@@ -26,6 +26,8 @@ struct IDisplay {
          * @param level
          */
         virtual void setBatteryLevel (uint8_t level) = 0;
+        virtual void setBacklight (bool b) = 0;
+        virtual bool getBacklight () const = 0;
 
         virtual void refresh () = 0;
 };

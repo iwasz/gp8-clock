@@ -1249,4 +1249,6 @@ NoConn ~ 950  3125
 NoConn ~ 950  3275
 Text Notes 800  5375 0    60   ~ 0
 Uwaga na pinout, bo każdy receiver ma inny!!\nMontaż po stronie komponentów (nie ekranu).\nDobre : TSOP39138\nZłe : TSOP39538
+Text Notes 3825 2075 0    60   ~ 0
+TODO foto-R do PA2!
 $EndSCHEMATC

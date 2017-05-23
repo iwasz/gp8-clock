@@ -7,11 +7,24 @@
  ****************************************************************************/
 
 #include "T145003.h"
+#include <stm32f0xx_hal.h>
 
 T145003 *T145003::singleton ()
 {
         static T145003 lcd;
         return &lcd;
+}
+
+void T145003::init ()
+{
+        __HAL_RCC_GPIOA_CLK_ENABLE ();
+        GPIO_InitTypeDef gpioInitStruct;
+        gpioInitStruct.Pin = GPIO_PIN_1;
+        gpioInitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+        gpioInitStruct.Pull = GPIO_PULLDOWN;
+        gpioInitStruct.Speed = GPIO_SPEED_LOW;
+        HAL_GPIO_Init (GPIOA, &gpioInitStruct);
+        HAL_GPIO_WritePin (GPIOA, GPIO_PIN_1, GPIO_PIN_RESET);
 }
 
 void T145003::setDigit (uint8_t position, uint8_t digit)
@@ -87,3 +100,19 @@ void T145003::refresh ()
 
         driver->sendData (0, buffer, sizeof (buffer));
 }
+
+/*****************************************************************************/
+
+void T145003::setBacklight (bool b)
+{
+        if (b) {
+                GPIOA->BSRR = GPIO_PIN_1;
+        }
+        else {
+                GPIOA->BSRR = GPIO_PIN_1 << 16;
+        }
+}
+
+/*****************************************************************************/
+
+bool T145003::getBacklight () const { return GPIOA->ODR & GPIO_PIN_1; }
