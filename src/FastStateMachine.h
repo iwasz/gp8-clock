@@ -15,6 +15,7 @@ class InfraRedBeam;
 class StopWatch;
 struct IDisplay;
 class Buzzer;
+class History;
 
 #define BEAM_INTERRUPTION_EVENT 3000
 
@@ -34,6 +35,11 @@ public:
         void setStopWatch (StopWatch *s) { this->stopWatch = s; }
         void setDisplay (IDisplay *d) { this->display = d; }
         void setBuzzer (Buzzer *b) { this->buzzer = b; }
+        void setHistory (History *h) { this->history = h; }
+
+private:
+        void running_entryAction ();
+        void stop_entryAction ();
 
 private:
         State state = INIT;
@@ -42,6 +48,7 @@ private:
         Timer startTimeout;
         IDisplay *display = nullptr;
         Buzzer *buzzer = nullptr;
+        History *history = nullptr;
 };
 
 #endif // FASTSTATEMACHINE_H

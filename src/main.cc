@@ -8,6 +8,7 @@
 #include "Buzzer.h"
 #include "Debug.h"
 #include "FastStateMachine.h"
+#include "History.h"
 #include "I2CLcdDataLink.h"
 #include "InfraRedBeam.h"
 #include "PCF85176Driver.h"
@@ -62,6 +63,7 @@ int main (void)
         /*| StopWatch, machine and IR                                               |*/
         /*+-------------------------------------------------------------------------+*/
 
+        History *history = History::singleton (3);
         StopWatch *stopWatch = StopWatch::singleton ();
         stopWatch->setDisplay (screen);
         FastStateMachine *fStateMachine = FastStateMachine::singleton ();
@@ -71,6 +73,7 @@ int main (void)
         fStateMachine->setIr (beam);
         fStateMachine->setDisplay (screen);
         fStateMachine->setBuzzer (buzzer);
+        fStateMachine->setHistory (history);
 
         beam->init ();
         stopWatch->init ();

@@ -103,6 +103,7 @@ void InfraRedBeam::onInterrupt ()
         if (__HAL_TIM_GET_FLAG (&timHandle, TIM_FLAG_UPDATE) && __HAL_TIM_GET_IT_SOURCE (&timHandle, TIM_IT_UPDATE)) {
                 __HAL_TIM_CLEAR_IT (&timHandle, TIM_IT_UPDATE);
 
+                // Will re-wind to 0 after ~120hours
                 ++time;
 
                 // Znikło na 100ms

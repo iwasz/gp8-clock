@@ -58,14 +58,14 @@ void Adc::run ()
 
                 channels[i]->lastValue = HAL_ADC_GetValue (&hadc);
 
-#if 1
+#if 0
                 Debug *debug = Debug::singleton ();
                 debug->print (channels[i]->getValue ());
                 debug->print (" ");
 #endif
         }
 
-#if 1
+#if 0
         Debug::singleton ()->print ("\n");
 #endif
 }

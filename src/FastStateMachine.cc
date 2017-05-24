@@ -9,9 +9,12 @@
 #include "FastStateMachine.h"
 #include "Buzzer.h"
 #include "Debug.h"
+#include "History.h"
 #include "InfraRedBeam.h"
 #include "StopWatch.h"
 #include "T145003.h"
+
+/*****************************************************************************/
 
 void FastStateMachine::run ()
 {
@@ -34,19 +37,14 @@ void FastStateMachine::run ()
         case READY:
                 if (ir->isBeamInterrupted ()) {
                         state = RUNNING;
-                        stopWatch->reset ();
-                        stopWatch->start ();
-                        buzzer->beep (100, 0, 1);
-                        startTimeout.start (BEAM_INTERRUPTION_EVENT);
+                        running_entryAction ();
                 }
                 break;
 
         case RUNNING:
                 if (ir->isBeamPresent () && ir->isBeamInterrupted () && startTimeout.isExpired ()) {
                         state = STOP;
-                        stopWatch->stop ();
-                        buzzer->beep (70, 50, 3);
-                        startTimeout.start (BEAM_INTERRUPTION_EVENT);
+                        stop_entryAction ();
                 }
 
                 break;
@@ -54,14 +52,32 @@ void FastStateMachine::run ()
         case STOP:
                 if (ir->isBeamPresent () && ir->isBeamInterrupted () && startTimeout.isExpired ()) {
                         state = RUNNING;
-                        stopWatch->reset ();
-                        stopWatch->start ();
-                        buzzer->beep (100, 0, 1);
-                        startTimeout.start (BEAM_INTERRUPTION_EVENT);
+                        running_entryAction ();
                 }
                 break;
 
         default:
                 break;
         }
+}
+
+/*****************************************************************************/
+
+void FastStateMachine::running_entryAction ()
+{
+        stopWatch->reset ();
+        stopWatch->start ();
+        buzzer->beep (100, 0, 1);
+        startTimeout.start (BEAM_INTERRUPTION_EVENT);
+}
+
+/*****************************************************************************/
+
+void FastStateMachine::stop_entryAction ()
+{
+        stopWatch->stop ();
+        buzzer->beep (70, 50, 3);
+        startTimeout.start (BEAM_INTERRUPTION_EVENT);
+        history->store (stopWatch->getTime ());
+        history->printHistory ();
 }

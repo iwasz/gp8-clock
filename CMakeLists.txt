@@ -29,6 +29,8 @@ SET (APP_SOURCES
         "src/StopWatch.h"
         "src/InfraRedBeam.cc"
         "src/InfraRedBeam.h"
+        "src/History.cc"
+        "src/History.h"
         "src/FastStateMachine.cc"
         "src/FastStateMachine.h"
         "src/IDisplay.h"

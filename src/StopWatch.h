@@ -31,6 +31,7 @@ public:
         void reset () { time = 0; }
         void start () { running = true; }
         void stop () { running = false; }
+        uint16_t getTime () const { return time; }
 
         void setDisplay (IDisplay *d) { this->display = d; }
         void setStateMachine (FastStateMachine *s) { this->stateMachine = s; }

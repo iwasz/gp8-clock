@@ -62,6 +62,10 @@ void StopWatch::onInterrupt ()
                 return;
         }
 
+        if (++time >= MAX_TIME) {
+                time = 0;
+        }
+
         uint16_t cntTmp = time;
 
         // 2nd digit of 1/100-s of second (0-99)
@@ -80,8 +84,4 @@ void StopWatch::onInterrupt ()
 
         // One digit of miniutes
         display->setDigit (0, cntTmp % 10);
-
-        if (++time >= MAX_TIME) {
-                time = 0;
-        }
 }
