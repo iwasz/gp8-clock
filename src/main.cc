@@ -218,7 +218,7 @@ int main (void)
                         }
 
 
-#if 1
+#if 0
                         debug->print (ambientLightVoltage);
                         debug->print ("\n");
 #endif

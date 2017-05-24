@@ -7,6 +7,7 @@
  ****************************************************************************/
 
 #include "InfraRedBeam.h"
+#include "Debug.h"
 #include "utils.h"
 
 /*****************************************************************************/
@@ -45,7 +46,7 @@ void InfraRedBeam::init ()
         GPIO_InitTypeDef gpioInitStruct;
         gpioInitStruct.Pin = GPIO_PIN_1;
         gpioInitStruct.Mode = GPIO_MODE_AF_PP;
-        gpioInitStruct.Pull = GPIO_PULLUP;
+        gpioInitStruct.Pull = GPIO_PULLDOWN;
         gpioInitStruct.Alternate = GPIO_AF1_TIM3;
         gpioInitStruct.Speed = GPIO_SPEED_HIGH;
         HAL_GPIO_Init (GPIOB, &gpioInitStruct);
@@ -74,6 +75,43 @@ extern "C" void TIM3_IRQHandler () { InfraRedBeam::singleton ()->onInterrupt ();
 
 void InfraRedBeam::onInterrupt ()
 {
+        static uint32_t time = 0;
+        static uint32_t timeOfLastRise = 0;
+        static uint32_t noOfSuccesiveRises = 0;
+
+        if (__HAL_TIM_GET_FLAG (&timHandle, TIM_FLAG_CC4) /*&& __HAL_TIM_GET_IT_SOURCE (&timHandle, TIM_IT_CC1)*/) {
+                __HAL_TIM_CLEAR_IT (&timHandle, TIM_IT_CC4);
+
+                timeOfLastRise = time;
+
+                if (time - timeOfLastRise <= 12) {
+                        if (++noOfSuccesiveRises >= 10) {
+                                beamPresent = true;
+                        }
+                }
+
+
+
+                return;
+        }
+
+        // 10kHz
+        if (__HAL_TIM_GET_FLAG (&timHandle, TIM_FLAG_UPDATE) && __HAL_TIM_GET_IT_SOURCE (&timHandle, TIM_IT_UPDATE)) {
+                __HAL_TIM_CLEAR_IT (&timHandle, TIM_IT_UPDATE);
+
+                ++time;
+
+                // Znikło na 10ms
+                if (time - timeOfLastRise > 100) {
+                        beamPresent = false;
+                        noOfSuccesiveRises = 0;
+                }
+
+        }
+
+
+
+#if 0
         /*
          * I.C. ~1kHz
          * Uwaga! Makro __HAL_TIM_GET_IT_SOURCE ma mylną nazwę, bo ono sprawdza rejestr DIER, czyli
@@ -83,7 +121,13 @@ void InfraRedBeam::onInterrupt ()
         if (__HAL_TIM_GET_FLAG (&timHandle, TIM_FLAG_CC4) /*&& __HAL_TIM_GET_IT_SOURCE (&timHandle, TIM_IT_CC1)*/) {
                 __HAL_TIM_CLEAR_IT (&timHandle, TIM_IT_CC4);
                 noOfUpdateEventsSinceLastRise = 0;
-                beamPresent = true;
+                ++noOfRises;
+
+                if (noOfRises >= 10) {
+                        Debug::singleton ()->print (".");
+                        beamPresent = true;
+                }
+
                 return;
         }
 
@@ -96,8 +140,10 @@ void InfraRedBeam::onInterrupt ()
                 }
 
                 if (noOfUpdateEventsSinceLastRise > BEAM_GONE) {
+                        noOfRises = 0;
                         beamPresent = false;
                         noOfUpdateEventsSinceLastRise = 0;
                 }
         }
+#endif
 }

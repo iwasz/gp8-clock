@@ -41,6 +41,7 @@ private:
         void onInterrupt ();
         TIM_HandleTypeDef timHandle;
         uint32_t noOfUpdateEventsSinceLastRise = 0;
+        uint32_t noOfRises = 0;
 
         bool beamPresent = false;
 };
