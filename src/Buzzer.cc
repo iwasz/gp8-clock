@@ -26,13 +26,13 @@ void Buzzer::init ()
 
 void Buzzer::beep (uint16_t periodOn, uint16_t periodOff, uint8_t times)
 {
-        this->periodOn = periodOn;
-        this->periodOff = periodOff;
-        this->setTimes = times;
-        this->elapsedTimes = 0;
-        this->soundState = true;
-        timer.start (periodOn);
-        on ();
+//        this->periodOn = periodOn;
+//        this->periodOff = periodOff;
+//        this->setTimes = times;
+//        this->elapsedTimes = 0;
+//        this->soundState = true;
+//        timer.start (periodOn);
+//        on ();
 }
 
 /*****************************************************************************/

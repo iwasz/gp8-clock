@@ -79,6 +79,12 @@ void InfraRedBeam::onInterrupt ()
         static uint32_t timeOfLastRise = 0;
         static uint32_t noOfSuccesiveRises = 0;
 
+        /*
+         * I.C. ~1kHz
+         * Uwaga! Makro __HAL_TIM_GET_IT_SOURCE ma mylną nazwę, bo ono sprawdza rejestr DIER, czyli
+         * sprawdza, czy dane przerwanie jest WŁĄCZONE czy nie. Jeśli by nie było włączone, to byśmy
+         * nigdy się nie znaleźli w ISR z powodu tego konkretnego przerwania.
+         */
         if (__HAL_TIM_GET_FLAG (&timHandle, TIM_FLAG_CC4) /*&& __HAL_TIM_GET_IT_SOURCE (&timHandle, TIM_IT_CC1)*/) {
                 __HAL_TIM_CLEAR_IT (&timHandle, TIM_IT_CC4);
 
@@ -90,8 +96,6 @@ void InfraRedBeam::onInterrupt ()
                         }
                 }
 
-
-
                 return;
         }
 
@@ -101,49 +105,16 @@ void InfraRedBeam::onInterrupt ()
 
                 ++time;
 
-                // Znikło na 10ms
-                if (time - timeOfLastRise > 100) {
+                // Znikło na 100ms
+                if (time - timeOfLastRise > 1000) {
                         beamPresent = false;
                         noOfSuccesiveRises = 0;
                 }
 
-        }
-
-
-
-#if 0
-        /*
-         * I.C. ~1kHz
-         * Uwaga! Makro __HAL_TIM_GET_IT_SOURCE ma mylną nazwę, bo ono sprawdza rejestr DIER, czyli
-         * sprawdza, czy dane przerwanie jest WŁĄCZONE czy nie. Jeśli by nie było włączone, to byśmy
-         * nigdy się nie znaleźli w ISR z powodu tego konkretnego przerwania.
-         */
-        if (__HAL_TIM_GET_FLAG (&timHandle, TIM_FLAG_CC4) /*&& __HAL_TIM_GET_IT_SOURCE (&timHandle, TIM_IT_CC1)*/) {
-                __HAL_TIM_CLEAR_IT (&timHandle, TIM_IT_CC4);
-                noOfUpdateEventsSinceLastRise = 0;
-                ++noOfRises;
-
-                if (noOfRises >= 10) {
-                        Debug::singleton ()->print (".");
-                        beamPresent = true;
+                // Znikło na 7ms
+                if (time - timeOfLastRise > 70) {
+                        beamInterrupted = true;
                 }
 
-                return;
         }
-
-        // 10kHz
-        if (__HAL_TIM_GET_FLAG (&timHandle, TIM_FLAG_UPDATE) && __HAL_TIM_GET_IT_SOURCE (&timHandle, TIM_IT_UPDATE)) {
-                __HAL_TIM_CLEAR_IT (&timHandle, TIM_IT_UPDATE);
-
-                if (beamPresent) {
-                        ++noOfUpdateEventsSinceLastRise;
-                }
-
-                if (noOfUpdateEventsSinceLastRise > BEAM_GONE) {
-                        noOfRises = 0;
-                        beamPresent = false;
-                        noOfUpdateEventsSinceLastRise = 0;
-                }
-        }
-#endif
 }

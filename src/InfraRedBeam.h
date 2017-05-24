@@ -34,7 +34,17 @@ public:
 
         /// If any IR signal rise was observed at all.
         bool isBeamPresent () { return beamPresent; }
-        bool isBeamInterrupted () { return noOfUpdateEventsSinceLastRise > UPDATE_EVENT_TRESHOLD; }
+
+        bool isBeamInterrupted ()
+        {
+                if (beamInterrupted) {
+                        beamInterrupted = false;
+                        return true;
+                }
+                else {
+                        return false;
+                } /*noOfUpdateEventsSinceLastRise > UPDATE_EVENT_TRESHOLD;*/
+        }
 
 private:
         friend void TIM3_IRQHandler ();
@@ -43,6 +53,7 @@ private:
         uint32_t noOfUpdateEventsSinceLastRise = 0;
         uint32_t noOfRises = 0;
 
+        bool beamInterrupted = false;
         bool beamPresent = false;
 };
 

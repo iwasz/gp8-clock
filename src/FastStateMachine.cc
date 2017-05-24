@@ -53,14 +53,6 @@ void FastStateMachine::run ()
 
         case STOP:
                 if (ir->isBeamPresent () && ir->isBeamInterrupted () && startTimeout.isExpired ()) {
-//                        Debug *debug = Debug::singleton ();
-//                        debug->print (ir->isBeamPresent ());
-//                        debug->print (" ");
-//                        debug->print (ir->isBeamInterrupted ());
-//                        debug->print (" ");
-//                        debug->print (startTimeout.isExpired ());
-//                        debug->print ("\n");
-
                         state = RUNNING;
                         stopWatch->reset ();
                         stopWatch->start ();
