@@ -62,7 +62,7 @@ void VoltMeter::init (uint32_t channel, GPIO_TypeDef *gpio, uint32_t pin)
                 hadc.Init.LowPowerAutoWait = DISABLE;
                 hadc.Init.LowPowerAutoPowerOff = DISABLE;
                 hadc.Init.ContinuousConvMode = DISABLE;
-                hadc.Init.DiscontinuousConvMode = DISABLE;
+                hadc.Init.DiscontinuousConvMode = ENABLE;
                 hadc.Init.ExternalTrigConv = ADC_SOFTWARE_START;
                 hadc.Init.ExternalTrigConvEdge = ADC_EXTERNALTRIGCONVEDGE_NONE;
                 hadc.Init.DMAContinuousRequests = DISABLE;
@@ -80,7 +80,7 @@ void VoltMeter::init (uint32_t channel, GPIO_TypeDef *gpio, uint32_t pin)
         ADC_ChannelConfTypeDef sConfig;
         sConfig.Channel = channel;
         sConfig.Rank = ADC_RANK_CHANNEL_NUMBER;
-        sConfig.SamplingTime = ADC_SAMPLETIME_1CYCLE_5;
+        sConfig.SamplingTime = ADC_SAMPLETIME_28CYCLES_5;
 
         if (HAL_ADC_ConfigChannel (&hadc, &sConfig) != HAL_OK) {
                 Error_Handler ();
@@ -91,6 +91,26 @@ void VoltMeter::init (uint32_t channel, GPIO_TypeDef *gpio, uint32_t pin)
 
 uint32_t VoltMeter::getVoltage () const
 {
+//        static bool started = false;
+
+//        if (!started) {
+                if (HAL_ADC_Start (&hadc) != HAL_OK) {
+                        Error_Handler ();
+                }
+//                started = true;
+//        }
+
+        if (HAL_ADC_PollForConversion (&hadc, 10) != HAL_OK) {
+                Error_Handler ();
+        }
+
+        uint32_t tmp = HAL_ADC_GetValue (&hadc);
+
+#if 1
+        Debug *debug = Debug::singleton ();
+        debug->print (tmp);
+        debug->print (" ");
+
         if (HAL_ADC_Start (&hadc) != HAL_OK) {
                 Error_Handler ();
         }
@@ -99,7 +119,12 @@ uint32_t VoltMeter::getVoltage () const
                 Error_Handler ();
         }
 
-        return HAL_ADC_GetValue (&hadc);
+        tmp = HAL_ADC_GetValue (&hadc);
+        debug->print (tmp);
+        debug->print ("\n");
+#endif
+
+        return tmp;
 }
 
 /*****************************************************************************/
@@ -208,20 +233,14 @@ int main (void)
                                 screen->setBatteryLevel (5);
                         }
 
-                        uint8_t ambientLightVoltage = ambientLightVoltMeter->getVoltage ();
+                        //                        uint8_t ambientLightVoltage = ambientLightVoltMeter->getVoltage ();
 
-                        if (!screen->getBacklight () && ambientLightVoltage < 50) {
-                                screen->setBacklight (true);
-                        }
-                        else if (screen->getBacklight () && ambientLightVoltage > 80) {
-                                screen->setBacklight (false);
-                        }
-
-
-#if 0
-                        debug->print (ambientLightVoltage);
-                        debug->print ("\n");
-#endif
+                        //                        if (!screen->getBacklight () && ambientLightVoltage < 50) {
+                        //                                screen->setBacklight (true);
+                        //                        }
+                        //                        else if (screen->getBacklight () && ambientLightVoltage > 80) {
+                        //                                screen->setBacklight (false);
+                        //                        }
                 }
         }
 }
