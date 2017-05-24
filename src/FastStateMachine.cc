@@ -76,8 +76,22 @@ void FastStateMachine::running_entryAction ()
 void FastStateMachine::stop_entryAction ()
 {
         stopWatch->stop ();
-        buzzer->beep (70, 50, 3);
         startTimeout.start (BEAM_INTERRUPTION_EVENT);
+        int dif = stopWatch->getTime () - history->getHiScore ();
+
+        if (dif < 0) {
+                buzzer->beep (1000, 0, 1);
+        }
+        else {
+                int slots = (dif / 50) + 1;
+
+                if (slots > 5) {
+                        slots = 5;
+                }
+
+                buzzer->beep (70, 50, slots);
+        }
+
         history->store (stopWatch->getTime ());
         history->printHistory ();
 }
