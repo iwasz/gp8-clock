@@ -21,110 +21,138 @@ static void SystemClock_Config (void);
 
 /*****************************************************************************/
 
-class VoltMeter {
+class Adc;
+
+/**
+ * @brief The AdcChannel class
+ */
+class AdcChannel {
 public:
-        static VoltMeter *instance () { return new VoltMeter; }
-        void init (uint32_t channel, GPIO_TypeDef *gpio, uint32_t pin);
-        uint32_t getVoltage () const;
+        AdcChannel (uint32_t num) : number (num) {}
+        uint32_t getValue () const { return lastValue; }
+        void init (Adc *adc);
 
 private:
-        static ADC_HandleTypeDef hadc;
-        static bool adcInited;
+        friend class Adc;
+        uint32_t number;
+        uint32_t lastValue;
 };
 
-bool VoltMeter::adcInited = false;
-ADC_HandleTypeDef VoltMeter::hadc;
+/**
+ * @brief The Adc class
+ * TODO Suboptimal, shold use DMA or interrupts.
+ */
+class Adc {
+public:
+        ~Adc () { delete[] channels; }
+
+        static Adc *instance (int maxChannelsNo = 1) { return new Adc (maxChannelsNo); }
+        void init ();
+        //        uint32_t getVoltage () const;
+
+        void addChannel (AdcChannel *channel)
+        {
+                channels[channelsNum++] = channel;
+                channel->init (this);
+        }
+
+        void run ();
+
+private:
+        Adc (int maxChannelsNo = 1) : channelsNum (0), maxChannelsNo (maxChannelsNo) { channels = new AdcChannel *[maxChannelsNo]; }
+        friend class AdcChannel;
+        static ADC_HandleTypeDef hadc;
+        //        static bool adcInited;
+        AdcChannel **channels;
+        int channelsNum;
+        int maxChannelsNo;
+};
+
+// bool Adc::adcInited = false;
+ADC_HandleTypeDef Adc::hadc;
 
 /*****************************************************************************/
 
-void VoltMeter::init (uint32_t channel, GPIO_TypeDef *gpio, uint32_t pin)
-
+void AdcChannel::init (Adc *adc)
 {
-        __HAL_RCC_GPIOA_CLK_ENABLE ();
-        __HAL_RCC_ADC1_CLK_ENABLE ();
-        GPIO_InitTypeDef gpioInitStruct;
-        gpioInitStruct.Pin = pin;
-        gpioInitStruct.Mode = GPIO_MODE_ANALOG;
-        gpioInitStruct.Pull = GPIO_NOPULL;
-        HAL_GPIO_Init (gpio, &gpioInitStruct);
-
-        if (!adcInited) {
-                hadc.Instance = ADC1;
-                if (HAL_ADC_DeInit (&hadc) != HAL_OK) {
-                        Error_Handler ();
-                }
-
-                hadc.Init.ClockPrescaler = ADC_CLOCK_ASYNC_DIV1;
-                hadc.Init.Resolution = ADC_RESOLUTION_8B;
-                hadc.Init.DataAlign = ADC_DATAALIGN_RIGHT;
-                hadc.Init.ScanConvMode = ADC_SCAN_DIRECTION_FORWARD;
-                hadc.Init.EOCSelection = ADC_EOC_SINGLE_CONV;
-                hadc.Init.LowPowerAutoWait = DISABLE;
-                hadc.Init.LowPowerAutoPowerOff = DISABLE;
-                hadc.Init.ContinuousConvMode = DISABLE;
-                hadc.Init.DiscontinuousConvMode = ENABLE;
-                hadc.Init.ExternalTrigConv = ADC_SOFTWARE_START;
-                hadc.Init.ExternalTrigConvEdge = ADC_EXTERNALTRIGCONVEDGE_NONE;
-                hadc.Init.DMAContinuousRequests = DISABLE;
-                hadc.Init.Overrun = ADC_OVR_DATA_PRESERVED;
-
-                if (HAL_ADC_Init (&hadc) != HAL_OK) {
-                        Error_Handler ();
-                }
-
-                adcInited = true;
-        }
-
-        /*##-2- Configure ADC regular channel ######################################*/
-
         ADC_ChannelConfTypeDef sConfig;
-        sConfig.Channel = channel;
+        sConfig.Channel = number;
         sConfig.Rank = ADC_RANK_CHANNEL_NUMBER;
         sConfig.SamplingTime = ADC_SAMPLETIME_28CYCLES_5;
 
-        if (HAL_ADC_ConfigChannel (&hadc, &sConfig) != HAL_OK) {
+        if (HAL_ADC_ConfigChannel (&adc->hadc, &sConfig) != HAL_OK) {
                 Error_Handler ();
         }
 }
 
 /*****************************************************************************/
 
-uint32_t VoltMeter::getVoltage () const
-{
-//        static bool started = false;
+void Adc::init ()
 
-//        if (!started) {
+{
+        __HAL_RCC_GPIOA_CLK_ENABLE ();
+        __HAL_RCC_ADC1_CLK_ENABLE ();
+        GPIO_InitTypeDef gpioInitStruct;
+        gpioInitStruct.Pin = GPIO_PIN_2 | GPIO_PIN_3;
+        gpioInitStruct.Mode = GPIO_MODE_ANALOG;
+        gpioInitStruct.Pull = GPIO_NOPULL;
+        HAL_GPIO_Init (GPIOA, &gpioInitStruct);
+
+        //        if (!adcInited) {
+        hadc.Instance = ADC1;
+        if (HAL_ADC_DeInit (&hadc) != HAL_OK) {
+                Error_Handler ();
+        }
+
+        hadc.Init.ClockPrescaler = ADC_CLOCK_ASYNC_DIV1;
+        hadc.Init.Resolution = ADC_RESOLUTION_8B;
+        hadc.Init.DataAlign = ADC_DATAALIGN_RIGHT;
+        hadc.Init.ScanConvMode = ADC_SCAN_DIRECTION_FORWARD;
+        hadc.Init.EOCSelection = ADC_EOC_SINGLE_CONV;
+        hadc.Init.LowPowerAutoWait = DISABLE;
+        hadc.Init.LowPowerAutoPowerOff = DISABLE;
+        hadc.Init.ContinuousConvMode = DISABLE;
+        hadc.Init.DiscontinuousConvMode = ENABLE;
+        hadc.Init.ExternalTrigConv = ADC_SOFTWARE_START;
+        hadc.Init.ExternalTrigConvEdge = ADC_EXTERNALTRIGCONVEDGE_NONE;
+        hadc.Init.DMAContinuousRequests = DISABLE;
+        hadc.Init.Overrun = ADC_OVR_DATA_PRESERVED;
+
+        if (HAL_ADC_Init (&hadc) != HAL_OK) {
+                Error_Handler ();
+        }
+
+        //                adcInited = true;
+        //        }
+}
+
+/*****************************************************************************/
+
+void Adc::run ()
+{
+        // TODO Suboptimal, shold use DMA or interrupts.
+        for (int i = 0; i < maxChannelsNo; ++i) {
+
                 if (HAL_ADC_Start (&hadc) != HAL_OK) {
                         Error_Handler ();
                 }
-//                started = true;
-//        }
 
-        if (HAL_ADC_PollForConversion (&hadc, 10) != HAL_OK) {
-                Error_Handler ();
-        }
+                if (HAL_ADC_PollForConversion (&hadc, 10) != HAL_OK) {
+                        Error_Handler ();
+                }
 
-        uint32_t tmp = HAL_ADC_GetValue (&hadc);
+                channels[i]->lastValue = HAL_ADC_GetValue (&hadc);
 
 #if 1
-        Debug *debug = Debug::singleton ();
-        debug->print (tmp);
-        debug->print (" ");
-
-        if (HAL_ADC_Start (&hadc) != HAL_OK) {
-                Error_Handler ();
-        }
-
-        if (HAL_ADC_PollForConversion (&hadc, 10) != HAL_OK) {
-                Error_Handler ();
-        }
-
-        tmp = HAL_ADC_GetValue (&hadc);
-        debug->print (tmp);
-        debug->print ("\n");
+                Debug *debug = Debug::singleton ();
+                debug->print (channels[i]->getValue ());
+                debug->print (" ");
 #endif
+        }
 
-        return tmp;
+#if 1
+        Debug::singleton ()->print ("\n");
+#endif
 }
 
 /*****************************************************************************/
@@ -185,12 +213,15 @@ int main (void)
         /*| Battery, light sensor                                                   |*/
         /*+-------------------------------------------------------------------------+*/
 
-        VoltMeter *batteryVoltMeter = VoltMeter::instance ();
-        batteryVoltMeter->init (ADC_CHANNEL_3, GPIOA, GPIO_PIN_3);
-        Timer batteryTimer;
+        Adc *adc = Adc::instance (2);
+        adc->init ();
 
-        VoltMeter *ambientLightVoltMeter = VoltMeter::instance ();
-        ambientLightVoltMeter->init (ADC_CHANNEL_2, GPIOA, GPIO_PIN_2);
+        AdcChannel ambientLightVoltMeter (ADC_CHANNEL_2 /*, GPIOA, GPIO_PIN_2*/);
+        adc->addChannel (&ambientLightVoltMeter);
+
+        AdcChannel batteryVoltMeter (ADC_CHANNEL_3 /*, GPIOA, GPIO_PIN_3*/);
+        adc->addChannel (&batteryVoltMeter);
+        Timer batteryTimer;
 
         /*+-------------------------------------------------------------------------+*/
         /*| USB                                                                     |*/
@@ -214,8 +245,9 @@ int main (void)
                 buzzer->run ();
 
                 if (batteryTimer.isExpired ()) {
+                        adc->run ();
                         batteryTimer.start (1000);
-                        uint8_t batteryVoltage = batteryVoltMeter->getVoltage ();
+                        uint8_t batteryVoltage = batteryVoltMeter.getValue ();
 
                         if (batteryVoltage <= 125) {
                                 screen->setBatteryLevel (1);
@@ -233,14 +265,14 @@ int main (void)
                                 screen->setBatteryLevel (5);
                         }
 
-                        //                        uint8_t ambientLightVoltage = ambientLightVoltMeter->getVoltage ();
+                        uint8_t ambientLightVoltage = ambientLightVoltMeter.getValue ();
 
-                        //                        if (!screen->getBacklight () && ambientLightVoltage < 50) {
-                        //                                screen->setBacklight (true);
-                        //                        }
-                        //                        else if (screen->getBacklight () && ambientLightVoltage > 80) {
-                        //                                screen->setBacklight (false);
-                        //                        }
+                        if (!screen->getBacklight () && ambientLightVoltage < 50) {
+                                screen->setBacklight (true);
+                        }
+                        else if (screen->getBacklight () && ambientLightVoltage > 80) {
+                                screen->setBacklight (false);
+                        }
                 }
         }
 }
