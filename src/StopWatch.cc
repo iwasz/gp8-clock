@@ -81,31 +81,7 @@ void StopWatch::onInterrupt ()
         // One digit of miniutes
         display->setDigit (0, cntTmp % 10);
 
-        //        switch (state) {
-        //        case WATCH_INIT:
-        //                break;
-        //        }
-
-        //        if (state == WATCH_RUNNING) {
-
         if (++time >= MAX_TIME) {
                 time = 0;
         }
-
-        //}
-
-        //        ++timeFromLastEvent;
-
-        //        if (timeFromLastEvent > EVENT_TRESHOLD && noOfUpdateEventsSinceLastRise >= UPDATE_EVENT_TRESHOLD) {
-        //                timeFromLastEvent = 0;
-        //                beep = true;
-
-        //                if (state == WATCH_RUNNING) {
-        //                        state = WATCH_STOPPED;
-        //                }
-        //                else if (state == WATCH_STOPPED) {
-        //                        cnt = 0;
-        //                        state = WATCH_RUNNING;
-        //                }
-        //        }
 }
