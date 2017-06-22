@@ -7,9 +7,9 @@
  ****************************************************************************/
 
 #include "StopWatch.h"
+#include "ErrorHandler.h"
 #include "FastStateMachine.h"
 #include "IDisplay.h"
-#include "utils.h"
 
 StopWatch::StopWatch () : running (false), time (0) {}
 

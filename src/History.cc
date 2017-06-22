@@ -8,26 +8,27 @@
 
 #include "History.h"
 #include "Debug.h"
+#include "utils.h"
 #include <algorithm>
+#include <stm32f0xx_hal.h>
 
 /*****************************************************************************/
 
 void History::store (uint16_t t)
 {
-        history[actualHistoryBegin] = t;
-        ++actualHistoryBegin;
-        actualHistoryBegin %= historyMaxSize;
-
-        if (historySize < historyMaxSize) {
-                ++historySize;
-        }
-
+        hiScoreStorage->store (reinterpret_cast<uint8_t *> (&t), 2, 0);
         storeHiScoreIf (t);
 }
 
 /*****************************************************************************/
 
-void History::storeHiScoreIf (uint16_t t) { hiScore = std::min (hiScore, t); }
+void History::storeHiScoreIf (uint16_t t)
+{
+        if (t < hiScore) {
+                hiScore = t;
+                hiScoreStorage->store (reinterpret_cast<uint8_t *> (&t), 2, 0);
+        }
+}
 
 /*****************************************************************************/
 
@@ -38,20 +39,18 @@ void History::printHistory ()
         d->print (hiScore);
         d->print ("\n");
 
-        for (int i = 0; i < historySize; ++i) {
-                int idx;
-
-                if (historySize == historyMaxSize) {
-                        idx = (actualHistoryBegin + i) % historyMaxSize;
-                }
-                else {
-                        idx = i;
-                }
-
-                uint16_t tim = *(history + idx);
+        for (int i = 0; i < 32; ++i) {
+                uint16_t tim = *reinterpret_cast<uint16_t const *> (historyStorage->read (nullptr, sizeof (uint16_t), 0, i));
                 d->print (tim);
                 d->print ("\n");
         }
-
         d->print ("\n");
+}
+
+/*****************************************************************************/
+
+void History::init ()
+{
+        hiScore = *reinterpret_cast<uint16_t const *> (hiScoreStorage->read (nullptr, sizeof (uint16_t), 0));
+        printHistory ();
 }

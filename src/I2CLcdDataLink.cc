@@ -7,7 +7,7 @@
  ****************************************************************************/
 
 #include "I2CLcdDataLink.h"
-#include "utils.h"
+#include "ErrorHandler.h"
 #include <stm32f0xx_hal.h>
 
 I2CLcdDataLink *I2CLcdDataLink::singleton ()

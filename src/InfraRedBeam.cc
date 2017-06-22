@@ -8,7 +8,7 @@
 
 #include "InfraRedBeam.h"
 #include "Debug.h"
-#include "utils.h"
+#include "ErrorHandler.h"
 
 /*****************************************************************************/
 
@@ -116,6 +116,5 @@ void InfraRedBeam::onInterrupt ()
                 if (time - timeOfLastRise > 70) {
                         beamInterrupted = true;
                 }
-
         }
 }

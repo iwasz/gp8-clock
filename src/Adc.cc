@@ -9,7 +9,7 @@
 #include "Adc.h"
 #include "AdcChannel.h"
 #include "Debug.h"
-#include "utils.h"
+#include "ErrorHandler.h"
 
 /*****************************************************************************/
 

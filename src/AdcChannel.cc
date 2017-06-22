@@ -8,7 +8,7 @@
 
 #include "AdcChannel.h"
 #include "Adc.h"
-#include "utils.h"
+#include "ErrorHandler.h"
 
 void AdcChannel::init (Adc *adc)
 {

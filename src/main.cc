@@ -18,6 +18,15 @@
 #include "config.h"
 #include <cstdbool>
 #include <cstring>
+#include <storage/FlashEepromStorage.h>
+
+namespace __gnu_cxx {
+void __verbose_terminate_handler ()
+{
+        while (1)
+                ;
+}
+}
 
 static void SystemClock_Config (void);
 // USBD_HandleTypeDef USBD_Device;
@@ -63,7 +72,15 @@ int main (void)
         /*| StopWatch, machine and IR                                               |*/
         /*+-------------------------------------------------------------------------+*/
 
-        History *history = History::singleton (3);
+        History *history = History::singleton (/*3*/);
+        FlashEepromStorage<2048> hiScoreStorage (2, 1, 0x801E800 /*0x08020000 - 3 * 2048*/);
+        hiScoreStorage.init ();
+        history->setHiScoreStorage (&hiScoreStorage);
+        FlashEepromStorage<2048> historyStorage (2, 2, 0x801F000 /*0x08020000 - 2 * 2048*/);
+        historyStorage.init ();
+        history->setHistoryStorage (&historyStorage);
+        history->init ();
+
         StopWatch *stopWatch = StopWatch::singleton ();
         stopWatch->setDisplay (screen);
         FastStateMachine *fStateMachine = FastStateMachine::singleton ();
