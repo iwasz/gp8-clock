@@ -80,6 +80,7 @@ int main (void)
         historyStorage.init ();
         history->setHistoryStorage (&historyStorage);
         history->init ();
+        history->printHistory ();
 
         StopWatch *stopWatch = StopWatch::singleton ();
         stopWatch->setDisplay (screen);

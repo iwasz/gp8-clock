@@ -9,5 +9,4 @@
 #ifndef GP8_STOPWATCH_UTILS_H
 #define GP8_STOPWATCH_UTILS_H
 
-
 #endif // UTILS_H

@@ -27,7 +27,7 @@ public:
         void run ();
 
 private:
-        void on () { /*GPIOC->BSRR |= GPIO_PIN_15;*/ }
+        void on () { GPIOC->BSRR |= GPIO_PIN_15; }
         void off () { GPIOC->BSRR |= GPIO_PIN_15 << 16; }
 
 private:

@@ -13,9 +13,11 @@ public:
         void print (const char *str);
         void print (uint8_t *data, size_t len);
         void print (int);
+        void printTime (uint16_t time);
 
 private:
         UART_HandleTypeDef huart;
 };
+
 
 #endif //__CMD_UART_H__

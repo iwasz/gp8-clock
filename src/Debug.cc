@@ -106,3 +106,28 @@ void Debug::print (int i)
         itoa (i, buf);
         print (buf);
 }
+
+/*****************************************************************************/
+
+void Debug::printTime (uint16_t time)
+{
+        char buf[6];
+        uint16_t sec100 = time % 100;
+
+        time /= 100;
+        uint16_t sec = time % 60;
+
+        time /= 60;
+        uint min = time % 60;
+
+        itoa (min, buf);
+        print (buf);
+        print (":");
+
+        itoa (sec, buf);
+        print (buf);
+        print (",");
+
+        itoa (sec100, buf);
+        print (buf);
+}

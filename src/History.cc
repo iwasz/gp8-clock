@@ -16,7 +16,7 @@
 
 void History::store (uint16_t t)
 {
-        hiScoreStorage->store (reinterpret_cast<uint8_t *> (&t), 2, 0);
+        historyStorage->store (reinterpret_cast<uint8_t *> (&t), 2, 0);
         storeHiScoreIf (t);
 }
 
@@ -35,13 +35,14 @@ void History::storeHiScoreIf (uint16_t t)
 void History::printHistory ()
 {
         Debug *d = Debug::singleton ();
-        d->print ("*");
-        d->print (hiScore);
+        d->print ("* ");
+        d->printTime (hiScore);
+        d->print ("\n");
         d->print ("\n");
 
         for (int i = 0; i < 32; ++i) {
                 uint16_t tim = *reinterpret_cast<uint16_t const *> (historyStorage->read (nullptr, sizeof (uint16_t), 0, i));
-                d->print (tim);
+                d->printTime (tim);
                 d->print ("\n");
         }
         d->print ("\n");
@@ -52,5 +53,4 @@ void History::printHistory ()
 void History::init ()
 {
         hiScore = *reinterpret_cast<uint16_t const *> (hiScoreStorage->read (nullptr, sizeof (uint16_t), 0));
-        printHistory ();
 }
