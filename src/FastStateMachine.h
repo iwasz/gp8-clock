@@ -40,8 +40,6 @@ public:
         void setBuzzer (Buzzer *b) { this->buzzer = b; }
         void setHistory (History *h) { this->history = h; }
         void setButton (Button *b) { this->button = b; }
-        void setHistoryStorage (ICircullarQueueStorage *value) { historyStorage = value; }
-        void setHiScoreStorage (IRandomAccessStorage *value) { hiScoreStorage = value; }
 
 private:
         void init_entryAction ();
@@ -59,8 +57,6 @@ private:
         Buzzer *buzzer = nullptr;
         History *history = nullptr;
         Button *button = nullptr;
-        IRandomAccessStorage *hiScoreStorage = nullptr;
-        ICircullarQueueStorage *historyStorage = nullptr;
 };
 
 #endif // FASTSTATEMACHINE_H

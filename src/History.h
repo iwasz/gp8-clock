@@ -31,6 +31,9 @@ public:
         void setHistoryStorage (ICircullarQueueStorage *value) { historyStorage = value; }
         void setHiScoreStorage (IRandomAccessStorage *value) { hiScoreStorage = value; }
 
+        void clearHiScore ();
+        void clearResults ();
+
 private:
         void storeHiScoreIf (uint16_t t);
 

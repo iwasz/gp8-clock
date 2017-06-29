@@ -59,10 +59,7 @@ void Button::onExti ()
                 }
 
                 pressed = false;
-
-                //                if (!longPressTimer.isExpired()) {
                 pressedEvent = true;
-                //                }
         }
 }
 

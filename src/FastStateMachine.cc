@@ -80,7 +80,7 @@ void FastStateMachine::run ()
         case HI_CLEAR_READY:
                 if (button->getLongPressClear ()) {
                         buzzer->beep (200, 0, 1);
-                        hiScoreStorage->clear ();
+                        history->clearHiScore ();
                 }
 
                 if (button->getPressClear ()) {
@@ -92,7 +92,7 @@ void FastStateMachine::run ()
         case RES_CLEAR_READY:
                 if (button->getLongPressClear ()) {
                         buzzer->beep (200, 0, 1);
-                        historyStorage->clear ();
+                        history->clearResults ();
                 }
 
                 if (button->getPressClear ()) {

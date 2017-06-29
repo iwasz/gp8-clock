@@ -95,8 +95,6 @@ int main (void)
         fStateMachine->setBuzzer (buzzer);
         fStateMachine->setHistory (history);
         fStateMachine->setButton (button);
-        fStateMachine->setHistoryStorage (&historyStorage);
-        fStateMachine->setHiScoreStorage (&hiScoreStorage);
 
         beam->init ();
         stopWatch->init ();

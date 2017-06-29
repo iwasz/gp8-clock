@@ -50,7 +50,16 @@ void History::printHistory ()
 
 /*****************************************************************************/
 
-void History::init ()
+void History::init () { hiScore = *reinterpret_cast<uint16_t const *> (hiScoreStorage->read (nullptr, sizeof (uint16_t), 0)); }
+
+/*****************************************************************************/
+
+void History::clearHiScore ()
 {
-        hiScore = *reinterpret_cast<uint16_t const *> (hiScoreStorage->read (nullptr, sizeof (uint16_t), 0));
+        hiScoreStorage->clear ();
+        hiScore = std::numeric_limits<uint16_t>::max ();
 }
+
+/*****************************************************************************/
+
+void History::clearResults () { historyStorage->clear (); }
