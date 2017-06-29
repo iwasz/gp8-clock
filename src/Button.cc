@@ -43,7 +43,7 @@ extern "C" void EXTI4_15_IRQHandler ()
 
 void Button::onExti ()
 {
-        if (!debounceTimer.isExpired()) {
+        if (!debounceTimer.isExpired ()) {
                 return;
         }
         debounceTimer.start (50);
@@ -51,11 +51,18 @@ void Button::onExti ()
         // Button pressed (button gpio is normally pulled up)
         if (!(gpio->IDR & pin)) {
                 longPressTimer.start (1000);
-                pressedEvent = true;
                 pressed = true;
         }
         else {
+                if (!pressed) {
+                        return;
+                }
+
                 pressed = false;
+
+                //                if (!longPressTimer.isExpired()) {
+                pressedEvent = true;
+                //                }
         }
 }
 
@@ -87,7 +94,8 @@ bool Button::getLongPressClear () const
 
 void Button::run ()
 {
-        if (pressed && longPressTimer.isExpired()) {
+        if (pressed && longPressTimer.isExpired ()) {
                 longPressedEvent = true;
+                pressed = false;
         }
 }
