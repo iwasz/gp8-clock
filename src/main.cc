@@ -52,8 +52,6 @@ int main (void)
 
         T145003 *screen = T145003::singleton ();
         screen->setLcdDriver (lcdd);
-        screen->setDots (T145003::DOT5 | T145003::DOT3);
-        screen->setBatteryLevel (5);
         screen->init ();
 
         /*+-------------------------------------------------------------------------+*/
@@ -76,7 +74,6 @@ int main (void)
         History *history = History::singleton (/*3*/);
         FlashEepromStorage<2048> hiScoreStorage (2, 1, 0x801E800 /*0x08020000 - 3 * 2048*/);
         hiScoreStorage.init ();
-        //        hiScoreStorage.clear ();
         history->setHiScoreStorage (&hiScoreStorage);
         FlashEepromStorage<2048> historyStorage (2, 2, 0x801F000 /*0x08020000 - 2 * 2048*/);
         historyStorage.init ();
@@ -98,6 +95,8 @@ int main (void)
         fStateMachine->setBuzzer (buzzer);
         fStateMachine->setHistory (history);
         fStateMachine->setButton (button);
+        fStateMachine->setHistoryStorage (&historyStorage);
+        fStateMachine->setHiScoreStorage (&hiScoreStorage);
 
         beam->init ();
         stopWatch->init ();

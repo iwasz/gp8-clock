@@ -17,6 +17,7 @@
  */
 class T145003 : public IDisplay {
 public:
+        enum Letters { LETTER_L = 16, LETTER_r, LETTER_H };
         enum Dots { DOT5 = 0x01, DOT4 = 0x02, DOT3 = 0x04, DOT2 = 0x08 };
         enum Icons { BOTTOM_LEFT_ARROW = 0x01, TOP_LEFT_ARROW = 0x02, TOP_RIGHT_AROW = 0x04, MINUS_SIGN = 0x08 };
         enum Batery { FRAME = 0x01, BAR0 = 0x02, BAR1 = 0x04, BAR2 = 0x08, BAR3 = 0x10 };
@@ -60,7 +61,7 @@ private:
         uint8_t batteryLevel = 0;
         bool needsRefresh = true;
 
-        const uint8_t font[16] = {
+        const uint8_t font[19] = {
                 0x01 | 0x02 | 0x04 | 0x10 | 0x40 | 0x80,        // 0
                 0x02 | 0x04,                                    // 1
                 0x01 | 0x02 | 0x20 | 0x40 | 0x80,               // 2
@@ -76,7 +77,10 @@ private:
                 0x01 | 0x10 | 0x40 | 0x80,                      // C
                 0x04 | 0x02 | 0x20 | 0x40 | 0x80,               // d
                 0x01 | 0x10 | 0x20 | 0x40 | 0x80,               // E
-                0x01 | 0x10 | 0x20 | 0x40                       // F
+                0x01 | 0x10 | 0x20 | 0x40,                      // F
+                0x10 | 0x40 | 0x80,                             // L
+                0x20 | 0x40,                                    // r
+                0x02 | 0x04 | 0x10 | 0x20 | 0x40,               // H
         };
 
         const uint8_t batteryFont[6] = {

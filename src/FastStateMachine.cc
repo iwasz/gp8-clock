@@ -30,40 +30,74 @@ void FastStateMachine::run ()
 
         switch (state) {
         case INIT:
+                init_entryAction ();
+
                 if (ir->isBeamPresent ()) {
-                        state = READY;
+                        state = GP8_READY;
                 }
 
                 if (button->getPressClear ()) {
-                        buzzer->beep (10, 0, 1);
-                }
-
-                if (button->getLongPressClear ()) {
-                        buzzer->beep (200, 0, 1);
+                        state = HI_CLEAR_READY;
+                        hiClearReady_entryAction ();
                 }
 
                 break;
 
-        case READY:
+        case GP8_READY:
                 if (ir->isBeamInterrupted ()) {
-                        state = RUNNING;
+                        state = GP8_RUNNING;
                         running_entryAction ();
                 }
 
+                if (button->getPressClear ()) {
+                        state = HI_CLEAR_READY;
+                        hiClearReady_entryAction ();
+                }
+
                 break;
 
-        case RUNNING:
+        case GP8_RUNNING:
                 if (ir->isBeamPresent () && ir->isBeamInterrupted () && startTimeout.isExpired ()) {
-                        state = STOP;
+                        state = GP8_STOP;
                         stop_entryAction ();
                 }
 
                 break;
 
-        case STOP:
+        case GP8_STOP:
                 if (ir->isBeamPresent () && ir->isBeamInterrupted () && startTimeout.isExpired ()) {
-                        state = RUNNING;
+                        state = GP8_RUNNING;
                         running_entryAction ();
+                }
+
+                if (button->getPressClear ()) {
+                        state = HI_CLEAR_READY;
+                        hiClearReady_entryAction ();
+                }
+
+                break;
+
+        case HI_CLEAR_READY:
+                if (button->getLongPressClear ()) {
+                        buzzer->beep (200, 0, 1);
+                        hiScoreStorage->clear ();
+                }
+
+                if (button->getPressClear ()) {
+                        state = RES_CLEAR_READY;
+                        resultsClearReady_entryAction ();
+                }
+                break;
+
+        case RES_CLEAR_READY:
+                if (button->getLongPressClear ()) {
+                        buzzer->beep (200, 0, 1);
+                        historyStorage->clear ();
+                }
+
+                if (button->getPressClear ()) {
+                        buzzer->beep (10, 10, 1);
+                        state = INIT;
                 }
                 break;
 
@@ -74,12 +108,50 @@ void FastStateMachine::run ()
 
 /*****************************************************************************/
 
+void FastStateMachine::init_entryAction ()
+{
+        display->setDigit (0, 0);
+        display->setDigit (1, 0);
+        display->setDigit (2, 0);
+        display->setDigit (3, 0);
+        display->setDigit (4, 0);
+        display->setDots (T145003::DOT5 | T145003::DOT3);
+}
+
+/*****************************************************************************/
+
 void FastStateMachine::running_entryAction ()
 {
         stopWatch->reset ();
         stopWatch->start ();
         buzzer->beep (100, 0, 1);
         startTimeout.start (BEAM_INTERRUPTION_EVENT);
+}
+
+/*****************************************************************************/
+
+void FastStateMachine::hiClearReady_entryAction ()
+{
+        buzzer->beep (10, 10, 1);
+        display->setDigit (0, 0x0c);
+        display->setDigit (1, T145003::LETTER_L);
+        display->setDigit (2, T145003::LETTER_r);
+        display->setDigit (3, T145003::LETTER_H);
+        display->setDigit (4, 0x01);
+        display->setDots (T145003::DOT3);
+}
+
+/*****************************************************************************/
+
+void FastStateMachine::resultsClearReady_entryAction ()
+{
+        buzzer->beep (10, 10, 1);
+        display->setDigit (0, 0x0c);
+        display->setDigit (1, T145003::LETTER_L);
+        display->setDigit (2, T145003::LETTER_r);
+        display->setDigit (3, T145003::LETTER_r);
+        display->setDigit (4, 0x0e);
+        display->setDots (T145003::DOT3);
 }
 
 /*****************************************************************************/

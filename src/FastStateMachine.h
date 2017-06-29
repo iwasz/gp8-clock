@@ -17,12 +17,14 @@ struct IDisplay;
 class Buzzer;
 class History;
 class Button;
+struct ICircullarQueueStorage;
+struct IRandomAccessStorage;
 
 #define BEAM_INTERRUPTION_EVENT 3000
 
 class FastStateMachine {
 public:
-        enum State { INIT, READY, RUNNING, STOP };
+        enum State { INIT, GP8_READY, GP8_RUNNING, GP8_STOP, HI_CLEAR_READY, RES_CLEAR_READY };
 
         static FastStateMachine *singleton ()
         {
@@ -38,10 +40,15 @@ public:
         void setBuzzer (Buzzer *b) { this->buzzer = b; }
         void setHistory (History *h) { this->history = h; }
         void setButton (Button *b) { this->button = b; }
+        void setHistoryStorage (ICircullarQueueStorage *value) { historyStorage = value; }
+        void setHiScoreStorage (IRandomAccessStorage *value) { hiScoreStorage = value; }
 
 private:
+        void init_entryAction ();
         void running_entryAction ();
         void stop_entryAction ();
+        void hiClearReady_entryAction ();
+        void resultsClearReady_entryAction ();
 
 private:
         State state = INIT;
@@ -52,6 +59,8 @@ private:
         Buzzer *buzzer = nullptr;
         History *history = nullptr;
         Button *button = nullptr;
+        IRandomAccessStorage *hiScoreStorage = nullptr;
+        ICircullarQueueStorage *historyStorage = nullptr;
 };
 
 #endif // FASTSTATEMACHINE_H
