@@ -7,6 +7,7 @@
  ****************************************************************************/
 
 #include "FastStateMachine.h"
+#include "Button.h"
 #include "Buzzer.h"
 #include "Debug.h"
 #include "History.h"
@@ -32,6 +33,15 @@ void FastStateMachine::run ()
                 if (ir->isBeamPresent ()) {
                         state = READY;
                 }
+
+                if (button->getPressClear ()) {
+                        buzzer->beep (10, 0, 1);
+                }
+
+                if (button->getLongPressClear ()) {
+                        buzzer->beep (200, 0, 1);
+                }
+
                 break;
 
         case READY:
@@ -39,6 +49,7 @@ void FastStateMachine::run ()
                         state = RUNNING;
                         running_entryAction ();
                 }
+
                 break;
 
         case RUNNING:

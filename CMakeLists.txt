@@ -47,6 +47,8 @@ SET (APP_SOURCES
         "src/stm32f0xx_hal_conf.h"
         "src/config-proto0.h"
         "src/config.h"
+        "src/Button.h"
+        "src/Button.cc"
         "../libmicro/src/storage/ICircullarQueueStorage.h"
         "../libmicro/src/storage/IRandomAccessStorage.h"
         "../libmicro/src/storage/FlashEepromStorage.h"

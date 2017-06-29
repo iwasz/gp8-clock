@@ -5,6 +5,7 @@
 //#include "usbd_cdc_interface.h"
 #include "Adc.h"
 #include "AdcChannel.h"
+#include "Button.h"
 #include "Buzzer.h"
 #include "Debug.h"
 #include "FastStateMachine.h"
@@ -75,6 +76,7 @@ int main (void)
         History *history = History::singleton (/*3*/);
         FlashEepromStorage<2048> hiScoreStorage (2, 1, 0x801E800 /*0x08020000 - 3 * 2048*/);
         hiScoreStorage.init ();
+        //        hiScoreStorage.clear ();
         history->setHiScoreStorage (&hiScoreStorage);
         FlashEepromStorage<2048> historyStorage (2, 2, 0x801F000 /*0x08020000 - 2 * 2048*/);
         historyStorage.init ();
@@ -88,10 +90,14 @@ int main (void)
         fStateMachine->setStopWatch (stopWatch);
         stopWatch->setStateMachine (fStateMachine);
         InfraRedBeam *beam = InfraRedBeam::singleton ();
+
+        Button *button = Button::singleton ();
+        button->init (GPIOB, GPIO_PIN_8);
         fStateMachine->setIr (beam);
         fStateMachine->setDisplay (screen);
         fStateMachine->setBuzzer (buzzer);
         fStateMachine->setHistory (history);
+        fStateMachine->setButton (button);
 
         beam->init ();
         stopWatch->init ();
@@ -130,6 +136,7 @@ int main (void)
         while (1) {
                 screen->refresh ();
                 buzzer->run ();
+                button->run ();
 
                 if (batteryTimer.isExpired ()) {
                         adc->run ();

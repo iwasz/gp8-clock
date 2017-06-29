@@ -16,6 +16,7 @@ class StopWatch;
 struct IDisplay;
 class Buzzer;
 class History;
+class Button;
 
 #define BEAM_INTERRUPTION_EVENT 3000
 
@@ -36,6 +37,7 @@ public:
         void setDisplay (IDisplay *d) { this->display = d; }
         void setBuzzer (Buzzer *b) { this->buzzer = b; }
         void setHistory (History *h) { this->history = h; }
+        void setButton (Button *b) { this->button = b; }
 
 private:
         void running_entryAction ();
@@ -49,6 +51,7 @@ private:
         IDisplay *display = nullptr;
         Buzzer *buzzer = nullptr;
         History *history = nullptr;
+        Button *button = nullptr;
 };
 
 #endif // FASTSTATEMACHINE_H
