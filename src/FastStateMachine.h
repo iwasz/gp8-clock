@@ -24,7 +24,7 @@ struct IRandomAccessStorage;
 
 class FastStateMachine {
 public:
-        enum State { INIT, GP8_READY, GP8_RUNNING, GP8_STOP, HI_CLEAR_READY, RES_CLEAR_READY };
+        enum State { INIT, GP8_READY, GP8_RUNNING, GP8_STOP, LOOP_READY, LOOP_RUNNING, LOOP_STOP, HI_CLEAR_READY, RES_CLEAR_READY };
 
         static FastStateMachine *singleton ()
         {
@@ -42,7 +42,7 @@ public:
         void setButton (Button *b) { this->button = b; }
 
 private:
-        void init_entryAction ();
+        void ready_entryAction (bool loop = false);
         void running_entryAction ();
         void stop_entryAction ();
         void hiClearReady_entryAction ();

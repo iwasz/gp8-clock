@@ -1,18 +1,40 @@
 EESchema-LIBRARY Version 2.3
 #encoding utf-8
 #
-# test-double-RESCUE-transmitter
+# LED-RESCUE-transmitter
 #
-DEF ~test-double-RESCUE-transmitter P 0 40 N N 1 F N
-F0 "P" 0 0 60 H V C CNN
-F1 "test-double-RESCUE-transmitter" 0 -50 60 H I C CNN
-F2 "" 0 0 60 H V C CNN
-F3 "" 0 0 60 H V C CNN
+DEF LED-RESCUE-transmitter D 0 40 Y N 1 F N
+F0 "D" 0 100 50 H V C CNN
+F1 "LED-RESCUE-transmitter" 0 -100 50 H V C CNN
+F2 "" 0 0 50 H V C CNN
+F3 "" 0 0 50 H V C CNN
+$FPLIST
+ LED-*
+ LED_*
+$ENDFPLIST
 DRAW
-T 0 150 150 60 0 0 0 t  Normal 0 C C
-C 150 150 50 0 1 0 N
-X T 1 -100 150 200 R 50 50 1 1 I N
-X T 1 -100 150 200 R 50 50 1 1 I
+P 2 0 1 0 -50 50 -50 -50 N
+P 3 0 1 0 -80 -25 -125 -65 -120 -40 N
+P 3 0 1 0 -65 -40 -110 -80 -105 -55 N
+P 3 0 1 0 50 50 -50 0 50 -50 F
+X K 1 -200 0 150 R 40 40 1 1 P
+X A 2 200 0 150 L 40 40 1 1 P
+ENDDRAW
+ENDDEF
+#
+# POT-RESCUE-transmitter
+#
+DEF POT-RESCUE-transmitter RV 0 40 Y N 1 F N
+F0 "RV" 0 -80 50 H V C CNN
+F1 "POT-RESCUE-transmitter" 0 0 50 H V C CNN
+F2 "" 0 0 50 H V C CNN
+F3 "" 0 0 50 H V C CNN
+DRAW
+S -100 40 100 -40 0 1 0 N
+P 3 0 1 0 0 40 -20 60 20 60 F
+X 1 1 -150 0 50 R 40 40 1 1 P
+X 2 2 0 150 100 D 40 40 1 1 P
+X 3 3 150 0 50 L 40 40 1 1 P
 ENDDRAW
 ENDDEF
 #

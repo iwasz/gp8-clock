@@ -31,7 +31,7 @@ LIBS:atmel
 LIBS:contrib
 LIBS:valves
 LIBS:transmitter-cache
-EELAYER 25 0
+EELAYER 26 0
 EELAYER END
 $Descr A4 11693 8268
 encoding utf-8
@@ -181,7 +181,7 @@ F 3 "http://pl.farnell.com/fairchild-semiconductor/2n3904bu/transistor-npn-40v-2
 	-1   0    0    -1  
 $EndComp
 $Comp
-L LED D4
+L LED-RESCUE-transmitter D4
 U 1 1 5642AB44
 P 8950 3475
 F 0 "D4" H 8950 3575 50  0000 C CNN
@@ -294,7 +294,7 @@ F 3 "http://pl.farnell.com/texas-instruments/cd4047bm96/ic-mono-astbl-multvibrtr
 	1    0    0    -1  
 $EndComp
 $Comp
-L POT RV1
+L POT-RESCUE-transmitter RV1
 U 1 1 564338A3
 P 2300 3575
 F 0 "RV1" H 2300 3446 50  0000 C CNN
@@ -373,7 +373,7 @@ F 3 "http://pl.farnell.com/texas-instruments/cd4047bm96/ic-mono-astbl-multvibrtr
 	1    0    0    -1  
 $EndComp
 $Comp
-L POT RV2
+L POT-RESCUE-transmitter RV2
 U 1 1 5642FF37
 P 5625 3575
 F 0 "RV2" H 5625 3446 50  0000 C CNN
@@ -485,7 +485,7 @@ F 3 "" H 9650 4950 30  0000 C CNN
 	-1   0    0    1   
 $EndComp
 $Comp
-L LED D7
+L LED-RESCUE-transmitter D7
 U 1 1 5643D200
 P 8700 3475
 F 0 "D7" H 8700 3575 50  0000 C CNN
@@ -890,7 +890,7 @@ Wire Wire Line
 	5375 4125 5625 4125
 Connection ~ 5625 4125
 $Comp
-L LED D2
+L LED-RESCUE-transmitter D2
 U 1 1 5685F9CD
 P 8450 3475
 F 0 "D2" H 8450 3575 50  0000 C CNN
@@ -1011,4 +1011,6 @@ Wire Wire Line
 	5775 3575 5875 3575
 Wire Wire Line
 	2450 3575 2550 3575
+Text Notes 725  4975 0    60   ~ 0
+Zmierzony pobór prądu to 41mA przy baterii na full (4.15V)
 $EndSCHEMATC

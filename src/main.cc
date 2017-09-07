@@ -1,8 +1,3 @@
-#include <stm32f0xx_hal.h>
-//#include "usbd_core.h"
-//#include "usbd_desc.h"
-//#include "usbd_cdc.h"
-//#include "usbd_cdc_interface.h"
 #include "Adc.h"
 #include "AdcChannel.h"
 #include "Button.h"
@@ -17,8 +12,13 @@
 #include "T145003.h"
 #include "Timer.h"
 #include "config.h"
+#include "usbd_cdc.h"
+#include "usbd_cdc_interface.h"
+#include "usbd_core.h"
+#include "usbd_desc.h"
 #include <cstdbool>
 #include <cstring>
+#include <stm32f0xx_hal.h>
 #include <storage/FlashEepromStorage.h>
 
 namespace __gnu_cxx {
@@ -30,7 +30,8 @@ void __verbose_terminate_handler ()
 }
 
 static void SystemClock_Config (void);
-// USBD_HandleTypeDef USBD_Device;
+
+USBD_HandleTypeDef usbdDevice;
 
 /*****************************************************************************/
 
@@ -117,18 +118,17 @@ int main (void)
         /*| USB                                                                     |*/
         /*+-------------------------------------------------------------------------+*/
 
-        //        /* Init Device Library */
-        //        USBD_Init (&USBD_Device, &VCP_Desc, 0);
-        //
-        //        /* Add Supported Class */
-        //        USBD_RegisterClass (&USBD_Device, USBD_CDC_CLASS);
-        //
-        //        /* Add CDC Interface Class */
-        //        USBD_CDC_RegisterInterface (&USBD_Device, &USBD_CDC_fops);
-        //
-        //        /* Start Device Process */
-        //        USBD_Start (&USBD_Device);
-        //        printf ("init OK\n");
+        /* Init Device Library */
+        USBD_Init (&usbdDevice, &VCP_Desc, 0);
+
+        /* Add Supported Class */
+        USBD_RegisterClass (&usbdDevice, USBD_CDC_CLASS);
+
+        /* Add CDC Interface Class */
+        USBD_CDC_RegisterInterface (&usbdDevice, &USBD_CDC_fops);
+
+        /* Start Device Process */
+        USBD_Start (&usbdDevice);
 
         while (1) {
                 screen->refresh ();
@@ -164,6 +164,8 @@ int main (void)
                         else if (screen->getBacklight () && ambientLightVoltage > 80) {
                                 screen->setBacklight (false);
                         }
+
+                        usbWrite (".", 1);
                 }
         }
 }

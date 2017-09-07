@@ -30,15 +30,15 @@ void FastStateMachine::run ()
 
         switch (state) {
         case INIT:
-                init_entryAction ();
+                ready_entryAction ();
 
                 if (ir->isBeamPresent ()) {
                         state = GP8_READY;
                 }
 
                 if (button->getPressClear ()) {
-                        state = HI_CLEAR_READY;
-                        hiClearReady_entryAction ();
+                        state = LOOP_READY;
+                        ready_entryAction (true);
                 }
 
                 break;
@@ -50,8 +50,8 @@ void FastStateMachine::run ()
                 }
 
                 if (button->getPressClear ()) {
-                        state = HI_CLEAR_READY;
-                        hiClearReady_entryAction ();
+                        state = LOOP_READY;
+                        ready_entryAction (true);
                 }
 
                 break;
@@ -67,6 +67,40 @@ void FastStateMachine::run ()
         case GP8_STOP:
                 if (ir->isBeamPresent () && ir->isBeamInterrupted () && startTimeout.isExpired ()) {
                         state = GP8_RUNNING;
+                        running_entryAction ();
+                }
+
+                if (button->getPressClear ()) {
+                        state = LOOP_READY;
+                        ready_entryAction (true);
+                }
+
+                break;
+
+        case LOOP_READY:
+                if (ir->isBeamPresent () && ir->isBeamInterrupted ()) {
+                        state = LOOP_RUNNING;
+                        running_entryAction ();
+                }
+
+                if (button->getPressClear ()) {
+                        state = HI_CLEAR_READY;
+                        hiClearReady_entryAction ();
+                }
+
+                break;
+
+        case LOOP_RUNNING:
+                if (ir->isBeamPresent () && ir->isBeamInterrupted () && startTimeout.isExpired ()) {
+                        state = LOOP_STOP;
+                        stop_entryAction ();
+                }
+
+                break;
+
+        case LOOP_STOP:
+                if (ir->isBeamPresent () && ir->isBeamInterrupted () && startTimeout.isExpired ()) {
+                        state = LOOP_RUNNING;
                         running_entryAction ();
                 }
 
@@ -108,7 +142,7 @@ void FastStateMachine::run ()
 
 /*****************************************************************************/
 
-void FastStateMachine::init_entryAction ()
+void FastStateMachine::ready_entryAction (bool loop)
 {
         display->setDigit (0, 0);
         display->setDigit (1, 0);
@@ -116,6 +150,14 @@ void FastStateMachine::init_entryAction ()
         display->setDigit (3, 0);
         display->setDigit (4, 0);
         display->setDots (T145003::DOT5 | T145003::DOT3);
+
+        if (loop) {
+                buzzer->beep (10, 10, 1);
+                display->setIcons (T145003::TOP_LEFT_ARROW);
+        }
+        else {
+                display->setIcons (T145003::BOTTOM_LEFT_ARROW);
+        }
 }
 
 /*****************************************************************************/
@@ -139,6 +181,7 @@ void FastStateMachine::hiClearReady_entryAction ()
         display->setDigit (3, T145003::LETTER_H);
         display->setDigit (4, 0x01);
         display->setDots (T145003::DOT3);
+        display->setIcons (0);
 }
 
 /*****************************************************************************/
@@ -152,6 +195,7 @@ void FastStateMachine::resultsClearReady_entryAction ()
         display->setDigit (3, T145003::LETTER_r);
         display->setDigit (4, 0x0e);
         display->setDots (T145003::DOT3);
+        display->setIcons (0);
 }
 
 /*****************************************************************************/

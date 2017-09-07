@@ -6,6 +6,8 @@ include (stm32.cmake)
 
 INCLUDE_DIRECTORIES("src/")
 INCLUDE_DIRECTORIES("../libmicro/src/")
+INCLUDE_DIRECTORIES("${CUBE_ROOT}/Middlewares/ST/STM32_USB_Device_Library/Core/Inc")
+INCLUDE_DIRECTORIES("${CUBE_ROOT}/Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc")
 
 # +-----------------+
 # | My code         |
@@ -53,7 +55,7 @@ SET (APP_SOURCES
         "../libmicro/src/storage/IRandomAccessStorage.h"
         "../libmicro/src/storage/FlashEepromStorage.h"
         "../libmicro/src/ErrorHandler.h"
-        "../libmicro/src/ErrorHandler.cc"
+        "../libmicro/src/ErrorHandler.c"
         "../libmicro/src/Hal.h"
 
 # +--------------+
@@ -146,6 +148,24 @@ SET (APP_SOURCES
         "${CUBE_ROOT}/Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_crc_ex.h"
         "${CUBE_ROOT}/Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_rtc_ex.h"
         "${CUBE_ROOT}/Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_cortex.h"
+
+
+        "src/usbd_cdc_interface.c"
+        "src/usbd_cdc_interface.h"
+        "src/usbd_conf.c"
+        "src/usbd_conf.h"
+        "src/usbd_desc.c"
+        "src/usbd_desc.h"
+        "${CUBE_ROOT}/Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_core.h"
+        "${CUBE_ROOT}/Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_ctlreq.h"
+        "${CUBE_ROOT}/Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_def.h"
+        "${CUBE_ROOT}/Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_ioreq.h"
+        "${CUBE_ROOT}/Middlewares/ST/STM32_USB_Device_Library/Core/Src/usbd_core.c"
+        "${CUBE_ROOT}/Middlewares/ST/STM32_USB_Device_Library/Core/Src/usbd_ctlreq.c"
+        "${CUBE_ROOT}/Middlewares/ST/STM32_USB_Device_Library/Core/Src/usbd_ioreq.c"
+        "${CUBE_ROOT}/Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Src/usbd_cdc.c"
+        "${CUBE_ROOT}/Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc/usbd_cdc.h"
+
 
         "${STARTUP_CODE}")
 

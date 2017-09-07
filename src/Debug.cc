@@ -1,4 +1,5 @@
 #include "Debug.h"
+#include "ErrorHandler.h"
 #include "config.h"
 #include <cstring>
 

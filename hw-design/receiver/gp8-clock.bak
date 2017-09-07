@@ -751,7 +751,7 @@ P 9475 1450
 F 0 "P3" V 9440 1206 50  0000 R CNN
 F 1 "CONN_01X04" V 9348 1206 50  0000 R CNN
 F 2 "w_pin_strip:pin_strip_2mm_4" H 9475 1450 50  0001 C CNN
-F 3 "" H 9475 1450 50  0000 C CNN
+F 3 "http://lispol.com/produkt/wtyk-goldpin-1x40-prosty-r-200mm---ph1x40" H 9475 1450 50  0001 C CNN
 	1    9475 1450
 	0    -1   -1   0   
 $EndComp
@@ -1040,7 +1040,7 @@ P 10625 1450
 F 0 "P6" V 10590 1206 50  0000 R CNN
 F 1 "CONN_01X04" V 10498 1206 50  0000 R CNN
 F 2 "w_pin_strip:pin_strip_2mm_4" H 10625 1450 50  0001 C CNN
-F 3 "" H 10625 1450 50  0000 C CNN
+F 3 "http://lispol.com/produkt/wtyk-goldpin-1x40-prosty-r-200mm---ph1x40" H 10625 1450 50  0001 C CNN
 	1    10625 1450
 	0    -1   -1   0   
 $EndComp
@@ -1249,4 +1249,6 @@ NoConn ~ 950  3125
 NoConn ~ 950  3275
 Text Notes 800  5375 0    60   ~ 0
 Uwaga na pinout, bo każdy receiver ma inny!!\nMontaż po stronie komponentów (nie ekranu).\nDobre : TSOP39138\nZłe : TSOP39538
+Text Notes 3825 2075 0    60   ~ 0
+TODO foto-R do PA2!
 $EndSCHEMATC

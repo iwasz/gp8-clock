@@ -751,7 +751,7 @@ P 9475 1450
 F 0 "P3" V 9440 1206 50  0000 R CNN
 F 1 "CONN_01X04" V 9348 1206 50  0000 R CNN
 F 2 "w_pin_strip:pin_strip_2mm_4" H 9475 1450 50  0001 C CNN
-F 3 "" H 9475 1450 50  0000 C CNN
+F 3 "http://lispol.com/produkt/wtyk-goldpin-1x40-prosty-r-200mm---ph1x40" H 9475 1450 50  0001 C CNN
 	1    9475 1450
 	0    -1   -1   0   
 $EndComp
@@ -948,7 +948,7 @@ P 5675 6425
 F 0 "SP1" H 5644 5959 50  0000 C CNN
 F 1 "BUZZER" H 5644 6051 50  0000 C CNN
 F 2 "Buzzers_Beepers:Buzzer_12x9.5RM7.6" H 5675 6425 50  0001 C CNN
-F 3 "" H 5675 6425 50  0000 C CNN
+F 3 "http://lispol.com/produkt/buzzer-z-generatorem-na-5v---tmb12a05" H 5675 6425 50  0001 C CNN
 	1    5675 6425
 	1    0    0    -1  
 $EndComp
@@ -1040,7 +1040,7 @@ P 10625 1450
 F 0 "P6" V 10590 1206 50  0000 R CNN
 F 1 "CONN_01X04" V 10498 1206 50  0000 R CNN
 F 2 "w_pin_strip:pin_strip_2mm_4" H 10625 1450 50  0001 C CNN
-F 3 "" H 10625 1450 50  0000 C CNN
+F 3 "http://lispol.com/produkt/wtyk-goldpin-1x40-prosty-r-200mm---ph1x40" H 10625 1450 50  0001 C CNN
 	1    10625 1450
 	0    -1   -1   0   
 $EndComp
