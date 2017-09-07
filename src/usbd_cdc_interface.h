@@ -53,12 +53,11 @@
 #include "usbd_cdc.h"
 
 /* Definition for TIMx clock resources */
-// TODO inny, bo ten zajęty
 #define TIMx TIM2
 #define TIMx_CLK_ENABLE __HAL_RCC_TIM2_CLK_ENABLE
 
 /* Definition for TIMx's NVIC */
-#define TIMx_IRQn TIM_IRQn
+#define TIMx_IRQn TIM2_IRQn
 #define TIMx_IRQHandler TIM2_IRQHandler
 
 /* Periodically, the state of the buffer "UserTxBuffer" is checked.
