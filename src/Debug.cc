@@ -90,18 +90,30 @@ static void reverse (char s[])
 }
 
 /* itoa:  convert n to characters in s */
-void itoa (int n, char s[])
+void itoa (int n, char s[], int zeroPad = 0)
 {
         int i, sign;
 
-        if ((sign = n) < 0) /* record sign */
-                n = -n;     /* make n positive */
+        if ((sign = n) < 0) { /* record sign */
+                n = -n;       /* make n positive */
+        }
+
         i = 0;
+
         do {                           /* generate digits in reverse order */
                 s[i++] = n % 10 + '0'; /* get next digit */
         } while ((n /= 10) > 0);       /* delete it */
-        if (sign < 0) s[i++] = '-';
+
+        for (; i < zeroPad; ++i) {
+                s[i] = '0';
+        }
+
+        if (sign < 0) {
+                s[i++] = '-';
+        }
+
         s[i] = '\0';
+
         reverse (s);
 }
 
@@ -129,10 +141,10 @@ void Debug::printTime (uint16_t time)
         print (buf);
         print (":");
 
-        itoa (sec, buf);
+        itoa (sec, buf, 2);
         print (buf);
         print (",");
 
-        itoa (sec100, buf);
+        itoa (sec100, buf, 2);
         print (buf);
 }
