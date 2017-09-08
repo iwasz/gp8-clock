@@ -22,7 +22,7 @@ class Button {
 public:
         void init (GPIO_TypeDef *g, uint16_t p);
 
-        // TODO ofcource this can't be singleton.
+        // TODO ofcourse this can't be singleton.
         static Button *singleton ()
         {
                 static Button b;

@@ -160,32 +160,6 @@ caddr_t _sbrk (int incr)
 
 int _read (int file, char *ptr, int len)
 {
-        //        TODO implement!
-        //        int n;
-        //        int num = 0;
-        //        switch (file) {
-        //        case STDIN_FILENO:
-        //                for (n = 0; n < len; n++) {
-        //#if   STDIN_USART == 1
-        //                        while ((USART1->SR & USART_FLAG_RXNE) == (uint16_t)RESET) {}
-        //                        char c = (char)(USART1->DR & (uint16_t)0x01FF);
-        //#elif STDIN_USART == 2
-        //                        while ((USART2->SR & USART_FLAG_RXNE)
-        //                                        == (uint16_t) RESET) {
-        //                        }
-        //                        char c = (char) (USART2->DR & (uint16_t) 0x01FF);
-        //#elif STDIN_USART == 3
-        //                        while ((USART3->SR & USART_FLAG_RXNE) == (uint16_t)RESET) {}
-        //                        char c = (char)(USART3->DR & (uint16_t)0x01FF);
-        //#endif
-        //                        *ptr++ = c;
-        //                        num++;
-        //                }
-        //                break;
-        //        default:
-        //                errno = EBADF;
-        //                return -1;
-        //        }
         return 0;
 }
 

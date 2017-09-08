@@ -34,14 +34,14 @@ void History::storeHiScoreIf (uint16_t t)
 
 void History::printHistory ()
 {
-        // TODO w odwrotnej kolejności, 64 wyniki i napis, że najstarsze na górze.
         Debug *d = Debug::singleton ();
         d->print ("Hi ");
         d->printTime (hiScore);
         d->print ("\n");
         d->print ("\n");
+        d->print ("Oldest on top\n");
 
-        for (int i = 0; i < 32; ++i) {
+        for (int i = 63; i >= 0; --i) {
                 uint16_t tim = *reinterpret_cast<uint16_t const *> (historyStorage->read (nullptr, sizeof (uint16_t), 0, i));
                 d->printTime (tim);
                 d->print ("\n");
