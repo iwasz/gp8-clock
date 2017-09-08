@@ -1,6 +1,7 @@
 #include "Debug.h"
 #include "ErrorHandler.h"
 #include "config.h"
+#include "usbd_cdc_interface.h"
 #include <cstring>
 
 Debug *Debug::singleton ()
@@ -61,7 +62,9 @@ void Debug::init (uint32_t speed)
 void Debug::print (const char *str)
 {
         // TODO DMA
-        HAL_UART_Transmit (&huart, (uint8_t *)str, strlen (str), 5000);
+        size_t len = strlen (str);
+        HAL_UART_Transmit (&huart, (uint8_t *)str, len, 5000);
+        usbWrite (str, len);
 }
 
 /*****************************************************************************/
@@ -70,6 +73,7 @@ void Debug::print (uint8_t *data, size_t len)
 {
         // TODO DMA
         HAL_UART_Transmit (&huart, data, len, 5000);
+        usbWrite ((char *)data, len);
 }
 
 /* reverse:  reverse string s in place */

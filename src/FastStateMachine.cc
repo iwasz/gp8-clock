@@ -196,6 +196,7 @@ void FastStateMachine::resultsClearReady_entryAction ()
         display->setDigit (4, 0x0e);
         display->setDots (T145003::DOT3);
         display->setIcons (0);
+        history->printHistory ();
 }
 
 /*****************************************************************************/
@@ -220,5 +221,7 @@ void FastStateMachine::stop_entryAction ()
         }
 
         history->store (stopWatch->getTime ());
-        history->printHistory ();
+        Debug *d = Debug::singleton ();
+        d->printTime (stopWatch->getTime ());
+        d->print ("\n");
 }

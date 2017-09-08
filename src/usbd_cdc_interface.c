@@ -60,8 +60,8 @@
 
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
-#define APP_RX_DATA_SIZE  2048
-#define APP_TX_DATA_SIZE  2048
+#define APP_RX_DATA_SIZE 128
+#define APP_TX_DATA_SIZE 2048
 
 /* Private macro -------------------------------------------------------------*/
 /* Private variables ---------------------------------------------------------*/
@@ -107,15 +107,6 @@ USBD_CDC_ItfTypeDef USBD_CDC_fops = { CDC_Itf_Init, CDC_Itf_DeInit, CDC_Itf_Cont
   */
 static int8_t CDC_Itf_Init (void)
 {
-        /*##-1- Configure the UART peripheral ######################################*/
-        /* Put the USART peripheral in the Asynchronous mode (UART Mode) */
-        /* USART configured as follow:
-            - Word Length = 8 Bits
-            - Stop Bit    = One Stop bit
-            - Parity      = No parity
-            - BaudRate    = 115200 baud
-            - Hardware flow control disabled (RTS and CTS signals) */
-        /*##-3- Configure the TIM Base generation  #################################*/
         TIM_Config ();
 
         /*##-4- Start the TIM Base generation in interrupt mode ####################*/
@@ -138,7 +129,11 @@ static int8_t CDC_Itf_Init (void)
   * @param  None
   * @retval Result of the opeartion: USBD_OK if all operations are OK else USBD_FAIL
   */
-static int8_t CDC_Itf_DeInit (void) { return (USBD_OK); }
+static int8_t CDC_Itf_DeInit (void)
+{
+        HAL_NVIC_DisableIRQ (TIMx_IRQn);
+        return USBD_OK;
+}
 
 /**
   * @brief  CDC_Itf_Control
@@ -203,8 +198,14 @@ void HAL_TIM_PeriodElapsedCallback (TIM_HandleTypeDef *htim)
         }
 }
 
+/**
+ * @brief usbWrite
+ * @param buf
+ * @param len
+ */
 void usbWrite (const char *buf, size_t len)
 {
+        // TODO detect and prevent overflow
         strncpy ((char *)(usbTxBuffer + usbTxBufPtrIn + 1), buf, len);
         usbTxBufPtrIn += len;
 }

@@ -35,7 +35,7 @@ void History::storeHiScoreIf (uint16_t t)
 void History::printHistory ()
 {
         Debug *d = Debug::singleton ();
-        d->print ("* ");
+        d->print ("Hi ");
         d->printTime (hiScore);
         d->print ("\n");
         d->print ("\n");
