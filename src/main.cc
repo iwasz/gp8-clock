@@ -80,8 +80,8 @@ int main (void)
         historyStorage.init ();
         history->setHistoryStorage (&historyStorage);
         history->init ();
-//        debug->print ("gp8-stopwatch\n");
-//        history->printHistory ();
+        debug->print ("gp8-stopwatch\n");
+        history->printHistory ();
 
         StopWatch *stopWatch = StopWatch::singleton ();
         stopWatch->setDisplay (screen);

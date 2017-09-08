@@ -191,7 +191,7 @@ void HAL_TIM_PeriodElapsedCallback (TIM_HandleTypeDef *htim)
 
                 if (USBD_CDC_TransmitPacket (&usbdDevice) == USBD_OK) {
                         usbTxBufPtrOut += buffsize;
-                        if (usbTxBufPtrOut == APP_TX_DATA_SIZE) {
+                        if (usbTxBufPtrOut >= APP_TX_DATA_SIZE) {
                                 usbTxBufPtrOut = 0;
                         }
                 }
@@ -205,9 +205,18 @@ void HAL_TIM_PeriodElapsedCallback (TIM_HandleTypeDef *htim)
  */
 void usbWrite (const char *buf, size_t len)
 {
-        // TODO detect and prevent overflow
-        strncpy ((char *)(usbTxBuffer + usbTxBufPtrIn + 1), buf, len);
-        usbTxBufPtrIn += len;
+        if (usbTxBufPtrIn + len <= APP_TX_DATA_SIZE) {
+                strncpy ((char *)(usbTxBuffer + usbTxBufPtrIn), buf, len);
+                usbTxBufPtrIn += len;
+        }
+        else {
+                size_t head = usbTxBufPtrIn + len - APP_TX_DATA_SIZE ;
+                size_t tail = len - head;
+
+                strncpy ((char *)(usbTxBuffer + usbTxBufPtrIn), buf, tail);
+                strncpy ((char *)(usbTxBuffer), buf + tail, head);
+                usbTxBufPtrIn = head;
+        }
 }
 
 ///**
