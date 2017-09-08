@@ -60,27 +60,20 @@ extern "C" {
 #define USBD_DEBUG_LEVEL 2
 
 /* MSC Class Config */
-#define MSC_MEDIA_PACKET 8192
 
 /* CDC Class Config */
-#define USBD_CDC_INTERVAL 2000
+/* For footprint reasons and since only one allocation is handled in the CDC class
+   driver, the malloc/free is changed into a static allocation method */
 
+void *USBD_static_malloc (uint32_t size);
+void USBD_static_free (void *p);
 /* DFU Class Config */
-#define USBD_DFU_MAX_ITF_NUM 1
-#define USBD_DFU_XFERS_IZE 1024
+#define MAX_STATIC_ALLOC_SIZE 140 /*CDC Class Driver Structure size*/
 
-/* AUDIO Class Config */
-#define USBD_AUDIO_FREQ 22100
-
-/** @defgroup USBD_Exported_Macros
-  * @{
-  */
-
-/* Memory management macros */
-#define USBD_malloc malloc
-#define USBD_free free
-#define USBD_memset memset
-#define USBD_memcpy memcpy
+#define USBD_malloc (uint32_t *)USBD_static_malloc
+#define USBD_free USBD_static_free
+#define USBD_memset /* Not used */
+#define USBD_memcpy /* Not used */
 
 /* DEBUG macros */
 

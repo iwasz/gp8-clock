@@ -60,8 +60,8 @@
 
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
-#define APP_TX_DATA_SIZE 128
-#define APP_RX_DATA_SIZE 128
+#define APP_RX_DATA_SIZE  2048
+#define APP_TX_DATA_SIZE  2048
 
 /* Private macro -------------------------------------------------------------*/
 /* Private variables ---------------------------------------------------------*/
@@ -272,7 +272,7 @@ static void TIM_Config (void)
         usbTimHandle.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
 
         TIMx_CLK_ENABLE ();
-        HAL_NVIC_SetPriority (TIMx_IRQn, 0, 0);
+        HAL_NVIC_SetPriority (TIMx_IRQn, 5, 0);
         HAL_NVIC_EnableIRQ (TIMx_IRQn);
 
         if (HAL_TIM_Base_Init (&usbTimHandle) != HAL_OK) {

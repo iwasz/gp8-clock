@@ -53,12 +53,12 @@
 #include "usbd_cdc.h"
 
 /* Definition for TIMx clock resources */
-#define TIMx TIM2
-#define TIMx_CLK_ENABLE __HAL_RCC_TIM2_CLK_ENABLE
+#define TIMx TIM6
+#define TIMx_CLK_ENABLE __HAL_RCC_TIM6_CLK_ENABLE
 
 /* Definition for TIMx's NVIC */
-#define TIMx_IRQn TIM2_IRQn
-#define TIMx_IRQHandler TIM2_IRQHandler
+#define TIMx_IRQn TIM6_IRQn
+#define TIMx_IRQHandler TIM6_IRQHandler
 
 /* Periodically, the state of the buffer "UserTxBuffer" is checked.
    The period depends on CDC_POLLING_INTERVAL */
