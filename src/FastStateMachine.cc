@@ -36,7 +36,7 @@ void FastStateMachine::run ()
                         state = GP8_READY;
                 }
 
-                if (button->getPressClear ()) {
+                if (button && button->getPressClear ()) {
                         state = LOOP_READY;
                         ready_entryAction (true);
                 }
@@ -49,7 +49,7 @@ void FastStateMachine::run ()
                         running_entryAction ();
                 }
 
-                if (button->getPressClear ()) {
+                if (button && button->getPressClear ()) {
                         state = LOOP_READY;
                         ready_entryAction (true);
                 }
@@ -70,7 +70,7 @@ void FastStateMachine::run ()
                         running_entryAction ();
                 }
 
-                if (button->getPressClear ()) {
+                if (button && button->getPressClear ()) {
                         state = LOOP_READY;
                         ready_entryAction (true);
                 }
@@ -83,7 +83,7 @@ void FastStateMachine::run ()
                         running_entryAction ();
                 }
 
-                if (button->getPressClear ()) {
+                if (button && button->getPressClear ()) {
                         state = HI_CLEAR_READY;
                         hiClearReady_entryAction ();
                 }
@@ -104,7 +104,7 @@ void FastStateMachine::run ()
                         running_entryAction ();
                 }
 
-                if (button->getPressClear ()) {
+                if (button && button->getPressClear ()) {
                         state = HI_CLEAR_READY;
                         hiClearReady_entryAction ();
                 }
@@ -112,24 +112,24 @@ void FastStateMachine::run ()
                 break;
 
         case HI_CLEAR_READY:
-                if (button->getLongPressClear ()) {
+                if (button && button->getLongPressClear ()) {
                         buzzer->beep (200, 0, 1);
                         history->clearHiScore ();
                 }
 
-                if (button->getPressClear ()) {
+                if (button && button->getPressClear ()) {
                         state = RES_CLEAR_READY;
                         resultsClearReady_entryAction ();
                 }
                 break;
 
         case RES_CLEAR_READY:
-                if (button->getLongPressClear ()) {
+                if (button && button->getLongPressClear ()) {
                         buzzer->beep (200, 0, 1);
                         history->clearResults ();
                 }
 
-                if (button->getPressClear ()) {
+                if (button && button->getPressClear ()) {
                         buzzer->beep (10, 10, 1);
                         state = INIT;
                 }

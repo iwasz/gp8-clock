@@ -90,13 +90,13 @@ int main (void)
         stopWatch->setStateMachine (fStateMachine);
         InfraRedBeam *beam = InfraRedBeam::singleton ();
 
-        Button *button = Button::singleton ();
-        button->init (GPIOB, GPIO_PIN_8);
+//        Button *button = Button::singleton ();
+//        button->init (GPIOB, GPIO_PIN_8);
         fStateMachine->setIr (beam);
         fStateMachine->setDisplay (screen);
         fStateMachine->setBuzzer (buzzer);
         fStateMachine->setHistory (history);
-        fStateMachine->setButton (button);
+//        fStateMachine->setButton (button);
 
         beam->init ();
         stopWatch->init ();
@@ -134,7 +134,7 @@ int main (void)
         while (1) {
                 screen->refresh ();
                 buzzer->run ();
-                button->run ();
+//                button->run ();
 
                 if (batteryTimer.isExpired ()) {
                         adc->run ();

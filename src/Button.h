@@ -13,14 +13,14 @@
 #include "Timer.h"
 #include <cstdint>
 
-extern "C" void EXTI4_15_IRQHandler ();
+//extern "C" void EXTI4_15_IRQHandler ();
 
 /**
  * This whole implementation will work only for 1 button.
  */
 class Button {
 public:
-        void init (GPIO_TypeDef *g, uint16_t p);
+//        void init (GPIO_TypeDef *g, uint16_t p);
 
         // TODO ofcourse this can't be singleton.
         static Button *singleton ()
@@ -34,12 +34,11 @@ public:
         void run ();
 
 private:
-        friend void EXTI4_15_IRQHandler ();
+//        friend void EXTI4_15_IRQHandler ();
         void onExti ();
-        //        void setLongPress () { pressed = true; }
 
 private:
-        GPIO_TypeDef *gpio = nullptr;
+//        GPIO_TypeDef *gpio = nullptr;
         uint16_t pin;
         mutable bool pressedEvent = false;
         mutable bool longPressedEvent = false;

@@ -8,59 +8,59 @@
 
 #include "Button.h"
 
-void Button::init (GPIO_TypeDef *g, uint16_t p)
-{
-        gpio = g;
-        pin = p;
+//void Button::init (GPIO_TypeDef *g, uint16_t p)
+//{
+////        gpio = g;
+////        pin = p;
 
-        // TODO not B. TODO class GPIO which would know which macro to use.
-        __HAL_RCC_GPIOB_CLK_ENABLE ();
-        GPIO_InitTypeDef gpioInitStruct;
-        gpioInitStruct.Pin = pin;
-        gpioInitStruct.Mode = GPIO_MODE_IT_RISING_FALLING;
-        gpioInitStruct.Pull = GPIO_PULLUP;
-        HAL_GPIO_Init (gpio, &gpioInitStruct);
+////        // TODO not B. TODO class GPIO which would know which macro to use.
+////        __HAL_RCC_GPIOB_CLK_ENABLE ();
+////        GPIO_InitTypeDef gpioInitStruct;
+////        gpioInitStruct.Pin = pin;
+////        gpioInitStruct.Mode = GPIO_MODE_IT_RISING_FALLING;
+////        gpioInitStruct.Pull = GPIO_PULLUP;
+////        HAL_GPIO_Init (gpio, &gpioInitStruct);
 
-        HAL_NVIC_SetPriority (EXTI4_15_IRQn, 2, 0);
-        HAL_NVIC_EnableIRQ (EXTI4_15_IRQn);
-}
+////        HAL_NVIC_SetPriority (EXTI4_15_IRQn, 2, 0);
+////        HAL_NVIC_EnableIRQ (EXTI4_15_IRQn);
+//}
 
 /*****************************************************************************/
 
-extern "C" void EXTI4_15_IRQHandler ()
-{
-        Button *b1 = Button::singleton ();
+//extern "C" void EXTI4_15_IRQHandler ()
+//{
+//        Button *b1 = Button::singleton ();
 
-        if (__HAL_GPIO_EXTI_GET_IT (b1->pin) != RESET) {
-                __HAL_GPIO_EXTI_CLEAR_IT (b1->pin);
+//        if (__HAL_GPIO_EXTI_GET_IT (b1->pin) != RESET) {
+//                __HAL_GPIO_EXTI_CLEAR_IT (b1->pin);
 
-                // TODO wykryć który pin spowodował.
-                b1->onExti ();
-        }
-}
+//                // TODO wykryć który pin spowodował.
+//                b1->onExti ();
+//        }
+//}
 
 /*****************************************************************************/
 
 void Button::onExti ()
 {
-        if (!debounceTimer.isExpired ()) {
-                return;
-        }
-        debounceTimer.start (50);
+//        if (!debounceTimer.isExpired ()) {
+//                return;
+//        }
+//        debounceTimer.start (50);
 
-        // Button pressed (button gpio is normally pulled up)
-        if (!(gpio->IDR & pin)) {
-                longPressTimer.start (1000);
-                pressed = true;
-        }
-        else {
-                if (!pressed) {
-                        return;
-                }
+//        // Button pressed (button gpio is normally pulled up)
+//        if (!(gpio->IDR & pin)) {
+//                longPressTimer.start (1000);
+//                pressed = true;
+//        }
+//        else {
+//                if (!pressed) {
+//                        return;
+//                }
 
-                pressed = false;
-                pressedEvent = true;
-        }
+//                pressed = false;
+//                pressedEvent = true;
+//        }
 }
 
 /*****************************************************************************/
