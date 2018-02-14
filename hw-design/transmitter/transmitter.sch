@@ -1,14 +1,10 @@
-EESchema Schematic File Version 2
+EESchema Schematic File Version 3
 LIBS:transmitter-rescue
 LIBS:iwasz-kicad
 LIBS:power
 LIBS:device
-LIBS:transistors
-LIBS:conn
 LIBS:linear
 LIBS:regul
-LIBS:74xx
-LIBS:cmos4000
 LIBS:adc-dac
 LIBS:memory
 LIBS:xilinx
@@ -23,13 +19,11 @@ LIBS:audio
 LIBS:interface
 LIBS:digital-audio
 LIBS:philips
-LIBS:display
 LIBS:cypress
 LIBS:siliconi
 LIBS:opto
 LIBS:atmel
 LIBS:contrib
-LIBS:valves
 LIBS:transmitter-cache
 EELAYER 26 0
 EELAYER END
@@ -485,17 +479,6 @@ F 3 "" H 9650 4950 30  0000 C CNN
 	-1   0    0    1   
 $EndComp
 $Comp
-L LED-RESCUE-transmitter D7
-U 1 1 5643D200
-P 8700 3475
-F 0 "D7" H 8700 3575 50  0000 C CNN
-F 1 "VISHAY TSAL6200" H 9350 3475 50  0000 C CNN
-F 2 "LEDs:LED-5MM" H 8700 3475 60  0001 C CNN
-F 3 "http://pl.farnell.com/vishay/tsal6200/ir-emitter-940nm-5mm-through-hole/dp/3152856?CMP=i-ddd7-00001003" H 8700 3475 60  0001 C CNN
-	1    8700 3475
-	0    -1   -1   0   
-$EndComp
-$Comp
 L C C5
 U 1 1 56441557
 P 4250 3275
@@ -637,17 +620,6 @@ F 2 "iwasz:testpad-2p" H 2150 3800 60  0001 C CNN
 F 3 "" H 2150 3800 60  0000 C CNN
 	1    2050 3950
 	0    1    1    0   
-$EndComp
-$Comp
-L R R9
-U 1 1 5684A214
-P 10025 3200
-F 0 "R9" V 10125 3200 50  0000 C CNN
-F 1 "current sense 1R" H 10400 3275 50  0000 C CNN
-F 2 "resistor:0207%2f10" V 9955 3200 50  0001 C CNN
-F 3 "" H 10025 3200 50  0000 C CNN
-	1    10025 3200
-	0    -1   -1   0   
 $EndComp
 Wire Wire Line
 	1625 1125 3250 1125
@@ -839,10 +811,6 @@ Wire Wire Line
 Wire Wire Line
 	9650 5100 9650 5275
 Wire Wire Line
-	8700 3275 8700 3200
-Wire Wire Line
-	8450 3725 9675 3725
-Wire Wire Line
 	4250 3025 4250 3125
 Wire Wire Line
 	4250 3425 4250 3550
@@ -869,7 +837,7 @@ Wire Wire Line
 	4500 4000 4500 3950
 Connection ~ 4500 3950
 Wire Wire Line
-	10175 3200 10650 3200
+	8950 3200 10650 3200
 $Comp
 L CONN_01X02 P6
 U 1 1 5684FEFD
@@ -889,111 +857,10 @@ Connection ~ 5475 3950
 Wire Wire Line
 	5375 4125 5625 4125
 Connection ~ 5625 4125
-$Comp
-L LED-RESCUE-transmitter D2
-U 1 1 5685F9CD
-P 8450 3475
-F 0 "D2" H 8450 3575 50  0000 C CNN
-F 1 "VISHAY TSAL6200" H 9100 3475 50  0000 C CNN
-F 2 "LEDs:LED-5MM" H 8450 3475 60  0001 C CNN
-F 3 "http://pl.farnell.com/vishay/tsal6200/ir-emitter-940nm-5mm-through-hole/dp/3152856?CMP=i-ddd7-00001003" H 8450 3475 60  0001 C CNN
-	1    8450 3475
-	0    -1   -1   0   
-$EndComp
-Wire Wire Line
-	8450 3275 8450 3200
-$Comp
-L R R1
-U 1 1 56830A1A
-P 9525 3200
-F 0 "R1" V 9605 3200 50  0000 C CNN
-F 1 "20R" V 9525 3200 50  0000 C CNN
-F 2 "w_smd_resistors:r_1210" V 9455 3200 30  0001 C CNN
-F 3 "" H 9525 3200 30  0000 C CNN
-	1    9525 3200
-	0    -1   -1   0   
-$EndComp
-Wire Wire Line
-	8450 3725 8450 3675
-Connection ~ 8700 3200
-Connection ~ 8950 3200
-Wire Wire Line
-	8700 3675 8700 3725
-Connection ~ 8700 3725
 Wire Wire Line
 	8950 3675 8950 3725
-Connection ~ 8950 3725
 Wire Wire Line
-	8450 3200 9375 3200
-Wire Wire Line
-	9675 3200 9875 3200
-$Comp
-L CONN_01X02 P9
-U 1 1 568368B3
-P 9300 2750
-F 0 "P9" V 9265 2606 50  0000 R CNN
-F 1 "OptionA" V 9173 2606 50  0000 R CNN
-F 2 "w_pin_strip:pin_socket_2" H 9300 2750 50  0001 C CNN
-F 3 "" H 9300 2750 50  0000 C CNN
-	1    9300 2750
-	0    -1   -1   0   
-$EndComp
-Wire Wire Line
-	9250 2950 9250 2950
-Wire Wire Line
-	9250 2950 9250 3200
-Connection ~ 9250 3200
-Wire Wire Line
-	9350 2950 10225 2950
-Wire Wire Line
-	10225 2950 10225 3200
-Connection ~ 10225 3200
-$Comp
-L CONN_01X02 P8
-U 1 1 5683989A
-P 8725 4225
-F 0 "P8" H 8725 4075 50  0000 C CNN
-F 1 "OptionB" H 8925 4225 50  0000 C CNN
-F 2 "w_pin_strip:pin_socket_2" H 8725 4225 50  0001 C CNN
-F 3 "" H 8725 4225 50  0000 C CNN
-	1    8725 4225
-	-1   0    0    1   
-$EndComp
-Wire Wire Line
-	8925 4175 9650 4175
-Connection ~ 9650 4175
-$Comp
-L GND #PWR018
-U 1 1 5683A26C
-P 8925 4350
-F 0 "#PWR018" H 8925 4100 50  0001 C CNN
-F 1 "GND" H 8925 4200 50  0000 C CNN
-F 2 "" H 8925 4350 60  0000 C CNN
-F 3 "" H 8925 4350 60  0000 C CNN
-	1    8925 4350
-	1    0    0    -1  
-$EndComp
-Wire Wire Line
-	8925 4275 8925 4350
-$Comp
-L CONN_01X02 P12
-U 1 1 56847E4F
-P 10150 3500
-F 0 "P12" H 10150 3350 50  0000 C CNN
-F 1 "OptionC" H 10350 3500 50  0000 C CNN
-F 2 "w_pin_strip:pin_socket_2" H 10150 3500 50  0001 C CNN
-F 3 "" H 10150 3500 50  0000 C CNN
-	1    10150 3500
-	-1   0    0    1   
-$EndComp
-Wire Wire Line
-	10375 3450 10350 3450
-Wire Wire Line
-	10375 3075 10375 3450
-Wire Wire Line
-	10350 3550 10375 3550
-Wire Wire Line
-	10375 3550 10375 3600
+	10375 3075 10375 3600
 Connection ~ 9650 4675
 Connection ~ 2050 3950
 Connection ~ 9650 3725
@@ -1013,4 +880,6 @@ Wire Wire Line
 	2450 3575 2550 3575
 Text Notes 725  4975 0    60   ~ 0
 Zmierzony pobór prądu to 41mA przy baterii na full (4.15V)
+Wire Wire Line
+	8950 3725 9675 3725
 $EndSCHEMATC

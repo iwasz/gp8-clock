@@ -135,7 +135,7 @@ void Debug::printTime (uint16_t time)
         uint16_t sec = time % 60;
 
         time /= 60;
-        uint min = time % 60;
+        uint16_t min = time % 60;
 
         itoa (min, buf);
         print (buf);
