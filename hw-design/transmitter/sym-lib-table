@@ -1,0 +1,3 @@
+(sym_lib_table
+  (lib (name transmitter-rescue)(type Legacy)(uri ${KIPRJMOD}/transmitter-rescue.lib)(options "")(descr ""))
+)

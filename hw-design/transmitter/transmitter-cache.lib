@@ -1,44 +1,135 @@
 EESchema-LIBRARY Version 2.4
 #encoding utf-8
 #
-# +BATT
+# Device_Battery_Cell
 #
-DEF +BATT #PWR 0 0 Y Y 1 F P
-F0 "#PWR" 0 -150 50 H I C CNN
-F1 "+BATT" 0 140 50 H V C CNN
+DEF Device_Battery_Cell BT 0 0 N N 1 F N
+F0 "BT" 100 100 50 H V L CNN
+F1 "Device_Battery_Cell" 100 0 50 H V L CNN
+F2 "" 0 60 50 V I C CNN
+F3 "" 0 60 50 V I C CNN
+DRAW
+S -90 70 90 60 0 1 0 F
+S -62 47 58 27 0 1 0 F
+P 2 0 1 0 0 30 0 0 N
+P 2 0 1 0 0 70 0 100 N
+P 2 0 1 10 20 135 60 135 N
+P 2 0 1 10 40 155 40 115 N
+X + 1 0 200 100 D 50 50 1 1 P
+X - 2 0 -100 100 U 50 50 1 1 P
+ENDDRAW
+ENDDEF
+#
+# Device_D
+#
+DEF Device_D D 0 40 N N 1 F N
+F0 "D" 0 100 50 H V C CNN
+F1 "Device_D" 0 -100 50 H V C CNN
+F2 "" 0 0 50 H I C CNN
+F3 "" 0 0 50 H I C CNN
+$FPLIST
+ TO-???*
+ *SingleDiode
+ *_Diode_*
+ *SingleDiode*
+ *:D_*
+$ENDFPLIST
+DRAW
+P 2 0 1 8 -50 50 -50 -50 N
+P 2 0 1 0 50 0 -50 0 N
+P 4 0 1 8 50 50 50 -50 -50 0 50 50 N
+X K 1 -150 0 100 R 50 50 1 1 P
+X A 2 150 0 100 L 50 50 1 1 P
+ENDDRAW
+ENDDEF
+#
+# Device_LED
+#
+DEF Device_LED D 0 40 Y N 1 F N
+F0 "D" 0 100 50 H V C CNN
+F1 "Device_LED" 0 -100 50 H V C CNN
+F2 "" 0 0 50 H I C CNN
+F3 "" 0 0 50 H I C CNN
+$FPLIST
+ LED*
+ LED_SMD:*
+ LED_THT:*
+$ENDFPLIST
+DRAW
+P 2 0 1 8 -50 -50 -50 50 N
+P 2 0 1 0 -50 0 50 0 N
+P 4 0 1 8 50 -50 50 50 -50 0 50 -50 N
+P 5 0 1 0 -120 -30 -180 -90 -150 -90 -180 -90 -180 -60 N
+P 5 0 1 0 -70 -30 -130 -90 -100 -90 -130 -90 -130 -60 N
+X K 1 -150 0 100 R 50 50 1 1 P
+X A 2 150 0 100 L 50 50 1 1 P
+ENDDRAW
+ENDDEF
+#
+# Device_R
+#
+DEF Device_R R 0 0 N Y 1 F N
+F0 "R" 80 0 50 V V C CNN
+F1 "Device_R" 0 0 50 V V C CNN
+F2 "" -70 0 50 V I C CNN
+F3 "" 0 0 50 H I C CNN
+$FPLIST
+ *:R_*
+$ENDFPLIST
+DRAW
+S -40 -100 40 100 0 1 10 N
+X ~ 1 0 150 50 D 50 50 1 1 P
+X ~ 2 0 -150 50 U 50 50 1 1 P
+ENDDRAW
+ENDDEF
+#
+# Switch_SW_SP3T
+#
+DEF Switch_SW_SP3T SW 0 0 Y N 1 F N
+F0 "SW" 0 200 50 H V C CNN
+F1 "Switch_SW_SP3T" 0 -200 50 H V C CNN
+F2 "" -625 175 50 H I C CNN
+F3 "" -625 175 50 H I C CNN
+$FPLIST
+ SW*
+ SP3T*
+$ENDFPLIST
+DRAW
+C -80 0 18 0 1 0 N
+C 80 -100 18 0 1 0 N
+C 80 0 18 0 1 0 N
+C 80 100 18 0 1 0 N
+P 2 0 1 0 -65 10 65 90 N
+X 1 1 200 100 100 L 50 50 1 1 P
+X 2 2 200 0 100 L 50 50 1 1 P
+X 3 3 -200 0 100 R 50 50 1 1 P
+X 4 4 200 -100 100 L 50 50 1 1 P
+ENDDRAW
+ENDDEF
+#
+# Switch_SW_SPDT
+#
+DEF Switch_SW_SPDT SW 0 0 Y N 1 F N
+F0 "SW" 0 170 50 H V C CNN
+F1 "Switch_SW_SPDT" 0 -200 50 H V C CNN
 F2 "" 0 0 50 H I C CNN
 F3 "" 0 0 50 H I C CNN
 DRAW
-P 2 0 1 0 -30 50 0 100 N
-P 2 0 1 0 0 0 0 100 N
-P 2 0 1 0 0 100 30 50 N
-X +BATT 1 0 0 0 U 50 50 1 1 W N
+C -80 0 20 0 0 0 N
+C 80 -100 20 0 0 0 N
+C 80 100 20 0 1 0 N
+P 2 0 1 0 -60 10 65 90 N
+X A 1 200 100 100 L 50 50 1 1 P
+X B 2 -200 0 100 R 50 50 1 1 P
+X C 3 200 -100 100 L 50 50 1 1 P
 ENDDRAW
 ENDDEF
 #
-# C
+# iwasz-kicad_CD4047
 #
-DEF C C 0 10 N Y 1 F N
-F0 "C" 25 100 50 H V L CNN
-F1 "C" 25 -100 50 H V L CNN
-F2 "" 38 -150 50 H I C CNN
-F3 "" 0 0 50 H I C CNN
-$FPLIST
- C_*
-$ENDFPLIST
-DRAW
-P 2 0 1 20 -80 -30 80 -30 N
-P 2 0 1 20 -80 30 80 30 N
-X ~ 1 0 150 110 D 50 50 1 1 P
-X ~ 2 0 -150 110 U 50 50 1 1 P
-ENDDRAW
-ENDDEF
-#
-# CD4047
-#
-DEF CD4047 U 0 40 Y Y 1 F N
+DEF iwasz-kicad_CD4047 U 0 40 Y Y 1 F N
 F0 "U" 0 250 60 H V C CNN
-F1 "CD4047" 0 -200 60 V V C CNN
+F1 "iwasz-kicad_CD4047" 0 -200 60 V V C CNN
 F2 "" 0 0 60 H V C CNN
 F3 "" 0 0 60 H V C CNN
 DRAW
@@ -60,137 +151,11 @@ X EXT_RESET 9 800 -250 200 L 50 50 1 1 I
 ENDDRAW
 ENDDEF
 #
-# CONN_01X02
+# iwasz-kicad_Led_x2-CA
 #
-DEF CONN_01X02 J 0 40 Y N 1 F N
-F0 "J" 0 150 50 H V C CNN
-F1 "CONN_01X02" 100 0 50 V V C CNN
-F2 "" 0 0 50 H I C CNN
-F3 "" 0 0 50 H I C CNN
-$FPLIST
- Pin_Header_Straight_1X*
- Pin_Header_Angled_1X*
- Socket_Strip_Straight_1X*
- Socket_Strip_Angled_1X*
-$ENDFPLIST
-DRAW
-S -50 -45 10 -55 0 1 0 N
-S -50 55 10 45 0 1 0 N
-S -50 100 50 -100 0 1 0 N
-X P1 1 -200 50 150 R 50 50 1 1 P
-X P2 2 -200 -50 150 R 50 50 1 1 P
-ENDDRAW
-ENDDEF
-#
-# CONN_01X03
-#
-DEF CONN_01X03 J 0 40 Y N 1 F N
-F0 "J" 0 200 50 H V C CNN
-F1 "CONN_01X03" 100 0 50 V V C CNN
-F2 "" 0 0 50 H I C CNN
-F3 "" 0 0 50 H I C CNN
-$FPLIST
- Pin_Header_Straight_1X*
- Pin_Header_Angled_1X*
- Socket_Strip_Straight_1X*
- Socket_Strip_Angled_1X*
-$ENDFPLIST
-DRAW
-S -50 -95 10 -105 0 1 0 N
-S -50 5 10 -5 0 1 0 N
-S -50 105 10 95 0 1 0 N
-S -50 150 50 -150 0 1 0 N
-X P1 1 -200 100 150 R 50 50 1 1 P
-X P2 2 -200 0 150 R 50 50 1 1 P
-X P3 3 -200 -100 150 R 50 50 1 1 P
-ENDDRAW
-ENDDEF
-#
-# CP
-#
-DEF CP C 0 10 N Y 1 F N
-F0 "C" 25 100 50 H V L CNN
-F1 "CP" 25 -100 50 H V L CNN
-F2 "" 38 -150 50 H I C CNN
-F3 "" 0 0 50 H I C CNN
-$FPLIST
- CP_*
-$ENDFPLIST
-DRAW
-S -90 20 -90 40 0 1 0 N
-S -90 20 90 20 0 1 0 N
-S 90 -20 -90 -40 0 1 0 F
-S 90 40 -90 40 0 1 0 N
-S 90 40 90 20 0 1 0 N
-P 2 0 1 0 -70 90 -30 90 N
-P 2 0 1 0 -50 110 -50 70 N
-X ~ 1 0 150 110 D 50 50 1 1 P
-X ~ 2 0 -150 110 U 50 50 1 1 P
-ENDDRAW
-ENDDEF
-#
-# D
-#
-DEF D D 0 40 N N 1 F N
-F0 "D" 0 100 50 H V C CNN
-F1 "D" 0 -100 50 H V C CNN
-F2 "" 0 0 50 H I C CNN
-F3 "" 0 0 50 H I C CNN
-$FPLIST
- TO-???*
- *SingleDiode
- *_Diode_*
- *SingleDiode*
- D_*
-$ENDFPLIST
-DRAW
-P 2 0 1 8 -50 50 -50 -50 N
-P 2 0 1 0 50 0 -50 0 N
-P 4 0 1 8 50 50 50 -50 -50 0 50 50 N
-X K 1 -150 0 100 R 50 50 1 1 P
-X A 2 150 0 100 L 50 50 1 1 P
-ENDDRAW
-ENDDEF
-#
-# GND
-#
-DEF GND #PWR 0 0 Y Y 1 F P
-F0 "#PWR" 0 -250 50 H I C CNN
-F1 "GND" 0 -150 50 H V C CNN
-F2 "" 0 0 50 H I C CNN
-F3 "" 0 0 50 H I C CNN
-DRAW
-P 6 0 1 0 0 0 0 -50 50 -50 0 -100 -50 -50 0 -50 N
-X GND 1 0 0 0 D 50 50 1 1 W N
-ENDDRAW
-ENDDEF
-#
-# LED-RESCUE-transmitter
-#
-DEF LED-RESCUE-transmitter D 0 40 Y N 1 F N
-F0 "D" 0 100 50 H V C CNN
-F1 "LED-RESCUE-transmitter" 0 -100 50 H V C CNN
-F2 "" 0 0 50 H V C CNN
-F3 "" 0 0 50 H V C CNN
-$FPLIST
- LED-*
- LED_*
-$ENDFPLIST
-DRAW
-P 2 0 1 0 -50 50 -50 -50 N
-P 3 0 1 0 -80 -25 -125 -65 -120 -40 N
-P 3 0 1 0 -65 -40 -110 -80 -105 -55 N
-P 3 0 1 0 50 50 -50 0 50 -50 F
-X K 1 -200 0 150 R 40 40 1 1 P
-X A 2 200 0 150 L 40 40 1 1 P
-ENDDRAW
-ENDDEF
-#
-# Led_x2-CA
-#
-DEF Led_x2-CA D 0 0 Y Y 1 F N
+DEF iwasz-kicad_Led_x2-CA D 0 0 Y Y 1 F N
 F0 "D" 0 225 50 H V C CNN
-F1 "Led_x2-CA" 0 -250 50 H V C CNN
+F1 "iwasz-kicad_Led_x2-CA" 0 -250 50 H V C CNN
 F2 "" 0 0 50 H V C CNN
 F3 "" 0 0 50 H V C CNN
 DRAW
@@ -215,11 +180,11 @@ X C2 3 300 -100 150 L 40 40 1 1 I
 ENDDRAW
 ENDDEF
 #
-# MCP73833
+# iwasz-kicad_MCP73833
 #
-DEF MCP73833 U 0 40 Y Y 1 F N
+DEF iwasz-kicad_MCP73833 U 0 40 Y Y 1 F N
 F0 "U" 50 100 60 H V C CNN
-F1 "MCP73833" -50 0 60 V V C CNN
+F1 "iwasz-kicad_MCP73833" -50 0 60 V V C CNN
 F2 "" 50 50 60 H V C CNN
 F3 "" 50 50 60 H V C CNN
 DRAW
@@ -237,11 +202,112 @@ X VBAT 9 550 100 200 L 50 50 1 1 I
 ENDDRAW
 ENDDEF
 #
-# POT-RESCUE-transmitter
+# iwasz-kicad_test-double
 #
-DEF POT-RESCUE-transmitter RV 0 40 Y N 1 F N
+DEF ~iwasz-kicad_test-double P 0 40 N N 1 F N
+F0 "P" 350 0 60 H V C CNN
+F1 "iwasz-kicad_test-double" 200 -100 60 H I C CNN
+F2 "" 100 -150 60 H V C CNN
+F3 "" 100 -150 60 H V C CNN
+DRAW
+C 250 0 50 0 1 0 N
+T 0 250 0 60 0 0 0 t Normal 0 C C
+X T 1 0 0 200 R 50 50 1 1 I N
+X T 1 0 0 200 R 50 50 1 1 I
+ENDDRAW
+ENDDEF
+#
+# iwasz-kicad_usb-micro
+#
+DEF iwasz-kicad_usb-micro U 0 40 Y Y 1 F N
+F0 "U" 50 -100 60 H V C CNN
+F1 "iwasz-kicad_usb-micro" 50 0 60 H V C CNN
+F2 "" 50 0 60 H V C CNN
+F3 "" 50 0 60 H V C CNN
+DRAW
+S -400 250 400 -350 0 1 0 f
+X VCC 1 -600 150 200 R 50 50 1 1 I
+X DM 2 -600 50 200 R 50 50 1 1 I
+X DP 3 -600 -50 200 R 50 50 1 1 I
+X ID 4 -600 -150 200 R 50 50 1 1 I
+X GND 5 -600 -250 200 R 50 50 1 1 I
+ENDDRAW
+ENDDEF
+#
+# power_+BATT
+#
+DEF power_+BATT #PWR 0 0 Y Y 1 F P
+F0 "#PWR" 0 -150 50 H I C CNN
+F1 "power_+BATT" 0 140 50 H V C CNN
+F2 "" 0 0 50 H I C CNN
+F3 "" 0 0 50 H I C CNN
+DRAW
+P 2 0 1 0 -30 50 0 100 N
+P 2 0 1 0 0 0 0 100 N
+P 2 0 1 0 0 100 30 50 N
+X +BATT 1 0 0 0 U 50 50 1 1 W N
+ENDDRAW
+ENDDEF
+#
+# power_GND
+#
+DEF power_GND #PWR 0 0 Y Y 1 F P
+F0 "#PWR" 0 -250 50 H I C CNN
+F1 "power_GND" 0 -150 50 H V C CNN
+F2 "" 0 0 50 H I C CNN
+F3 "" 0 0 50 H I C CNN
+DRAW
+P 6 0 1 0 0 0 0 -50 50 -50 0 -100 -50 -50 0 -50 N
+X GND 1 0 0 0 D 50 50 1 1 W N
+ENDDRAW
+ENDDEF
+#
+# transmitter-rescue_C-RESCUE-transmitter
+#
+DEF transmitter-rescue_C-RESCUE-transmitter C 0 10 N Y 1 F N
+F0 "C" 25 100 50 H V L CNN
+F1 "transmitter-rescue_C-RESCUE-transmitter" 25 -100 50 H V L CNN
+F2 "" 38 -150 50 H I C CNN
+F3 "" 0 0 50 H I C CNN
+$FPLIST
+ C_*
+$ENDFPLIST
+DRAW
+P 2 0 1 20 -80 -30 80 -30 N
+P 2 0 1 20 -80 30 80 30 N
+X ~ 1 0 150 110 D 50 50 1 1 P
+X ~ 2 0 -150 110 U 50 50 1 1 P
+ENDDRAW
+ENDDEF
+#
+# transmitter-rescue_CP-RESCUE-transmitter
+#
+DEF transmitter-rescue_CP-RESCUE-transmitter C 0 10 N Y 1 F N
+F0 "C" 25 100 50 H V L CNN
+F1 "transmitter-rescue_CP-RESCUE-transmitter" 25 -100 50 H V L CNN
+F2 "" 38 -150 50 H I C CNN
+F3 "" 0 0 50 H I C CNN
+$FPLIST
+ CP_*
+$ENDFPLIST
+DRAW
+S -90 20 -90 40 0 1 0 N
+S -90 20 90 20 0 1 0 N
+S 90 -20 -90 -40 0 1 0 F
+S 90 40 -90 40 0 1 0 N
+S 90 40 90 20 0 1 0 N
+P 2 0 1 0 -70 90 -30 90 N
+P 2 0 1 0 -50 110 -50 70 N
+X ~ 1 0 150 110 D 50 50 1 1 P
+X ~ 2 0 -150 110 U 50 50 1 1 P
+ENDDRAW
+ENDDEF
+#
+# transmitter-rescue_POT-RESCUE-transmitter
+#
+DEF transmitter-rescue_POT-RESCUE-transmitter RV 0 40 Y N 1 F N
 F0 "RV" 0 -80 50 H V C CNN
-F1 "POT-RESCUE-transmitter" 0 0 50 H V C CNN
+F1 "transmitter-rescue_POT-RESCUE-transmitter" 0 0 50 H V C CNN
 F2 "" 0 0 50 H V C CNN
 F3 "" 0 0 50 H V C CNN
 DRAW
@@ -253,11 +319,11 @@ X 3 3 150 0 50 L 40 40 1 1 P
 ENDDRAW
 ENDDEF
 #
-# Q_NPN_CBE
+# transmitter-rescue_Q_NPN_CBE-RESCUE-transmitter
 #
-DEF Q_NPN_CBE Q 0 0 Y N 1 F N
+DEF transmitter-rescue_Q_NPN_CBE-RESCUE-transmitter Q 0 0 Y N 1 F N
 F0 "Q" 200 50 50 H V L CNN
-F1 "Q_NPN_CBE" 200 -50 50 H V L CNN
+F1 "transmitter-rescue_Q_NPN_CBE-RESCUE-transmitter" 200 -50 50 H V L CNN
 F2 "" 200 100 50 H I C CNN
 F3 "" 0 0 50 H I C CNN
 DRAW
@@ -272,11 +338,11 @@ X E 3 100 -200 100 U 50 50 1 1 P
 ENDDRAW
 ENDDEF
 #
-# R
+# transmitter-rescue_R-RESCUE-transmitter
 #
-DEF R R 0 0 N Y 1 F N
+DEF transmitter-rescue_R-RESCUE-transmitter R 0 0 N Y 1 F N
 F0 "R" 80 0 50 V V C CNN
-F1 "R" 0 0 50 V V C CNN
+F1 "transmitter-rescue_R-RESCUE-transmitter" 0 0 50 V V C CNN
 F2 "" -70 0 50 V I C CNN
 F3 "" 0 0 50 H I C CNN
 $FPLIST
@@ -290,42 +356,11 @@ X ~ 2 0 -150 50 U 50 50 1 1 P
 ENDDRAW
 ENDDEF
 #
-# SPST
+# transmitter-rescue_test-double-RESCUE-transmitter
 #
-DEF SPST SW 0 0 N Y 1 F N
-F0 "SW" 0 100 50 H V C CNN
-F1 "SPST" 0 -100 50 H V C CNN
-F2 "" 0 0 50 H V C CNN
-F3 "" 0 0 50 H V C CNN
-DRAW
-C -150 0 50 0 0 0 N
-C 150 0 50 0 0 0 N
-P 2 0 0 0 -100 0 100 100 N
-X 1 1 -500 0 300 R 50 50 1 1 I
-X 2 2 500 0 300 L 50 50 1 1 I
-ENDDRAW
-ENDDEF
-#
-# test-double
-#
-DEF ~test-double P 0 40 N N 1 F N
-F0 "P" 350 0 60 H V C CNN
-F1 "test-double" 200 -100 60 H I C CNN
-F2 "" 100 -150 60 H V C CNN
-F3 "" 100 -150 60 H V C CNN
-DRAW
-C 250 0 50 0 1 0 N
-T 0 250 0 60 0 0 0 t Normal 0 C C
-X T 1 0 0 200 R 50 50 1 1 I N
-X T 1 0 0 200 R 50 50 1 1 I
-ENDDRAW
-ENDDEF
-#
-# test-double-RESCUE-transmitter
-#
-DEF ~test-double-RESCUE-transmitter P 0 40 N N 1 F N
+DEF ~transmitter-rescue_test-double-RESCUE-transmitter P 0 40 N N 1 F N
 F0 "P" 0 0 60 H V C CNN
-F1 "test-double-RESCUE-transmitter" 0 -50 60 H I C CNN
+F1 "transmitter-rescue_test-double-RESCUE-transmitter" 0 -50 60 H I C CNN
 F2 "" 0 0 60 H V C CNN
 F3 "" 0 0 60 H V C CNN
 DRAW
@@ -333,23 +368,6 @@ C 150 150 50 0 1 0 N
 T 0 150 150 60 0 0 0 t Normal 0 C C
 X T 1 -100 150 200 R 50 50 1 1 I N
 X T 1 -100 150 200 R 50 50 1 1 I
-ENDDRAW
-ENDDEF
-#
-# usb-micro
-#
-DEF usb-micro U 0 40 Y Y 1 F N
-F0 "U" 50 -100 60 H V C CNN
-F1 "usb-micro" 50 0 60 H V C CNN
-F2 "" 50 0 60 H V C CNN
-F3 "" 50 0 60 H V C CNN
-DRAW
-S -400 250 400 -350 0 1 0 f
-X VCC 1 -600 150 200 R 50 50 1 1 I
-X DM 2 -600 50 200 R 50 50 1 1 I
-X DP 3 -600 -50 200 R 50 50 1 1 I
-X ID 4 -600 -150 200 R 50 50 1 1 I
-X GND 5 -600 -250 200 R 50 50 1 1 I
 ENDDRAW
 ENDDEF
 #

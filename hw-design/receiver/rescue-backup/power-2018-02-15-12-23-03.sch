@@ -1,4 +1,34 @@
-EESchema Schematic File Version 4
+EESchema Schematic File Version 2
+LIBS:iwasz-kicad
+LIBS:power
+LIBS:device
+LIBS:transistors
+LIBS:conn
+LIBS:linear
+LIBS:regul
+LIBS:74xx
+LIBS:cmos4000
+LIBS:adc-dac
+LIBS:memory
+LIBS:xilinx
+LIBS:microcontrollers
+LIBS:dsp
+LIBS:microchip
+LIBS:analog_switches
+LIBS:motorola
+LIBS:texas
+LIBS:intel
+LIBS:audio
+LIBS:interface
+LIBS:digital-audio
+LIBS:philips
+LIBS:display
+LIBS:cypress
+LIBS:siliconi
+LIBS:opto
+LIBS:atmel
+LIBS:contrib
+LIBS:valves
 LIBS:gp8-clock-cache
 EELAYER 26 0
 EELAYER END
@@ -15,7 +45,7 @@ Comment3 ""
 Comment4 ""
 $EndDescr
 $Comp
-L iwasz-kicad:MCP73833 U5
+L MCP73833 U5
 U 1 1 56375CE9
 P 4475 3800
 F 0 "U5" H 4525 3900 60  0000 C CNN
@@ -26,9 +56,9 @@ F 3 "http://pl.farnell.com/microchip/mcp73833-fci-un/ic-charge-control-li-ion-1a
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
-	2250 3600 2425 3600
+	2250 3600 3875 3600
 $Comp
-L gp8-clock-rescue:CP-RESCUE-gp8-clock C15
+L CP C15
 U 1 1 56375D12
 P 2425 3875
 F 0 "C15" H 2543 3921 50  0000 L CNN
@@ -41,7 +71,7 @@ $EndComp
 Wire Wire Line
 	2425 3600 2425 3725
 $Comp
-L power:+5V #PWR027
+L +5V #PWR027
 U 1 1 56375D1B
 P 2250 3600
 F 0 "#PWR027" H 2250 3450 50  0001 C CNN
@@ -53,7 +83,7 @@ F 3 "" H 2250 3600 60  0000 C CNN
 $EndComp
 Connection ~ 2425 3600
 $Comp
-L power:GND #PWR028
+L GND #PWR028
 U 1 1 56375D22
 P 2425 4100
 F 0 "#PWR028" H 2425 3850 50  0001 C CNN
@@ -71,11 +101,11 @@ Wire Wire Line
 	3700 3700 3700 3600
 Connection ~ 3700 3600
 Wire Wire Line
-	3300 3800 3400 3800
+	3300 3800 3875 3800
 Wire Wire Line
-	3300 3900 3550 3900
+	3300 3900 3875 3900
 $Comp
-L power:GND #PWR029
+L GND #PWR029
 U 1 1 56375D4C
 P 3800 4400
 F 0 "#PWR029" H 3800 4150 50  0001 C CNN
@@ -88,9 +118,9 @@ $EndComp
 Wire Wire Line
 	3875 4000 3800 4000
 Wire Wire Line
-	3800 4000 3800 4225
+	3800 4000 3800 4400
 $Comp
-L gp8-clock-rescue:R-RESCUE-gp8-clock R28
+L R R28
 U 1 1 56375D6C
 P 4475 4225
 F 0 "R28" V 4555 4225 50  0000 C CNN
@@ -112,7 +142,7 @@ Connection ~ 3800 4225
 Text Notes 4325 4425 0    60   ~ 0
 300mA
 $Comp
-L gp8-clock-rescue:CONN_01X03-RESCUE-gp8-clock P1
+L CONN_01X03 P1
 U 1 1 56375D79
 P 5450 3400
 F 0 "P1" V 5415 3206 50  0000 R CNN
@@ -126,7 +156,7 @@ Wire Wire Line
 	5150 3700 5025 3700
 Connection ~ 5150 3600
 $Comp
-L power:GND #PWR030
+L GND #PWR030
 U 1 1 56375D84
 P 5550 3650
 F 0 "#PWR030" H 5550 3400 50  0001 C CNN
@@ -137,9 +167,9 @@ F 3 "" H 5550 3650 60  0000 C CNN
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
-	5025 3800 5275 3800
+	5025 3800 5450 3800
 $Comp
-L gp8-clock-rescue:SPST-RESCUE-gp8-clock SW2
+L SPST SW2
 U 1 1 563D0B61
 P 6200 3125
 F 0 "SW2" H 6200 3225 50  0000 C CNN
@@ -151,7 +181,7 @@ F 4 "Włącznik zasilania, kołyskowy." H 6200 3125 60  0001 C CNN "Opis"
 	1    0    0    -1  
 $EndComp
 $Comp
-L iwasz-kicad:test-double P4
+L test-double P4
 U 1 1 56855A2D
 P 3400 4000
 F 0 "P4" H 3775 4000 60  0000 C CNN
@@ -162,7 +192,7 @@ F 3 "" H 3500 3850 60  0000 C CNN
 	0    1    1    0   
 $EndComp
 $Comp
-L iwasz-kicad:test-double P5
+L test-double P5
 U 1 1 56855B2B
 P 3550 4000
 F 0 "P5" H 3925 4000 60  0000 C CNN
@@ -179,15 +209,15 @@ Wire Wire Line
 	3550 4000 3550 3900
 Connection ~ 3550 3900
 Wire Wire Line
-	5150 3125 5150 3600
+	5150 3125 5150 3700
 Wire Wire Line
 	5450 3800 5450 3600
 Wire Wire Line
-	5025 3600 5150 3600
+	5025 3600 5350 3600
 Wire Wire Line
 	5550 3650 5550 3600
 $Comp
-L gp8-clock-rescue:TLV70012DDC-RESCUE-gp8-clock U6
+L TLV70012DDC U6
 U 1 1 58BD09B0
 P 7850 3825
 F 0 "U6" H 7850 4233 50  0000 C CNN
@@ -200,7 +230,7 @@ F 5 "0.32" H 7850 3825 60  0001 C CNN "price2"
 	1    0    0    -1  
 $EndComp
 $Comp
-L power:GND #PWR031
+L GND #PWR031
 U 1 1 58BD09B4
 P 7850 4275
 F 0 "#PWR031" H 7850 4025 50  0001 C CNN
@@ -211,9 +241,9 @@ F 3 "" H 7850 4275 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
-	8300 3775 8350 3775
+	8300 3775 8475 3775
 Wire Wire Line
-	6700 3775 7300 3775
+	6700 3775 7400 3775
 Wire Wire Line
 	7850 4125 7850 4275
 Wire Wire Line
@@ -224,13 +254,11 @@ Wire Wire Line
 	8350 3975 8350 3775
 Connection ~ 8350 3775
 Wire Wire Line
-	7300 4275 7850 4275
+	7300 4275 8350 4275
 $Comp
-L gp8-clock-rescue:C-RESCUE-gp8-clock C16
+L C C16
 U 1 1 58BD09B7
 P 7300 4125
-AR Path="/58BD09B7" Ref="C16"  Part="1" 
-AR Path="/56372EC6/58BD09B7" Ref="C16"  Part="1" 
 F 0 "C16" H 7415 4171 50  0000 L CNN
 F 1 "1µF, X5R, X7R, 25V" H 7415 4080 50  0000 L CNN
 F 2 "w_smd_cap:c_0603" H 7338 3975 50  0001 C CNN
@@ -241,11 +269,9 @@ F 5 "0.04" H 7300 4125 60  0001 C CNN "price2"
 	1    0    0    -1  
 $EndComp
 $Comp
-L gp8-clock-rescue:C-RESCUE-gp8-clock C17
+L C C17
 U 1 1 58BD09B8
 P 8350 4125
-AR Path="/58BD09B8" Ref="C17"  Part="1" 
-AR Path="/56372EC6/58BD09B8" Ref="C17"  Part="1" 
 F 0 "C17" H 8465 4171 50  0000 L CNN
 F 1 "1µF, X5R, X7R, 25V" H 8465 4080 50  0000 L CNN
 F 2 "w_smd_cap:c_0603" H 8388 3975 50  0001 C CNN
@@ -256,7 +282,7 @@ F 5 "0.02" H 8350 4125 60  0001 C CNN "price2"
 	1    0    0    -1  
 $EndComp
 $Comp
-L power:+3.3V #PWR032
+L +3.3V #PWR032
 U 1 1 58BD09B9
 P 8475 3775
 F 0 "#PWR032" H 8475 3625 50  0001 C CNN
@@ -270,7 +296,7 @@ Connection ~ 7850 4275
 Text Notes 3800 2450 0    60   ~ 0
 1. Kiedy jest ładowanie baterii, a włącznik będzie WYłączony, to nie będzie żadnego feedbaku (migającej diody etc). \n2. Kiedy będzie WŁĄczony, i podłączone ładowanie, to program będzie pokazywał na diodzie stan ładowania.\n3. Kiedy będzie WŁĄczony i nie będzie podłączone ładowanie, to mamy normalne działanie.\nPomysł z diodą schottky między +5V a +BATT miał tę wadę, że gdy włącznik byłby WŁĄczony, to ok. 5V szło by bezpośrednio do baterii.
 $Comp
-L gp8-clock-rescue:R-RESCUE-gp8-clock R2
+L R R2
 U 1 1 58BD3A3D
 P 5275 4400
 F 0 "R2" V 5355 4400 50  0000 C CNN
@@ -281,7 +307,7 @@ F 3 "" H 5275 4400 30  0000 C CNN
 	-1   0    0    1   
 $EndComp
 $Comp
-L power:GND #PWR033
+L GND #PWR033
 U 1 1 58BD4121
 P 5275 4625
 F 0 "#PWR033" H 5275 4375 50  0001 C CNN
@@ -302,15 +328,15 @@ NoConn ~ 5025 3900
 Wire Wire Line
 	6875 3125 6700 3125
 Wire Wire Line
-	6700 3025 6700 3125
+	6700 3025 6700 3775
 Wire Wire Line
-	7300 3775 7300 3925
+	7300 3775 7300 3975
 Text HLabel 3300 3800 0    60   Output ~ 0
 progress
 Text HLabel 3300 3900 0    60   Output ~ 0
 complete
 $Comp
-L gp8-clock-rescue:R-RESCUE-gp8-clock R4
+L R R4
 U 1 1 58C05AB7
 P 7025 3125
 F 0 "R4" V 7105 3125 50  0000 C CNN
@@ -321,7 +347,7 @@ F 3 "" H 7025 3125 30  0000 C CNN
 	0    1    1    0   
 $EndComp
 $Comp
-L gp8-clock-rescue:R-RESCUE-gp8-clock R5
+L R R5
 U 1 1 58C05C11
 P 7450 3125
 F 0 "R5" V 7530 3125 50  0000 C CNN
@@ -332,7 +358,7 @@ F 3 "" H 7450 3125 30  0000 C CNN
 	0    1    1    0   
 $EndComp
 $Comp
-L power:GND #PWR034
+L GND #PWR034
 U 1 1 58C05C80
 P 7725 3125
 F 0 "#PWR034" H 7725 2875 50  0001 C CNN
@@ -345,9 +371,9 @@ $EndComp
 Wire Wire Line
 	7725 3125 7600 3125
 Wire Wire Line
-	7300 3125 7250 3125
+	7300 3125 7175 3125
 $Comp
-L power:+BATT #PWR035
+L +BATT #PWR035
 U 1 1 58C06D4A
 P 6700 3025
 F 0 "#PWR035" H 6700 2875 50  0001 C CNN
@@ -365,32 +391,4 @@ sense
 Wire Wire Line
 	7250 3125 7250 3000
 Connection ~ 7250 3125
-Wire Wire Line
-	2425 3600 3700 3600
-Wire Wire Line
-	3700 3600 3875 3600
-Wire Wire Line
-	3800 4225 3800 4400
-Wire Wire Line
-	5150 3600 5150 3700
-Wire Wire Line
-	5150 3600 5350 3600
-Wire Wire Line
-	3400 3800 3875 3800
-Wire Wire Line
-	3550 3900 3875 3900
-Wire Wire Line
-	7300 3775 7400 3775
-Wire Wire Line
-	7300 3925 7300 3975
-Wire Wire Line
-	8350 3775 8475 3775
-Wire Wire Line
-	7850 4275 8350 4275
-Wire Wire Line
-	5275 3800 5450 3800
-Wire Wire Line
-	6700 3125 6700 3775
-Wire Wire Line
-	7250 3125 7175 3125
 $EndSCHEMATC

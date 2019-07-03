@@ -1,40 +1,10 @@
-EESchema Schematic File Version 2
-LIBS:iwasz-kicad
-LIBS:power
-LIBS:device
-LIBS:transistors
-LIBS:conn
-LIBS:linear
-LIBS:regul
-LIBS:74xx
-LIBS:cmos4000
-LIBS:adc-dac
-LIBS:memory
-LIBS:xilinx
-LIBS:microcontrollers
-LIBS:dsp
-LIBS:microchip
-LIBS:analog_switches
-LIBS:motorola
-LIBS:texas
-LIBS:intel
-LIBS:audio
-LIBS:interface
-LIBS:digital-audio
-LIBS:philips
-LIBS:display
-LIBS:cypress
-LIBS:siliconi
-LIBS:opto
-LIBS:atmel
-LIBS:contrib
-LIBS:valves
+EESchema Schematic File Version 4
 LIBS:gp8-clock-cache
 EELAYER 26 0
 EELAYER END
 $Descr A4 11693 8268
 encoding utf-8
-Sheet 3 3
+Sheet 2 2
 Title ""
 Date ""
 Rev ""
@@ -45,7 +15,7 @@ Comment3 ""
 Comment4 ""
 $EndDescr
 $Comp
-L weight-scale-lcd U2
+L iwasz-kicad:weight-scale-lcd U2
 U 1 1 58BEC91B
 P 4400 1950
 F 0 "U2" H 4400 2050 60  0000 C CNN
@@ -58,7 +28,7 @@ $EndComp
 Text Notes 4250 1500 0    60   ~ 0
 LCD screen
 $Comp
-L PCF85176T U7
+L iwasz-kicad:PCF85176T U7
 U 1 1 58BEC923
 P 6200 4175
 F 0 "U7" H 6200 5712 60  0000 C CNN
@@ -163,7 +133,7 @@ NoConn ~ 6900 4425
 NoConn ~ 6900 4325
 NoConn ~ 6900 4225
 $Comp
-L GND #PWR036
+L power:GND #PWR036
 U 1 1 58BEC967
 P 7075 3125
 F 0 "#PWR036" H 7075 2875 50  0001 C CNN
@@ -174,11 +144,11 @@ F 3 "" H 7075 3125 60  0000 C CNN
 	0    -1   -1   0   
 $EndComp
 Wire Wire Line
-	6900 3125 7075 3125
+	6900 3125 7000 3125
 Wire Wire Line
 	6900 3225 7000 3225
 Wire Wire Line
-	7000 3125 7000 3625
+	7000 3125 7000 3225
 Connection ~ 7000 3125
 Wire Wire Line
 	7000 3325 6900 3325
@@ -195,7 +165,7 @@ Connection ~ 7000 3525
 NoConn ~ 6900 3925
 NoConn ~ 6900 3825
 $Comp
-L +3.3V #PWR037
+L power:+3.3V #PWR037
 U 1 1 58BEC980
 P 6975 3025
 F 0 "#PWR037" H 6975 2875 50  0001 C CNN
@@ -208,7 +178,7 @@ $EndComp
 Wire Wire Line
 	6900 3025 6975 3025
 $Comp
-L +3.3V #PWR038
+L power:+3.3V #PWR038
 U 1 1 58BEC987
 P 6975 3725
 F 0 "#PWR038" H 6975 3575 50  0001 C CNN
@@ -224,4 +194,14 @@ Text HLabel 6900 4025 2    60   Input ~ 0
 scl
 Text HLabel 6900 4125 2    60   BiDi ~ 0
 sda
+Wire Wire Line
+	7000 3125 7075 3125
+Wire Wire Line
+	7000 3225 7000 3325
+Wire Wire Line
+	7000 3325 7000 3425
+Wire Wire Line
+	7000 3425 7000 3525
+Wire Wire Line
+	7000 3525 7000 3625
 $EndSCHEMATC
