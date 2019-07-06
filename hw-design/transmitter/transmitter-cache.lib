@@ -29,10 +29,9 @@ F2 "" 0 0 50 H I C CNN
 F3 "" 0 0 50 H I C CNN
 $FPLIST
  TO-???*
- *SingleDiode
  *_Diode_*
  *SingleDiode*
- *:D_*
+ D_*
 $ENDFPLIST
 DRAW
 P 2 0 1 8 -50 50 -50 -50 N
@@ -45,7 +44,7 @@ ENDDEF
 #
 # Device_LED
 #
-DEF Device_LED D 0 40 Y N 1 F N
+DEF Device_LED D 0 40 N N 1 F N
 F0 "D" 0 100 50 H V C CNN
 F1 "Device_LED" 0 -100 50 H V C CNN
 F2 "" 0 0 50 H I C CNN
@@ -74,7 +73,7 @@ F1 "Device_R" 0 0 50 V V C CNN
 F2 "" -70 0 50 V I C CNN
 F3 "" 0 0 50 H I C CNN
 $FPLIST
- *:R_*
+ R_*
 $ENDFPLIST
 DRAW
 S -40 -100 40 100 0 1 10 N
@@ -204,7 +203,7 @@ ENDDEF
 #
 # iwasz-kicad_test-double
 #
-DEF ~iwasz-kicad_test-double P 0 40 N N 1 F N
+DEF iwasz-kicad_test-double P 0 40 N N 1 F N
 F0 "P" 350 0 60 H V C CNN
 F1 "iwasz-kicad_test-double" 200 -100 60 H I C CNN
 F2 "" 100 -150 60 H V C CNN
@@ -358,7 +357,7 @@ ENDDEF
 #
 # transmitter-rescue_test-double-RESCUE-transmitter
 #
-DEF ~transmitter-rescue_test-double-RESCUE-transmitter P 0 40 N N 1 F N
+DEF transmitter-rescue_test-double-RESCUE-transmitter P 0 40 N N 1 F N
 F0 "P" 0 0 60 H V C CNN
 F1 "transmitter-rescue_test-double-RESCUE-transmitter" 0 -50 60 H I C CNN
 F2 "" 0 0 60 H V C CNN

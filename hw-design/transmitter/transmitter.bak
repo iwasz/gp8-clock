@@ -110,7 +110,7 @@ U 1 1 564286BC
 P 5225 725
 F 0 "SW1" H 5225 825 50  0000 C CNN
 F 1 "power" H 5225 900 50  0000 C CNN
-F 2 "Button_Switch_THT:SW_CuK_OS102011MA1QN1_SPDT_Angled" H 5225 725 60  0001 C CNN
+F 2 "iwasz:MFP 201 NR" H 5225 725 60  0001 C CNN
 F 3 "http://lispol.pl/product,2183,wylacznik_kolyskowy_mini_czarny.html" H 5225 725 60  0001 C CNN
 F 4 "Kołyskowy włącznik zasilania." H 5225 725 60  0001 C CNN "Opis"
 	1    5225 725 
@@ -150,7 +150,7 @@ U 1 1 5642AB44
 P 8950 3475
 F 0 "D4" H 8950 3575 50  0000 C CNN
 F 1 "VISHAY TSAL6200" H 9600 3475 50  0000 C CNN
-F 2 "LED_THT:LED_D5.0mm" H 8950 3475 60  0001 C CNN
+F 2 "LED_THT:LED_D5.0mm_Horizontal_O3.81mm_Z3.0mm" H 8950 3475 60  0001 C CNN
 F 3 "http://pl.farnell.com/vishay/tsal6200/ir-emitter-940nm-5mm-through-hole/dp/3152856?CMP=i-ddd7-00001003" H 8950 3475 60  0001 C CNN
 F 4 "0.36" H 8950 3475 50  0001 C CNN "price"
 	1    8950 3475
@@ -841,7 +841,7 @@ U 1 1 5A849764
 P 5275 1125
 F 0 "BT1" V 5530 1175 50  0000 C CNN
 F 1 "Battery_Cell" V 5439 1175 50  0000 C CNN
-F 2 "iwasz:BLM-BH18650-PC2" V 5275 1185 50  0001 C CNN
+F 2 "Battery:BatteryHolder_MPD_BH-18650-PC2" V 5275 1185 50  0001 C CNN
 F 3 "" V 5275 1185 50  0001 C CNN
 	1    5275 1125
 	0    -1   -1   0   
@@ -951,11 +951,11 @@ Wire Wire Line
 Wire Wire Line
 	1675 3175 1675 3575
 $Comp
-L transmitter-rescue:R-RESCUE-transmitter R?
+L transmitter-rescue:R-RESCUE-transmitter R11
 U 1 1 5D1EB727
 P 1875 3575
-F 0 "R?" V 1955 3575 50  0000 C CNN
-F 1 "33k" V 1875 3575 50  0000 C CNN
+F 0 "R11" V 1955 3575 50  0000 C CNN
+F 1 "0R" V 1875 3575 50  0000 C CNN
 F 2 "Resistor_SMD:R_0603_1608Metric" V 1805 3575 30  0001 C CNN
 F 3 "" H 1875 3575 30  0000 C CNN
 	1    1875 3575
@@ -969,4 +969,6 @@ Wire Wire Line
 Wire Wire Line
 	2025 3575 2075 3575
 Connection ~ 2075 3575
+Text Notes 1600 2975 3    50   ~ 0
+R11 można wybrać tak, żeby potencjometr\ndziałał jako fine-tune
 $EndSCHEMATC
